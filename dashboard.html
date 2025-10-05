@@ -27,6 +27,35 @@
         transform: translateY(0);
       }
     }
+    .profile-pic-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-pic-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .payment-option {
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .payment-option:hover, .payment-option.selected {
+      border-color: #10b981;
+      background-color: #f0fdf4;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
@@ -63,8 +92,18 @@
         <nav class="bg-white rounded-lg shadow-sm p-6">
           <ul class="space-y-4">
             <li>
-              <button onclick="showSection('payment')" class="w-full flex items-center gap-3 text-green-600 font-medium p-2 bg-green-50 rounded-md text-left">
-                💰 Payment
+              <button onclick="showSection('dashboard')" class="w-full flex items-center gap-3 text-green-600 font-medium p-2 bg-green-50 rounded-md text-left">
+                🏠 Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('investment')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                💼 Investment
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('deposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                💰 Deposit
               </button>
             </li>
             <li>
@@ -74,7 +113,7 @@
             </li>
             <li>
               <button onclick="showSection('summary')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-                📊 Summary
+                📊 Deposit Summary
               </button>
             </li>
           </ul>
@@ -84,20 +123,129 @@
       <!-- Main Dashboard Content -->
       <div class="lg:col-span-3 space-y-8">
         
-        <!-- Payment Section -->
-        <div id="payment" class="dashboard-section active bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Installment</h2>
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="dashboard-section active bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+              <h3 class="text-lg font-semibold text-green-800 mb-2">Total Investment</h3>
+              <p class="text-3xl font-bold text-green-900">0 BDT</p>
+              <p class="text-sm text-green-700 mt-2">Current investment balance</p>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+              <h3 class="text-lg font-semibold text-blue-800 mb-2">Total Deposits</h3>
+              <p class="text-3xl font-bold text-blue-900">0 BDT</p>
+              <p class="text-sm text-blue-700 mt-2">Total deposited amount</p>
+            </div>
+            
+            <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
+              <h3 class="text-lg font-semibold text-purple-800 mb-2">Pending Amount</h3>
+              <p class="text-3xl font-bold text-purple-900">2400 BDT</p>
+              <p class="text-sm text-purple-700 mt-2">Remaining balance</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h3>
+            <div class="text-center py-8">
+              <div class="text-4xl mb-4">📝</div>
+              <p class="text-gray-600 mb-4">No recent activity</p>
+              <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Make your first deposit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Investment Section -->
+        <div id="investment" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Plans</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Basic Plan</h3>
+              <p class="text-3xl font-bold text-green-600 mb-4">200 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
+              <ul class="space-y-2 mb-6">
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>12 weeks duration</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Total: 2400 BDT</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Weekly deposits</span>
+                </li>
+              </ul>
+              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Select Plan
+              </button>
+            </div>
+            
+            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Standard Plan</h3>
+              <p class="text-3xl font-bold text-green-600 mb-4">500 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
+              <ul class="space-y-2 mb-6">
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>12 weeks duration</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Total: 6000 BDT</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Weekly deposits</span>
+                </li>
+              </ul>
+              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Select Plan
+              </button>
+            </div>
+            
+            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Premium Plan</h3>
+              <p class="text-3xl font-bold text-green-600 mb-4">1000 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
+              <ul class="space-y-2 mb-6">
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>12 weeks duration</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Total: 12000 BDT</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Weekly deposits</span>
+                </li>
+              </ul>
+              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Select Plan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deposit Section -->
+        <div id="deposit" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Deposit</h2>
           
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Payment Information -->
+            <!-- Deposit Information -->
             <div class="space-y-6">
               <div class="bg-gray-50 p-6 rounded-lg">
-                <p class="text-lg font-semibold text-gray-900 mb-2">Pay 200 BDT every Friday</p>
+                <p class="text-lg font-semibold text-gray-900 mb-2">Deposit 200 BDT every Friday</p>
                 
                 <!-- Friday Dates Dropdown -->
                 <div class="mt-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Select Payment Date</label>
-                  <select id="paymentDate" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Select Deposit Date</label>
+                  <select id="depositDate" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
                     <option value="">Select a Friday</option>
                   </select>
                 </div>
@@ -108,20 +256,60 @@
                 </div>
               </div>
               
-              <button onclick="processPayment()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Pay Now
+              <!-- Payment Methods -->
+              <div id="paymentMethods" class="space-y-4 hidden">
+                <h3 class="text-lg font-semibold text-gray-900">Select Payment Method</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="payment-option" onclick="selectPaymentMethod('bkash')">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                        <span class="text-pink-600 font-bold">b</span>
+                      </div>
+                      <span class="font-medium">bKash</span>
+                    </div>
+                  </div>
+                  
+                  <div class="payment-option" onclick="selectPaymentMethod('rocket')">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <span class="text-purple-600 font-bold">R</span>
+                      </div>
+                      <span class="font-medium">Rocket</span>
+                    </div>
+                  </div>
+                  
+                  <div class="payment-option" onclick="selectPaymentMethod('nagad')">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold">N</span>
+                      </div>
+                      <span class="font-medium">Nagad</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="pt-4">
+                  <button id="proceedPayment" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                    Proceed to Payment
+                  </button>
+                </div>
+              </div>
+              
+              <button onclick="processDeposit()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Deposit Now
               </button>
             </div>
 
-            <!-- Payment History -->
+            <!-- Deposit History -->
             <div class="bg-gray-50 p-6 rounded-lg">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment History</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit History</h3>
               
               <div class="text-center py-8">
                 <div class="text-4xl mb-4">📝</div>
-                <p class="text-gray-600 mb-4">No payments yet</p>
-                <button onclick="showSection('payment')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                  Make your first payment
+                <p class="text-gray-600 mb-4">No deposits yet</p>
+                <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Make your first deposit
                 </button>
               </div>
             </div>
@@ -132,46 +320,63 @@
         <div id="profile" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900" id="profileFullName">-</span>
+          <div class="flex flex-col md:flex-row gap-8 mb-8">
+            <!-- Profile Picture -->
+            <div class="flex flex-col items-center">
+              <div class="profile-pic-container mb-4">
+                <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                  <img id="profileImage" src="" alt="Profile Picture" class="w-full h-full object-cover hidden">
+                  <span class="text-4xl text-gray-500" id="profileInitial">U</span>
+                </div>
+                <div class="profile-pic-overlay" onclick="document.getElementById('profileImageInput').click()">
+                  <span>+</span>
+                </div>
               </div>
+              <input type="file" id="profileImageInput" accept="image/*" class="hidden" onchange="handleProfileImageUpload(event)">
+              <p class="text-sm text-gray-500">Click the + to upload a photo</p>
             </div>
             
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Father's name</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900">-</span>
+            <!-- Profile Form -->
+            <div class="flex-1">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
+                  <input type="text" id="editFullName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Father's name</label>
+                  <input type="text" id="editFatherName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Mother's name</label>
+                  <input type="text" id="editMotherName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">NID Number</label>
+                  <input type="text" id="editNID" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
+                  <input type="text" id="editMobile" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <input type="email" id="editEmail" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
               </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Mother's name</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900">-</span>
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">NID Number</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900">-</span>
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900">-</span>
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <span class="text-gray-900" id="profileEmail">-</span>
+              
+              <div class="mt-6 flex gap-4">
+                <button onclick="saveProfile()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Save Changes
+                </button>
+                <button onclick="cancelEdit()" class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
@@ -189,19 +394,19 @@
 
         <!-- Summary Section -->
         <div id="summary" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Summary</h2>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Deposit Summary</h2>
           
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-gray-50 p-4 rounded-lg">
               <h3 class="text-sm font-medium text-gray-600 mb-2">Total Weeks</h3>
               <p class="text-2xl font-bold text-gray-900">12</p>
-              <p class="text-xs text-gray-500 mt-1">Available for payment</p>
+              <p class="text-xs text-gray-500 mt-1">Available for deposit</p>
             </div>
             
             <div class="bg-gray-50 p-4 rounded-lg">
-              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Paid</h3>
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Deposited</h3>
               <p class="text-2xl font-bold text-gray-900">0 BDT</p>
-              <p class="text-xs text-gray-500 mt-1">currently paid</p>
+              <p class="text-xs text-gray-500 mt-1">currently deposited</p>
             </div>
             
             <div class="bg-gray-50 p-4 rounded-lg">
@@ -211,13 +416,13 @@
             </div>
           </div>
 
-          <!-- Payment Progress -->
+          <!-- Deposit Progress -->
           <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Progress</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Progress</h3>
             <div class="bg-gray-200 rounded-full h-4 mb-2">
               <div class="bg-green-600 h-4 rounded-full" style="width: 0%"></div>
             </div>
-            <p class="text-sm text-gray-600">0 of 12 weeks paid</p>
+            <p class="text-sm text-gray-600">0 of 12 weeks deposited</p>
           </div>
 
           <!-- Quick Stats -->
@@ -228,18 +433,18 @@
             </div>
             
             <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Payment Day</h4>
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Deposit Day</h4>
               <p class="text-lg font-bold text-gray-900">Every Friday</p>
             </div>
             
             <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Next Payment</h4>
-              <p class="text-lg font-bold text-gray-900" id="nextPaymentDate">10/10/2025</p>
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Next Deposit</h4>
+              <p class="text-lg font-bold text-gray-900" id="nextDepositDate">10/10/2025</p>
             </div>
             
             <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Last Payment</h4>
-              <p class="text-lg font-bold text-gray-900">No payments yet</p>
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Last Deposit</h4>
+              <p class="text-lg font-bold text-gray-900">No deposits yet</p>
             </div>
           </div>
 
@@ -301,23 +506,130 @@
       return fridays;
     }
 
-    // Process payment
-    function processPayment() {
-      const selectedDate = document.getElementById('paymentDate').value;
+    // Process deposit
+    function processDeposit() {
+      const selectedDate = document.getElementById('depositDate').value;
       if (!selectedDate) {
-        alert('Please select a payment date first.');
+        alert('Please select a deposit date first.');
         return;
       }
       
-      const dateObj = new Date(selectedDate);
-      const formattedDate = dateObj.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      // Show payment methods
+      document.getElementById('paymentMethods').classList.remove('hidden');
+    }
+
+    // Select payment method
+    function selectPaymentMethod(method) {
+      // Remove selected class from all options
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
       });
       
-      alert(`Payment of 200 BDT for ${formattedDate} would be processed here.\n\nIn a real application, this would redirect to payment gateway.`);
+      // Add selected class to clicked option
+      event.currentTarget.classList.add('selected');
+      
+      // Enable proceed button
+      document.getElementById('proceedPayment').disabled = false;
+      
+      // Set up proceed button action based on selected method
+      document.getElementById('proceedPayment').onclick = function() {
+        const selectedDate = document.getElementById('depositDate').value;
+        const dateObj = new Date(selectedDate);
+        const formattedDate = dateObj.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        
+        alert(`Deposit of 200 BDT for ${formattedDate} would be processed via ${method}.\n\nIn a real application, this would redirect to ${method} payment gateway.`);
+        
+        // Remove the paid date from dropdown
+        removePaidDate(selectedDate);
+        
+        // Hide payment methods again
+        document.getElementById('paymentMethods').classList.add('hidden');
+      };
+    }
+
+    // Remove paid date from dropdown
+    function removePaidDate(dateValue) {
+      const select = document.getElementById('depositDate');
+      const options = select.getElementsByTagName('option');
+      
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value === dateValue) {
+          select.removeChild(options[i]);
+          break;
+        }
+      }
+      
+      // Reset selection
+      select.value = "";
+    }
+
+    // Handle profile image upload
+    function handleProfileImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profileImage').src = e.target.result;
+          document.getElementById('profileImage').classList.remove('hidden');
+          document.getElementById('profileInitial').classList.add('hidden');
+          
+          // Save to localStorage
+          localStorage.setItem('profileImage', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Save profile changes
+    function saveProfile() {
+      const fullName = document.getElementById('editFullName').value;
+      const fatherName = document.getElementById('editFatherName').value;
+      const motherName = document.getElementById('editMotherName').value;
+      const nid = document.getElementById('editNID').value;
+      const mobile = document.getElementById('editMobile').value;
+      const email = document.getElementById('editEmail').value;
+      
+      // Save to localStorage
+      localStorage.setItem('userName', fullName);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('fatherName', fatherName);
+      localStorage.setItem('motherName', motherName);
+      localStorage.setItem('nid', nid);
+      localStorage.setItem('mobile', mobile);
+      
+      // Update display
+      document.getElementById('dashboardUserName').textContent = fullName;
+      
+      alert('Profile updated successfully!');
+    }
+
+    // Cancel edit
+    function cancelEdit() {
+      // Reload original values
+      loadProfileData();
+    }
+
+    // Load profile data
+    function loadProfileData() {
+      document.getElementById('editFullName').value = localStorage.getItem('userName') || '';
+      document.getElementById('editFatherName').value = localStorage.getItem('fatherName') || '';
+      document.getElementById('editMotherName').value = localStorage.getItem('motherName') || '';
+      document.getElementById('editNID').value = localStorage.getItem('nid') || '';
+      document.getElementById('editMobile').value = localStorage.getItem('mobile') || '';
+      document.getElementById('editEmail').value = localStorage.getItem('userEmail') || '';
+      
+      // Load profile image if exists
+      const profileImage = localStorage.getItem('profileImage');
+      if (profileImage) {
+        document.getElementById('profileImage').src = profileImage;
+        document.getElementById('profileImage').classList.remove('hidden');
+        document.getElementById('profileInitial').classList.add('hidden');
+      }
     }
 
     // Logout function
@@ -341,12 +653,15 @@
       const userEmail = localStorage.getItem('userEmail') || '-';
       
       document.getElementById('dashboardUserName').textContent = userName;
-      document.getElementById('profileFullName').textContent = userName;
-      document.getElementById('profileEmail').textContent = userEmail;
+      document.getElementById('editFullName').value = userName;
+      document.getElementById('editEmail').value = userEmail;
+
+      // Load profile data
+      loadProfileData();
 
       // Load Friday dates
       const fridays = generateFridays();
-      const select = document.getElementById('paymentDate');
+      const select = document.getElementById('depositDate');
       
       fridays.forEach(date => {
         const option = document.createElement('option');
@@ -360,9 +675,9 @@
         select.appendChild(option);
       });
 
-      // Set next payment date
+      // Set next deposit date
       if (fridays.length > 0) {
-        document.getElementById('nextPaymentDate').textContent = fridays[0].toLocaleDateString();
+        document.getElementById('nextDepositDate').textContent = fridays[0].toLocaleDateString();
       }
     });
   </script>
