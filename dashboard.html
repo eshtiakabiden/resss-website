@@ -7,334 +7,364 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    .dashboard-section { display: none; }
-    .dashboard-section.active { display: block; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .dashboard-section {
+      display: none;
+    }
+    .dashboard-section.active {
+      display: block;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
 
-<!-- Header -->
-<header class="bg-white shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">R</div>
-        <div>
-          <h1 class="text-lg font-semibold">RESSS</h1>
-          <p class="text-xs text-gray-500">Since 2016</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="text-right">
-          <p class="text-sm font-medium">Welcome, Shareholder</p>
-        </div>
-        <a href="index.html" class="text-sm text-red-600 hover:text-red-800">Logout</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- Main Content -->
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-    
-    <!-- Sidebar Navigation -->
-    <div class="lg:col-span-1">
-      <nav class="bg-white rounded-lg shadow-sm p-6">
-        <ul class="space-y-4">
-          <li>
-            <button onclick="showSection('payment')" class="w-full flex items-center gap-3 text-green-600 font-medium p-2 bg-green-50 rounded-md text-left">
-              💰 Payment
-            </button>
-          </li>
-          <li>
-            <button onclick="showSection('profile')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-              👤 Profile
-            </button>
-          </li>
-          <li>
-            <button onclick="showSection('summary')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-              📊 Summary
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
-    <!-- Main Dashboard Content -->
-    <div class="lg:col-span-3 space-y-8">
-      
-      <!-- Payment Section -->
-      <div id="payment" class="dashboard-section active bg-white rounded-lg shadow-sm p-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Installment</h2>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- Payment Information -->
-          <div class="space-y-6">
-            <div class="bg-gray-50 p-6 rounded-lg">
-              <p class="text-lg font-semibold text-gray-900 mb-2">Pay 200 BDT every Friday</p>
-              
-              <!-- Friday Dates Dropdown -->
-              <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Select Payment Date</label>
-                <select id="paymentDate" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
-                  <option value="">Select a Friday</option>
-                </select>
-              </div>
-
-              <div class="flex items-center justify-between py-3 mt-4">
-                <span class="text-gray-600">Amount</span>
-                <span class="text-xl font-bold text-green-600">200 BDT</span>
-              </div>
-            </div>
-            
-            <button onclick="processPayment()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-              Pay Now
-            </button>
+  <!-- Dashboard Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+            R
           </div>
+          <div>
+            <h1 class="text-lg font-semibold">RESSS</h1>
+            <p class="text-xs text-gray-500">Since 2016</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-right">
+            <p class="text-sm font-medium">Welcome, <span id="dashboardUserName">Shareholder</span></p>
+          </div>
+          <button onclick="logout()" class="text-sm text-red-600 hover:text-red-800">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-          <!-- Payment History -->
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment History</h3>
-            
-            <div class="text-center py-8">
-              <div class="text-4xl mb-4">📝</div>
-              <p class="text-gray-600 mb-4">No payments yet</p>
-              <button onclick="showSection('payment')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Make your first payment
+  <!-- Main Dashboard Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- Sidebar Navigation -->
+      <div class="lg:col-span-1">
+        <nav class="bg-white rounded-lg shadow-sm p-6">
+          <ul class="space-y-4">
+            <li>
+              <button onclick="showSection('payment')" class="w-full flex items-center gap-3 text-green-600 font-medium p-2 bg-green-50 rounded-md text-left">
+                💰 Payment
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('profile')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                👤 Profile
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('summary')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                📊 Summary
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Dashboard Content -->
+      <div class="lg:col-span-3 space-y-8">
+        
+        <!-- Payment Section -->
+        <div id="payment" class="dashboard-section active bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Installment</h2>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Payment Information -->
+            <div class="space-y-6">
+              <div class="bg-gray-50 p-6 rounded-lg">
+                <p class="text-lg font-semibold text-gray-900 mb-2">Pay 200 BDT every Friday</p>
+                
+                <!-- Friday Dates Dropdown -->
+                <div class="mt-4">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Select Payment Date</label>
+                  <select id="paymentDate" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
+                    <option value="">Select a Friday</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center justify-between py-3 mt-4">
+                  <span class="text-gray-600">Amount</span>
+                  <span class="text-xl font-bold text-green-600">200 BDT</span>
+                </div>
+              </div>
+              
+              <button onclick="processPayment()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Pay Now
               </button>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Profile Section -->
-      <div id="profile" class="dashboard-section bg-white rounded-lg shadow-sm p-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
-            </div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Father's name</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
-            </div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Mother's name</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
-            </div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">NID Number</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
-            </div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
-            </div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-900">-</span>
+            <!-- Payment History -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment History</h3>
+              
+              <div class="text-center py-8">
+                <div class="text-4xl mb-4">📝</div>
+                <p class="text-gray-600 mb-4">No payments yet</p>
+                <button onclick="showSection('payment')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Make your first payment
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-          <div class="flex items-start">
-            <span class="text-yellow-600 mr-2">⚠️</span>
+
+        <!-- Profile Section -->
+        <div id="profile" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <span class="font-medium text-yellow-800">Cousat file</span>
-              <span class="text-yellow-700"> | No fix chains</span>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900" id="profileFullName">-</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Father's name</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900">-</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Mother's name</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900">-</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">NID Number</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900">-</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900">-</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <span class="text-gray-900" id="profileEmail">-</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+            <div class="flex items-start">
+              <span class="text-yellow-600 mr-2">⚠️</span>
+              <div>
+                <span class="font-medium text-yellow-800">Cousat file</span>
+                <span class="text-yellow-700"> | No fix chains</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div id="summary" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Summary</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Weeks</h3>
+              <p class="text-2xl font-bold text-gray-900">12</p>
+              <p class="text-xs text-gray-500 mt-1">Available for payment</p>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Paid</h3>
+              <p class="text-2xl font-bold text-gray-900">0 BDT</p>
+              <p class="text-xs text-gray-500 mt-1">currently paid</p>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Pending Amount</h3>
+              <p class="text-2xl font-bold text-gray-900">2400 BDT</p>
+              <p class="text-xs text-gray-500 mt-1">remaining balance</p>
+            </div>
+          </div>
+
+          <!-- Payment Progress -->
+          <div class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Progress</h3>
+            <div class="bg-gray-200 rounded-full h-4 mb-2">
+              <div class="bg-green-600 h-4 rounded-full" style="width: 0%"></div>
+            </div>
+            <p class="text-sm text-gray-600">0 of 12 weeks paid</p>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg">
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Weekly Amount</h4>
+              <p class="text-lg font-bold text-gray-900">200 BDT</p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg">
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Payment Day</h4>
+              <p class="text-lg font-bold text-gray-900">Every Friday</p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg">
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Next Payment</h4>
+              <p class="text-lg font-bold text-gray-900" id="nextPaymentDate">10/10/2025</p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg">
+              <h4 class="text-sm font-medium text-gray-600 mb-1">Last Payment</h4>
+              <p class="text-lg font-bold text-gray-900">No payments yet</p>
+            </div>
+          </div>
+
+          <!-- QT Status -->
+          <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+            <div class="flex justify-between items-center">
+              <span class="font-medium text-blue-900">QT: Complete</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </main>
 
-      <!-- Summary Section -->
-      <div id="summary" class="dashboard-section bg-white rounded-lg shadow-sm p-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Summary</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-sm font-medium text-gray-600 mb-2">Total Weeks</h3>
-            <p class="text-2xl font-bold text-gray-900">12</p>
-            <p class="text-xs text-gray-500 mt-1">Available for payment</p>
-          </div>
-          
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-sm font-medium text-gray-600 mb-2">Total Paid</h3>
-            <p class="text-2xl font-bold text-gray-900">0 BDT</p>
-            <p class="text-xs text-gray-500 mt-1">currently paid</p>
-          </div>
-          
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-sm font-medium text-gray-600 mb-2">Pending Amount</h3>
-            <p class="text-2xl font-bold text-gray-900">2400 BDT</p>
-            <p class="text-xs text-gray-500 mt-1">remaining balance</p>
-          </div>
+  <!-- Footer -->
+  <footer class="mt-16 bg-gray-800 text-gray-200 py-8">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <div class="flex flex-col items-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">R</div>
+          <h6 class="text-white font-bold text-lg">RESSS</h6>
         </div>
-
-        <!-- Payment Progress -->
-        <div class="mb-8">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Progress</h3>
-          <div class="bg-gray-200 rounded-full h-4 mb-2">
-            <div class="bg-green-600 h-4 rounded-full" style="width: 0%"></div>
-          </div>
-          <p class="text-sm text-gray-600">0 of 12 weeks paid</p>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-green-50 p-4 rounded-lg">
-            <h4 class="text-sm font-medium text-gray-600 mb-1">Weekly Amount</h4>
-            <p class="text-lg font-bold text-gray-900">200 BDT</p>
-          </div>
-          
-          <div class="bg-green-50 p-4 rounded-lg">
-            <h4 class="text-sm font-medium text-gray-600 mb-1">Payment Day</h4>
-            <p class="text-lg font-bold text-gray-900">Every Friday</p>
-          </div>
-          
-          <div class="bg-green-50 p-4 rounded-lg">
-            <h4 class="text-sm font-medium text-gray-600 mb-1">Next Payment</h4>
-            <p class="text-lg font-bold text-gray-900" id="nextPaymentDate">10/10/2025</p>
-          </div>
-          
-          <div class="bg-green-50 p-4 rounded-lg">
-            <h4 class="text-sm font-medium text-gray-600 mb-1">Last Payment</h4>
-            <p class="text-lg font-bold text-gray-900">No payments yet</p>
-          </div>
-        </div>
-
-        <!-- QT Status -->
-        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-          <div class="flex justify-between items-center">
-            <span class="font-medium text-blue-900">QT: Complete</span>
-          </div>
+        <div class="text-sm text-gray-400">
+          <p>© 2024 RESSS. All rights reserved.</p>
+          <p class="mt-2">Investing in Seasonal Opportunities | Since 2014</p>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </footer>
 
-<!-- Footer -->
-<footer class="mt-16 bg-gray-800 text-gray-200 py-8">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-    <div class="flex flex-col items-center gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">R</div>
-        <h6 class="text-white font-bold text-lg">RESSS</h6>
-      </div>
-      <div class="text-sm text-gray-400">
-        <p>© 2024 RESSS. All rights reserved.</p>
-        <p class="mt-2">Investing in Seasonal Opportunities | Since 2014</p>
-      </div>
-      <div class="flex gap-4 mt-4">
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Support</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-// Section navigation
-function showSection(sectionId) {
-  document.querySelectorAll('.dashboard-section').forEach(section => {
-    section.classList.remove('active');
-  });
-  document.getElementById(sectionId).classList.add('active');
-}
-
-// Generate all Fridays until December 2025
-function generateFridays() {
-  const fridays = [];
-  const startDate = new Date();
-  const endDate = new Date('2025-12-31');
-  
-  const currentDate = new Date(startDate);
-  // Find next Friday
-  while (currentDate.getDay() !== 5) {
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  
-  while (currentDate <= endDate) {
-    if (currentDate.getDay() === 5) {
-      fridays.push(new Date(currentDate));
+  <script>
+    // Section navigation
+    function showSection(sectionId) {
+      document.querySelectorAll('.dashboard-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
     }
-    currentDate.setDate(currentDate.getDate() + 7);
-  }
-  
-  return fridays;
-}
 
-// Process payment
-function processPayment() {
-  const selectedDate = document.getElementById('paymentDate').value;
-  if (!selectedDate) {
-    alert('Please select a payment date first.');
-    return;
-  }
-  
-  const dateObj = new Date(selectedDate);
-  const formattedDate = dateObj.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-  
-  alert(`Payment of 200 BDT for ${formattedDate} would be processed here.\n\nIn a real application, this would redirect to payment gateway.`);
-}
+    // Generate all Fridays until December 2025
+    function generateFridays() {
+      const fridays = [];
+      const startDate = new Date();
+      const endDate = new Date('2025-12-31');
+      
+      const currentDate = new Date(startDate);
+      // Find next Friday
+      while (currentDate.getDay() !== 5) {
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      
+      while (currentDate <= endDate) {
+        if (currentDate.getDay() === 5) {
+          fridays.push(new Date(currentDate));
+        }
+        currentDate.setDate(currentDate.getDate() + 7);
+      }
+      
+      return fridays;
+    }
 
-// Initialize dashboard
-document.addEventListener('DOMContentLoaded', function() {
-  // Check if user is logged in
-  if (localStorage.getItem('userLoggedIn') !== 'true') {
-    window.location.href = 'index.html';
-    return;
-  }
+    // Process payment
+    function processPayment() {
+      const selectedDate = document.getElementById('paymentDate').value;
+      if (!selectedDate) {
+        alert('Please select a payment date first.');
+        return;
+      }
+      
+      const dateObj = new Date(selectedDate);
+      const formattedDate = dateObj.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      
+      alert(`Payment of 200 BDT for ${formattedDate} would be processed here.\n\nIn a real application, this would redirect to payment gateway.`);
+    }
 
-  // Load Friday dates
-  const fridays = generateFridays();
-  const select = document.getElementById('paymentDate');
-  
-  fridays.forEach(date => {
-    const option = document.createElement('option');
-    option.value = date.toISOString();
-    option.textContent = date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    // Logout function
+    function logout() {
+      localStorage.removeItem('userLoggedIn');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
+      window.location.href = 'index.html';
+    }
+
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      if (localStorage.getItem('userLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Load user data
+      const userName = localStorage.getItem('userName') || 'Shareholder';
+      const userEmail = localStorage.getItem('userEmail') || '-';
+      
+      document.getElementById('dashboardUserName').textContent = userName;
+      document.getElementById('profileFullName').textContent = userName;
+      document.getElementById('profileEmail').textContent = userEmail;
+
+      // Load Friday dates
+      const fridays = generateFridays();
+      const select = document.getElementById('paymentDate');
+      
+      fridays.forEach(date => {
+        const option = document.createElement('option');
+        option.value = date.toISOString();
+        option.textContent = date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        select.appendChild(option);
+      });
+
+      // Set next payment date
+      if (fridays.length > 0) {
+        document.getElementById('nextPaymentDate').textContent = fridays[0].toLocaleDateString();
+      }
     });
-    select.appendChild(option);
-  });
-
-  // Set next payment date
-  if (fridays.length > 0) {
-    document.getElementById('nextPaymentDate').textContent = fridays[0].toLocaleDateString();
-  }
-});
-</script>
+  </script>
 </body>
 </html>
