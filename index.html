@@ -248,6 +248,165 @@
     </div>
   </div>
 
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="forgotPasswordModal" class="modal">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+          R
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900">Reset Password</h2>
+        <p class="text-sm text-gray-600 mt-1">Enter your email to reset your password</p>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Step 1: Email Verification -->
+      <div id="forgotPasswordStep1" class="forgot-password-step active">
+        <form id="forgotPasswordForm">
+          <div class="space-y-3">
+            <div>
+              <label for="forgotEmail" class="block text-sm font-medium text-gray-700 mb-1">
+                Email Address *
+              </label>
+              <input 
+                type="email" 
+                id="forgotEmail" 
+                placeholder="Enter your email" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="forgotEmailError" class="error-message">Please enter a valid email address</div>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Send Reset Code
+          </button>
+        </form>
+
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Remember your password? 
+            <a href="#" id="backToLoginFromForgot" class="text-green-600 hover:text-green-500 font-medium">Back to Login</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 2: Code Verification -->
+      <div id="forgotPasswordStep2" class="forgot-password-step">
+        <form id="verifyCodeForm">
+          <div class="space-y-3">
+            <div>
+              <label for="resetCode" class="block text-sm font-medium text-gray-700 mb-1">
+                Verification Code *
+              </label>
+              <input 
+                type="text" 
+                id="resetCode" 
+                placeholder="Enter 6-digit code" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                maxlength="6"
+                required
+              >
+              <div id="resetCodeError" class="error-message">Please enter the 6-digit code</div>
+              <p class="text-xs text-gray-500 mt-1">We sent a verification code to your email</p>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Verify Code
+          </button>
+        </form>
+
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Didn't receive code? 
+            <a href="#" id="resendCode" class="text-green-600 hover:text-green-500 font-medium">Resend</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="forgotPasswordStep3" class="forgot-password-step">
+        <form id="newPasswordForm">
+          <div class="space-y-3">
+            <div>
+              <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                New Password *
+              </label>
+              <input 
+                type="password" 
+                id="newPassword" 
+                placeholder="Enter new password" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="newPasswordError" class="error-message">Password must be at least 6 characters</div>
+            </div>
+            
+            <div>
+              <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                Confirm New Password *
+              </label>
+              <input 
+                type="password" 
+                id="confirmNewPassword" 
+                placeholder="Confirm new password" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="confirmNewPasswordError" class="error-message">Passwords do not match</div>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Reset Password
+          </button>
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div id="forgotPasswordSuccess" class="forgot-password-step">
+        <div class="text-center py-4">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Password Reset Successful!</h3>
+          <p class="text-gray-600 mb-4">Your password has been reset successfully. You can now login with your new password.</p>
+          <button 
+            id="goToLoginAfterReset"
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm text-sm sm:text-base"
+          >
+            Login Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Close Button -->
+      <button 
+        id="closeForgotPasswordModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <!-- SIGNUP MODAL -->
   <div id="signupModal" class="modal">
     <div class="modal-container">
@@ -486,18 +645,34 @@
       // Modal Elements
       const loginModal = document.getElementById('loginModal');
       const signupModal = document.getElementById('signupModal');
+      const forgotPasswordModal = document.getElementById('forgotPasswordModal');
       const getStartedBtn = document.getElementById('getStartedBtn');
       const joinNowBtn = document.getElementById('joinNowBtn');
       const loginBtn = document.getElementById('loginBtn');
       const closeLoginModal = document.getElementById('closeLoginModal');
       const closeSignupModal = document.getElementById('closeSignupModal');
+      const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
       const loginForm = document.getElementById('loginForm');
       const signupForm = document.getElementById('signupForm');
       const showSignupFromLogin = document.getElementById('showSignupFromLogin');
       const showLoginFromSignup = document.getElementById('showLoginFromSignup');
+      const showForgotPassword = document.getElementById('showForgotPassword');
+      const backToLoginFromForgot = document.getElementById('backToLoginFromForgot');
+      const goToLoginAfterReset = document.getElementById('goToLoginAfterReset');
+      const resendCode = document.getElementById('resendCode');
       const termsCheckbox = document.getElementById('terms');
       const signupButton = document.getElementById('signupButton');
-      const contactForm = document.getElementById('contactForm');
+
+      // Forgot Password Forms
+      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+      const verifyCodeForm = document.getElementById('verifyCodeForm');
+      const newPasswordForm = document.getElementById('newPasswordForm');
+
+      // Forgot Password Steps
+      const forgotPasswordStep1 = document.getElementById('forgotPasswordStep1');
+      const forgotPasswordStep2 = document.getElementById('forgotPasswordStep2');
+      const forgotPasswordStep3 = document.getElementById('forgotPasswordStep3');
+      const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
 
       // Mobile Menu Elements
       const mobileMenuButton = document.getElementById('mobileMenuButton');
@@ -512,6 +687,9 @@
       const passwordInput = document.getElementById('signupPassword');
       const confirmPasswordInput = document.getElementById('signupConfirmPassword');
 
+      // Store verification code
+      let verificationCode = '';
+
       // Open Modal Functions
       function openLoginModal() {
         loginModal.style.display = 'flex';
@@ -523,10 +701,56 @@
         document.body.style.overflow = 'hidden';
       }
 
+      function openForgotPasswordModal() {
+        forgotPasswordModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        resetForgotPasswordSteps();
+      }
+
       function closeModal() {
         loginModal.style.display = 'none';
         signupModal.style.display = 'none';
+        forgotPasswordModal.style.display = 'none';
         document.body.style.overflow = 'auto';
+      }
+
+      // Reset forgot password steps to initial state
+      function resetForgotPasswordSteps() {
+        forgotPasswordStep1.classList.add('active');
+        forgotPasswordStep2.classList.remove('active');
+        forgotPasswordStep3.classList.remove('active');
+        forgotPasswordSuccess.classList.remove('active');
+        
+        // Clear forms
+        document.getElementById('forgotEmail').value = '';
+        document.getElementById('resetCode').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        
+        // Clear errors
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+      }
+
+      // Switch between forgot password steps
+      function showForgotPasswordStep(stepNumber) {
+        // Hide all steps
+        forgotPasswordStep1.classList.remove('active');
+        forgotPasswordStep2.classList.remove('active');
+        forgotPasswordStep3.classList.remove('active');
+        forgotPasswordSuccess.classList.remove('active');
+        
+        // Show the requested step
+        if (stepNumber === 1) forgotPasswordStep1.classList.add('active');
+        if (stepNumber === 2) forgotPasswordStep2.classList.add('active');
+        if (stepNumber === 3) forgotPasswordStep3.classList.add('active');
+        if (stepNumber === 4) forgotPasswordSuccess.classList.add('active');
+      }
+
+      // Generate random 6-digit code
+      function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
       }
 
       // Mobile Menu Functions
@@ -546,6 +770,7 @@
       joinNowBtn.addEventListener('click', openSignupModal);
       closeLoginModal.addEventListener('click', closeModal);
       closeSignupModal.addEventListener('click', closeModal);
+      closeForgotPasswordModal.addEventListener('click', closeModal);
       
       // Mobile Menu Events
       mobileMenuButton.addEventListener('click', openMobileMenu);
@@ -573,6 +798,32 @@
         setTimeout(openLoginModal, 300);
       });
 
+      // Forgot password functionality
+      showForgotPassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openForgotPasswordModal, 300);
+      });
+
+      backToLoginFromForgot.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openLoginModal, 300);
+      });
+
+      goToLoginAfterReset.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openLoginModal, 300);
+      });
+
+      resendCode.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real app, this would resend the code to the user's email
+        verificationCode = generateVerificationCode();
+        alert(`New verification code sent: ${verificationCode}`);
+      });
+
       // Close modal when clicking outside
       loginModal.addEventListener('click', function(e) {
         if (e.target === loginModal) {
@@ -586,11 +837,18 @@
         }
       });
 
+      forgotPasswordModal.addEventListener('click', function(e) {
+        if (e.target === forgotPasswordModal) {
+          closeModal();
+        }
+      });
+
       // Close modal with Escape key
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && (
           loginModal.style.display === 'flex' || 
-          signupModal.style.display === 'flex'
+          signupModal.style.display === 'flex' || 
+          forgotPasswordModal.style.display === 'flex'
         )) {
           closeModal();
         }
@@ -641,7 +899,107 @@
         }
       });
 
-      // Form validation function
+      // Forgot Password - Step 1: Email Submission
+      forgotPasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const email = document.getElementById('forgotEmail').value.trim();
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('forgotEmailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, generate and show verification code
+        if (isValid) {
+          // Generate verification code
+          verificationCode = generateVerificationCode();
+          
+          // In a real app, this would send the code to the user's email
+          // For demo purposes, we'll show it in an alert
+          alert(`Verification code sent to ${email}: ${verificationCode}`);
+          
+          // Move to next step
+          showForgotPasswordStep(2);
+        }
+      });
+
+      // Forgot Password - Step 2: Code Verification
+      verifyCodeForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const code = document.getElementById('resetCode').value.trim();
+        
+        let isValid = true;
+        
+        // Validate code
+        if (code === '') {
+          document.getElementById('resetCodeError').style.display = 'block';
+          isValid = false;
+        } else if (code !== verificationCode) {
+          document.getElementById('resetCodeError').textContent = 'Invalid verification code';
+          document.getElementById('resetCodeError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, move to next step
+        if (isValid) {
+          showForgotPasswordStep(3);
+        }
+      });
+
+      // Forgot Password - Step 3: New Password
+      newPasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+        
+        let isValid = true;
+        
+        // Validate new password
+        if (newPassword.length < 6) {
+          document.getElementById('newPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate confirm password
+        if (newPassword !== confirmNewPassword) {
+          document.getElementById('confirmNewPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, show success message
+        if (isValid) {
+          // In a real app, this would update the password in the database
+          // For demo purposes, we'll just show success
+          showForgotPasswordStep(4);
+        }
+      });
+
+      // Form validation function for signup
       function validateForm() {
         const fullName = fullNameInput.value.trim();
         const email = emailInput.value.trim();
