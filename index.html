@@ -37,13 +37,16 @@
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(5px);
+      padding: 1rem;
     }
     .modal-container {
       background-color: white;
       border-radius: 1rem;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 90%;
-      max-width: 500px;
+      max-width: 450px;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       transform: scale(0.9);
       animation: modalAppear 0.3s ease forwards;
@@ -80,7 +83,8 @@
   <header class="bg-white shadow-sm sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        <div class="flex items-center gap-3">
+        <!-- Logo with Home Link -->
+        <a href="#home" class="flex items-center gap-3">
           <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
             R
           </div>
@@ -88,7 +92,8 @@
             <h1 class="text-lg font-semibold">RESSS</h1>
             <p class="text-xs text-gray-500">Investing in Seasonal Opportunities</p>
           </div>
-        </div>
+        </a>
+        
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
           <a href="#home" class="text-white bg-green-600 px-4 py-2 rounded-md shadow-sm hover:bg-green-700 transition-colors">Home</a>
           <a href="#about" class="hover:text-green-600 transition-colors">About</a>
@@ -103,122 +108,79 @@
     </div>
   </header>
 
-  <!-- SIGNUP MODAL -->
-  <div id="signupModal" class="modal">
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal">
     <div class="modal-container">
       <!-- Modal Header -->
-      <div class="text-center mb-6">
-        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
           R
         </div>
-        <h2 class="text-2xl font-bold text-gray-900">Join RESSS</h2>
-        <p class="text-sm text-gray-600 mt-2">Create your account to start investing</p>
+        <h2 class="text-2xl font-bold text-gray-900">Login to RESSS</h2>
+        <p class="text-sm text-gray-600 mt-1">Investing in Seasonal Opportunities | Since 2013</p>
       </div>
 
-      <hr class="mb-6">
+      <hr class="mb-4">
 
-      <!-- Signup Form -->
-      <form id="signupForm">
-        <div class="space-y-4">
+      <!-- Login Form -->
+      <form id="loginForm">
+        <div class="space-y-3">
           <div>
-            <label for="signupFullName" class="block text-sm font-medium text-gray-700 mb-2">
-              Full Name *
-            </label>
-            <input 
-              type="text" 
-              id="signupFullName" 
-              placeholder="Enter your full name" 
-              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-              required
-            >
-            <div id="signupNameError" class="error-message">Please enter your full name</div>
-          </div>
-          
-          <div>
-            <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">
               Email Address *
             </label>
             <input 
               type="email" 
-              id="signupEmail" 
+              id="loginEmail" 
               placeholder="Enter your email" 
-              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
               required
             >
-            <div id="signupEmailError" class="error-message">Please enter a valid email address</div>
+            <div id="loginEmailError" class="error-message">Please enter a valid email address</div>
           </div>
           
           <div>
-            <label for="signupMobile" class="block text-sm font-medium text-gray-700 mb-2">
-              Mobile Number *
-            </label>
-            <input 
-              type="tel" 
-              id="signupMobile" 
-              placeholder="Enter your mobile number" 
-              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-              required
-            >
-            <div id="signupMobileError" class="error-message">Please enter a valid mobile number</div>
-          </div>
-          
-          <div>
-            <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">
               Password *
             </label>
             <input 
               type="password" 
-              id="signupPassword" 
-              placeholder="Create a password" 
-              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              id="loginPassword" 
+              placeholder="Enter your password" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
               required
             >
-            <div id="signupPasswordError" class="error-message">Password must be at least 6 characters</div>
-          </div>
-          
-          <div>
-            <label for="signupConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
-              Confirm Password *
-            </label>
-            <input 
-              type="password" 
-              id="signupConfirmPassword" 
-              placeholder="Confirm your password" 
-              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-              required
-            >
-            <div id="signupConfirmPasswordError" class="error-message">Passwords do not match</div>
+            <div id="loginPasswordError" class="error-message">Please enter your password</div>
           </div>
         </div>
 
-        <div class="flex items-center mt-4 mb-6">
-          <input type="checkbox" id="terms" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
-          <label for="terms" class="ml-2 block text-sm text-gray-700">
-            I agree to the <a href="#" id="showTerms" class="text-green-600 hover:text-green-500">Terms and Conditions</a>
-          </label>
+        <div class="flex items-center justify-between mt-3 mb-4">
+          <div class="flex items-center">
+            <input type="checkbox" id="rememberMe" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+            <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Remember me</label>
+          </div>
+          <a href="#" class="text-sm text-green-600 hover:text-green-500 font-medium">Forgot password?</a>
         </div>
         
         <button 
           type="submit" 
-          id="signupButton"
-          class="w-full bg-gray-400 text-white px-4 py-3 rounded-lg font-semibold transition-colors shadow-sm cursor-not-allowed"
-          disabled
+          class="w-full bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm"
         >
-          Create Account
+          Login
         </button>
         
-        <div class="mt-4 text-center">
+        <div class="mt-3 text-center">
           <p class="text-sm text-gray-600">
-            Already have an account? 
-            <a href="#" id="showLogin" class="text-green-600 hover:text-green-500 font-medium">Login</a>
+            Don't have an account? 
+            <a href="#" id="showSignupFromLogin" class="text-green-600 hover:text-green-500 font-medium">Sign up</a>
           </p>
         </div>
       </form>
 
       <!-- Close Button -->
       <button 
-        id="closeSignupModal" 
-        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+        id="closeLoginModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -227,111 +189,127 @@
     </div>
   </div>
 
-  <!-- TERMS & CONDITIONS MODAL -->
-  <div id="termsModal" class="modal">
-    <div class="modal-container terms-modal">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-bold text-gray-900">Terms and Conditions</h2>
-        <button 
-          id="closeTermsModal" 
-          class="text-gray-400 hover:text-gray-600 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+  <!-- SIGNUP MODAL -->
+  <div id="signupModal" class="modal">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+          R
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900">Join RESSS</h2>
+        <p class="text-sm text-gray-600 mt-1">Create your account to start investing</p>
       </div>
 
-      <div class="prose max-w-none">
-        <h3>1. Acceptance of Terms</h3>
-        <p>By accessing or using RESSS services, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our services.</p>
-        
-        <h3>2. Investment Services</h3>
-        <p>RESSS provides community-based investment opportunities including:</p>
-        <ul>
-          <li>Weekly savings programs</li>
-          <li>Agricultural investment projects</li>
-          <li>Rental property investments</li>
-          <li>Small business financing</li>
-        </ul>
-        
-        <h3>3. Account Registration</h3>
-        <p>To use our services, you must:</p>
-        <ul>
-          <li>Provide accurate and complete registration information</li>
-          <li>Maintain the security of your password</li>
-          <li>Accept all risks of unauthorized access to your account</li>
-        </ul>
-        
-        <h3>4. Investment Risks</h3>
-        <p>All investments carry risk. Past performance is not indicative of future results. You should:</p>
-        <ul>
-          <li>Only invest funds you can afford to lose</li>
-          <li>Diversify your investments</li>
-          <li>Understand the specific risks of each investment type</li>
-        </ul>
-        
-        <h3>5. Fees and Charges</h3>
-        <p>RESSS may charge management fees as follows:</p>
-        <ul>
-          <li>Weekly savings: 2% management fee</li>
-          <li>Agricultural projects: 5% of returns</li>
-          <li>Rental properties: 8% of rental income</li>
-        </ul>
-        
-        <h3>6. Withdrawals and Returns</h3>
-        <p>Withdrawal policies vary by investment type:</p>
-        <ul>
-          <li>Weekly savings: Available after 12-week cycle</li>
-          <li>Agricultural projects: Returns distributed after harvest</li>
-          <li>Rental properties: Monthly income distributions</li>
-        </ul>
-        
-        <h3>7. Privacy Policy</h3>
-        <p>We collect and use personal information to:</p>
-        <ul>
-          <li>Provide and improve our services</li>
-          <li>Process transactions</li>
-          <li>Communicate with you about your investments</li>
-        </ul>
-        
-        <h3>8. Limitation of Liability</h3>
-        <p>RESSS is not liable for:</p>
-        <ul>
-          <li>Investment losses due to market conditions</li>
-          <li>Acts of nature affecting agricultural projects</li>
-          <li>Technical issues beyond our reasonable control</li>
-        </ul>
-        
-        <h3>9. Termination</h3>
-        <p>We may suspend or terminate your account if you:</p>
-        <ul>
-          <li>Violate these terms</li>
-          <li>Provide false information</li>
-          <li>Engage in fraudulent activities</li>
-        </ul>
-        
-        <h3>10. Governing Law</h3>
-        <p>These terms are governed by the laws of Bangladesh. Any disputes shall be resolved in the courts of Gaibandha.</p>
-        
-        <h3>11. Changes to Terms</h3>
-        <p>We may modify these terms at any time. Continued use of our services constitutes acceptance of modified terms.</p>
-        
-        <h3>12. Contact Information</h3>
-        <p>For questions about these terms, contact us at:</p>
-        <p>Email: resssbd@gmail.com<br>
-        Phone: +8801712381572<br>
-        Address: DB Road, Gaibandha-5700, Bangladesh</p>
-      </div>
+      <hr class="mb-4">
 
-      <div class="mt-6 flex justify-end">
+      <!-- Signup Form -->
+      <form id="signupForm">
+        <div class="space-y-3">
+          <div>
+            <label for="signupFullName" class="block text-sm font-medium text-gray-700 mb-1">
+              Full Name *
+            </label>
+            <input 
+              type="text" 
+              id="signupFullName" 
+              placeholder="Enter your full name" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              required
+            >
+            <div id="signupNameError" class="error-message">Please enter your full name</div>
+          </div>
+          
+          <div>
+            <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address *
+            </label>
+            <input 
+              type="email" 
+              id="signupEmail" 
+              placeholder="Enter your email" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              required
+            >
+            <div id="signupEmailError" class="error-message">Please enter a valid email address</div>
+          </div>
+          
+          <div>
+            <label for="signupMobile" class="block text-sm font-medium text-gray-700 mb-1">
+              Mobile Number *
+            </label>
+            <input 
+              type="tel" 
+              id="signupMobile" 
+              placeholder="Enter your mobile number" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              required
+            >
+            <div id="signupMobileError" class="error-message">Please enter a valid mobile number</div>
+          </div>
+          
+          <div>
+            <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Password *
+            </label>
+            <input 
+              type="password" 
+              id="signupPassword" 
+              placeholder="Create a password" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              required
+            >
+            <div id="signupPasswordError" class="error-message">Password must be at least 6 characters</div>
+          </div>
+          
+          <div>
+            <label for="signupConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password *
+            </label>
+            <input 
+              type="password" 
+              id="signupConfirmPassword" 
+              placeholder="Confirm your password" 
+              class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              required
+            >
+            <div id="signupConfirmPasswordError" class="error-message">Passwords do not match</div>
+          </div>
+        </div>
+
+        <div class="flex items-center mt-3 mb-4">
+          <input type="checkbox" id="terms" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+          <label for="terms" class="ml-2 block text-sm text-gray-700">
+            I agree to the <a href="terms.html" target="_blank" class="text-green-600 hover:text-green-500">Terms and Conditions</a>
+          </label>
+        </div>
+        
         <button 
-          id="acceptTerms" 
-          class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+          type="submit" 
+          id="signupButton"
+          class="w-full bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold transition-colors shadow-sm cursor-not-allowed"
+          disabled
         >
-          I Accept
+          Create Account
         </button>
-      </div>
+        
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Already have an account? 
+            <a href="#" id="showLoginFromSignup" class="text-green-600 hover:text-green-500 font-medium">Login</a>
+          </p>
+        </div>
+      </form>
+
+      <!-- Close Button -->
+      <button 
+        id="closeSignupModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -613,15 +591,17 @@
       window.addEventListener('scroll', fadeInOnScroll);
 
       // Modal Elements
+      const loginModal = document.getElementById('loginModal');
       const signupModal = document.getElementById('signupModal');
-      const termsModal = document.getElementById('termsModal');
       const getStartedBtn = document.getElementById('getStartedBtn');
       const joinNowBtn = document.getElementById('joinNowBtn');
+      const loginBtn = document.getElementById('loginBtn');
+      const closeLoginModal = document.getElementById('closeLoginModal');
       const closeSignupModal = document.getElementById('closeSignupModal');
-      const closeTermsModal = document.getElementById('closeTermsModal');
+      const loginForm = document.getElementById('loginForm');
       const signupForm = document.getElementById('signupForm');
-      const showTerms = document.getElementById('showTerms');
-      const acceptTerms = document.getElementById('acceptTerms');
+      const showSignupFromLogin = document.getElementById('showSignupFromLogin');
+      const showLoginFromSignup = document.getElementById('showLoginFromSignup');
       const termsCheckbox = document.getElementById('terms');
       const signupButton = document.getElementById('signupButton');
       const contactForm = document.getElementById('contactForm');
@@ -634,58 +614,104 @@
       const confirmPasswordInput = document.getElementById('signupConfirmPassword');
 
       // Open Modal Functions
+      function openLoginModal() {
+        loginModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
       function openSignupModal() {
         signupModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
       }
 
-      function openTermsModal() {
-        termsModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
-
       function closeModal() {
+        loginModal.style.display = 'none';
         signupModal.style.display = 'none';
-        termsModal.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
 
       // Event Listeners for Modals
+      loginBtn.addEventListener('click', openLoginModal);
       getStartedBtn.addEventListener('click', openSignupModal);
       joinNowBtn.addEventListener('click', openSignupModal);
+      closeLoginModal.addEventListener('click', closeModal);
       closeSignupModal.addEventListener('click', closeModal);
-      closeTermsModal.addEventListener('click', closeModal);
       
-      // Show Terms & Conditions
-      showTerms.addEventListener('click', function(e) {
+      // Switch between login and signup modals
+      showSignupFromLogin.addEventListener('click', function(e) {
         e.preventDefault();
-        openTermsModal();
+        closeModal();
+        setTimeout(openSignupModal, 300);
       });
       
-      // Accept Terms & Conditions
-      acceptTerms.addEventListener('click', function() {
-        termsCheckbox.checked = true;
+      showLoginFromSignup.addEventListener('click', function(e) {
+        e.preventDefault();
         closeModal();
-        validateForm();
+        setTimeout(openLoginModal, 300);
       });
 
       // Close modal when clicking outside
-      signupModal.addEventListener('click', function(e) {
-        if (e.target === signupModal) {
+      loginModal.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
           closeModal();
         }
       });
       
-      termsModal.addEventListener('click', function(e) {
-        if (e.target === termsModal) {
+      signupModal.addEventListener('click', function(e) {
+        if (e.target === signupModal) {
           closeModal();
         }
       });
 
       // Close modal with Escape key
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && (signupModal.style.display === 'flex' || termsModal.style.display === 'flex')) {
+        if (e.key === 'Escape' && (loginModal.style.display === 'flex' || signupModal.style.display === 'flex')) {
           closeModal();
+        }
+      });
+
+      // Login Form Submission
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('loginEmailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate password
+        if (password === '') {
+          document.getElementById('loginPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, redirect to dashboard
+        if (isValid) {
+          // Save login info to localStorage
+          localStorage.setItem('userLoggedIn', 'true');
+          localStorage.setItem('userName', email.split('@')[0]);
+          localStorage.setItem('userEmail', email);
+          
+          // Close modal and redirect to dashboard
+          closeModal();
+          
+          // Show success message and redirect
+          setTimeout(function() {
+            window.location.href = 'dashboard.html';
+          }, 500);
         }
       });
 
