@@ -5,6 +5,7 @@ A simple investment platform website with dashboard functionality.
 ## Files:
 - `index.html` - Main website
 - `dashboard.html` - User dashboard
+- `terms.html` - Terms and Conditions
 
 ## Features:
 - Responsive design
