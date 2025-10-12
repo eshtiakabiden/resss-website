@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact | RESSS - Investing in Seasonal Opportunities</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    
+    .error-message {
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .success-message {
+      display: none;
+      background-color: #d1fae5;
+      color: #065f46;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo with Home Link -->
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
+            R
+          </div>
+          <div>
+            <h1 class="text-base sm:text-lg font-semibold">RESSS | Since 2013</h1>
+            <p class="text-xs text-gray-500 hidden sm:block">Investing in Seasonal Opportunities</p>
+          </div>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium">
+          <a href="index.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">Home</a>
+          <a href="about.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">About</a>
+          <a href="services.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">Services</a>
+          <a href="projects.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">Projects</a>
+          <a href="contact.html" class="text-white bg-green-600 px-3 py-2 sm:px-4 sm:py-2 rounded-md shadow-sm hover:bg-green-700 transition-colors text-xs sm:text-sm">Contact</a>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuButton" class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden fixed top-0 left-0 w-full h-full bg-white z-50 p-8 overflow-y-auto">
+    <div class="flex justify-between items-center mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+          R
+        </div>
+        <div>
+          <h1 class="text-lg font-semibold">RESSS | Since 2013</h1>
+          <p class="text-xs text-gray-500">Investing in Seasonal Opportunities</p>
+        </div>
+      </div>
+      <button id="closeMobileMenu" class="p-2 rounded-md text-gray-600 hover:text-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="space-y-4">
+      <a href="index.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">Home</a>
+      <a href="about.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">About</a>
+      <a href="services.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">Services</a>
+      <a href="projects.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">Projects</a>
+      <a href="contact.html" class="block text-white bg-green-600 px-4 py-3 rounded-md shadow-sm hover:bg-green-700 transition-colors text-center">Contact</a>
+    </nav>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <section class="bg-green-700 text-white py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold fade-in">Contact Us</h1>
+      <p class="mt-4 text-green-100 text-lg max-w-3xl mx-auto fade-in delay-1">
+        Get in touch to learn more about our investment opportunities and how you can join our community.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT CONTENT -->
+  <main class="py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Contact Form -->
+        <div class="fade-in">
+          <h2 class="text-2xl font-bold mb-6">Send us a Message</h2>
+          <form id="contactForm" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-group">
+                <input id="contactFullName" name="fullName" placeholder="Full name" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"/>
+                <div id="nameError" class="error-message">Please enter your full name</div>
+              </div>
+              <div class="form-group">
+                <input id="contactEmail" name="email" type="email" placeholder="Email address" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"/>
+                <div id="emailError" class="error-message">Please enter a valid email address</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input id="contactPhone" name="phone" placeholder="Phone number" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"/>
+              <div id="phoneError" class="error-message">Please enter a valid phone number</div>
+            </div>
+            <div class="form-group">
+              <select id="contactSubject" name="subject" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
+                <option value="">Select subject</option>
+                <option value="investment">Investment Inquiry</option>
+                <option value="savings">Weekly Savings</option>
+                <option value="agriculture">Agricultural Projects</option>
+                <option value="properties">Rental Properties</option>
+                <option value="business">Small Business Funding</option>
+                <option value="other">Other</option>
+              </select>
+              <div id="subjectError" class="error-message">Please select a subject</div>
+            </div>
+            <div class="form-group">
+              <textarea id="contactMessage" name="message" placeholder="Your message" rows="5" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"></textarea>
+              <div id="messageError" class="error-message">Please enter your message</div>
+            </div>
+            <button type="submit" class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm">
+              Send Message
+            </button>
+            
+            <!-- Success message -->
+            <div id="successMessage" class="success-message">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                Thank you! Your message has been sent successfully. We'll get back to you soon.
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="fade-in delay-1">
+          <h2 class="text-2xl font-bold mb-6">Get in Touch</h2>
+          <div class="space-y-6">
+            
+            <!-- Office Address -->
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Office Address</h3>
+                <p class="text-gray-700">DB Road, Gaibandha-5700</p>
+                <p class="text-gray-700">Bangladesh</p>
+              </div>
+            </div>
+
+            <!-- Phone Numbers -->
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Phone Numbers</h3>
+                <p class="text-gray-700">+8801712381572</p>
+                <p class="text-gray-700">+8801712038100</p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Email Address</h3>
+                <p class="text-gray-700">resssbd@gmail.com</p>
+              </div>
+            </div>
+
+            <!-- Office Hours -->
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Office Hours</h3>
+                <p class="text-gray-700">Saturday - Thursday: 9:00 AM - 6:00 PM</p>
+                <p class="text-gray-700">Friday: Closed</p>
+              </div>
+            </div>
+
+            <!-- Map -->
+            <div class="mt-8">
+              <div class="bg-green-100 rounded-lg p-4 h-64 flex items-center justify-center">
+                <div class="text-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  <p class="text-green-800 font-semibold">Gaibandha Location</p>
+                  <p class="text-green-700 text-sm">DB Road, Gaibandha-5700</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 py-6 sm:py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex flex-col items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">R</div>
+          <h6 class="text-white font-bold text-base sm:text-lg">RESSS</h6>
+        </div>
+        <div class="text-xs sm:text-sm text-gray-400">
+          <p class="mt-1 sm:mt-2">Since 2013 | Investing in Seasonal Opportunities</p>
+          <p>© 2025 RESSS. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fade-in animation
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const fadeInOnScroll = function() {
+        fadeElements.forEach(element => {
+          const elementTop = element.getBoundingClientRect().top;
+          if (elementTop < window.innerHeight - 150) {
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+          }
+        });
+      };
+      fadeInOnScroll();
+      window.addEventListener('scroll', fadeInOnScroll);
+
+      // Mobile Menu Functionality
+      const mobileMenuButton = document.getElementById('mobileMenuButton');
+      const closeMobileMenu = document.getElementById('closeMobileMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      function openMobileMenu() {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('block');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMobileMenuFunc() {
+        mobileMenu.classList.remove('block');
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
+
+      mobileMenuButton.addEventListener('click', openMobileMenu);
+      closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+
+      // Close mobile menu when clicking on links
+      document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', closeMobileMenuFunc);
+      });
+
+      // Contact Form Submission
+      const contactForm = document.getElementById('contactForm');
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const fullName = document.getElementById('contactFullName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const phone = document.getElementById('contactPhone').value.trim();
+        const subject = document.getElementById('contactSubject').value;
+        const message = document.getElementById('contactMessage').value.trim();
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+        
+        // Validate full name
+        if (fullName === '') {
+          document.getElementById('nameError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('emailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate phone
+        if (!phoneRegex.test(phone)) {
+          document.getElementById('phoneError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate subject
+        if (subject === '') {
+          document.getElementById('subjectError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate message
+        if (message === '') {
+          document.getElementById('messageError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, show success message
+        if (isValid) {
+          document.getElementById('successMessage').style.display = 'block';
+          contactForm.reset();
+          
+          // Hide success message after 5 seconds
+          setTimeout(function() {
+            document.getElementById('successMessage').style.display = 'none';
+          }, 5000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
