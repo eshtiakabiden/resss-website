@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RESSS Services | Since 2013</title>
+  <title>Services | RESSS - Investing in Seasonal Opportunities</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -24,6 +24,77 @@
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      padding: 1rem;
+    }
+    .modal-container {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 450px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transform: scale(0.9);
+      animation: modalAppear 0.3s ease forwards;
+    }
+    @keyframes modalAppear {
+      to {
+        transform: scale(1);
+      }
+    }
+    .error-message {
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .success-message {
+      display: none;
+      background-color: #d1fae5;
+      color: #065f46;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+    .forgot-password-step {
+      display: none;
+    }
+    .forgot-password-step.active {
+      display: block;
+    }
+
+    /* Mobile Menu Styles */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 50;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .mobile-menu.active {
+      display: block;
+    }
     
     /* Service Card Styles */
     .service-card {
@@ -59,6 +130,9 @@
           <a href="services.html" class="text-white bg-green-600 px-3 py-2 sm:px-4 sm:py-2 rounded-md shadow-sm hover:bg-green-700 transition-colors text-xs sm:text-sm">Services</a>
           <a href="projects.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">Projects</a>
           <a href="contact.html" class="hover:text-green-600 transition-colors text-xs sm:text-sm">Contact</a>
+          
+          <!-- Login Button -->
+          <button id="loginBtn" class="text-green-600 border border-green-600 px-3 py-2 sm:px-4 sm:py-2 rounded-md hover:bg-green-50 transition-colors text-xs sm:text-sm">Login</button>
         </nav>
 
         <!-- Mobile Menu Button -->
@@ -72,7 +146,7 @@
   </header>
 
   <!-- Mobile Menu -->
-  <div id="mobileMenu" class="hidden fixed top-0 left-0 w-full h-full bg-white z-50 p-8 overflow-y-auto">
+  <div id="mobileMenu" class="mobile-menu">
     <div class="flex justify-between items-center mb-8">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
@@ -96,25 +170,392 @@
       <a href="services.html" class="block text-white bg-green-600 px-4 py-3 rounded-md shadow-sm hover:bg-green-700 transition-colors text-center">Services</a>
       <a href="projects.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">Projects</a>
       <a href="contact.html" class="block text-gray-700 hover:text-green-600 transition-colors px-4 py-3 rounded-md hover:bg-gray-50 text-center">Contact</a>
+      
+      <div class="pt-4 border-t border-gray-200">
+        <button id="mobileLoginBtn" class="w-full text-green-600 border border-green-600 px-4 py-3 rounded-md hover:bg-green-50 transition-colors">Login</button>
+      </div>
     </nav>
   </div>
 
-  <!-- PAGE HEADER -->
-  <section class="bg-green-700 text-white py-12 sm:py-16">
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+          R
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900">Login to RESSS</h2>
+        <p class="text-sm text-gray-600 mt-1">Since 2013</p>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Login Form -->
+      <form id="loginForm">
+        <div class="space-y-3">
+          <div>
+            <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address *
+            </label>
+            <input 
+              type="email" 
+              id="loginEmail" 
+              placeholder="Enter your email" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="loginEmailError" class="error-message">Please enter a valid email address</div>
+          </div>
+          
+          <div>
+            <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Password *
+            </label>
+            <input 
+              type="password" 
+              id="loginPassword" 
+              placeholder="Enter your password" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="loginPasswordError" class="error-message">Please enter your password</div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-3 mb-4">
+          <div class="flex items-center">
+            <input type="checkbox" id="rememberMe" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+            <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Remember me</label>
+          </div>
+          <a href="#" id="showForgotPassword" class="text-sm text-green-600 hover:text-green-500 font-medium">Forgot password?</a>
+        </div>
+        
+        <button 
+          type="submit" 
+          class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm text-sm sm:text-base"
+        >
+          Login
+        </button>
+        
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Don't have an account? 
+            <a href="#" id="showSignupFromLogin" class="text-green-600 hover:text-green-500 font-medium">Sign up</a>
+          </p>
+        </div>
+      </form>
+
+      <!-- Close Button -->
+      <button 
+        id="closeLoginModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="forgotPasswordModal" class="modal">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+          R
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900">Reset Password</h2>
+        <p class="text-sm text-gray-600 mt-1">Enter your email to reset your password</p>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Step 1: Email Verification -->
+      <div id="forgotPasswordStep1" class="forgot-password-step active">
+        <form id="forgotPasswordForm">
+          <div class="space-y-3">
+            <div>
+              <label for="forgotEmail" class="block text-sm font-medium text-gray-700 mb-1">
+                Email Address *
+              </label>
+              <input 
+                type="email" 
+                id="forgotEmail" 
+                placeholder="Enter your email" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="forgotEmailError" class="error-message">Please enter a valid email address</div>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Send Reset Code
+          </button>
+        </form>
+
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Remember your password? 
+            <a href="#" id="backToLoginFromForgot" class="text-green-600 hover:text-green-500 font-medium">Back to Login</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 2: Code Verification -->
+      <div id="forgotPasswordStep2" class="forgot-password-step">
+        <form id="verifyCodeForm">
+          <div class="space-y-3">
+            <div>
+              <label for="resetCode" class="block text-sm font-medium text-gray-700 mb-1">
+                Verification Code *
+              </label>
+              <input 
+                type="text" 
+                id="resetCode" 
+                placeholder="Enter 6-digit code" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                maxlength="6"
+                required
+              >
+              <div id="resetCodeError" class="error-message">Please enter the 6-digit code</div>
+              <p class="text-xs text-gray-500 mt-1">We sent a verification code to your email</p>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Verify Code
+          </button>
+        </form>
+
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Didn't receive code? 
+            <a href="#" id="resendCode" class="text-green-600 hover:text-green-500 font-medium">Resend</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="forgotPasswordStep3" class="forgot-password-step">
+        <form id="newPasswordForm">
+          <div class="space-y-3">
+            <div>
+              <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                New Password *
+              </label>
+              <input 
+                type="password" 
+                id="newPassword" 
+                placeholder="Enter new password" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="newPasswordError" class="error-message">Password must be at least 6 characters</div>
+            </div>
+            
+            <div>
+              <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                Confirm New Password *
+              </label>
+              <input 
+                type="password" 
+                id="confirmNewPassword" 
+                placeholder="Confirm new password" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+                required
+              >
+              <div id="confirmNewPasswordError" class="error-message">Passwords do not match</div>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm mt-4 text-sm sm:text-base"
+          >
+            Reset Password
+          </button>
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div id="forgotPasswordSuccess" class="forgot-password-step">
+        <div class="text-center py-4">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Password Reset Successful!</h3>
+          <p class="text-gray-600 mb-4">Your password has been reset successfully. You can now login with your new password.</p>
+          <button 
+            id="goToLoginAfterReset"
+            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm text-sm sm:text-base"
+          >
+            Login Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Close Button -->
+      <button 
+        id="closeForgotPasswordModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div id="signupModal" class="modal">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+          R
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900">Join RESSS</h2>
+        <p class="text-sm text-gray-600 mt-1">Create your account to start investing</p>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Signup Form -->
+      <form id="signupForm">
+        <div class="space-y-3">
+          <div>
+            <label for="signupFullName" class="block text-sm font-medium text-gray-700 mb-1">
+              Full Name *
+            </label>
+            <input 
+              type="text" 
+              id="signupFullName" 
+              placeholder="Enter your full name" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="signupNameError" class="error-message">Please enter your full name</div>
+          </div>
+          
+          <div>
+            <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address *
+            </label>
+            <input 
+              type="email" 
+              id="signupEmail" 
+              placeholder="Enter your email" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="signupEmailError" class="error-message">Please enter a valid email address</div>
+          </div>
+          
+          <div>
+            <label for="signupMobile" class="block text-sm font-medium text-gray-700 mb-1">
+              Mobile Number *
+            </label>
+            <input 
+              type="tel" 
+              id="signupMobile" 
+              placeholder="Enter your mobile number" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="signupMobileError" class="error-message">Please enter a valid mobile number</div>
+          </div>
+          
+          <div>
+            <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Password *
+            </label>
+            <input 
+              type="password" 
+              id="signupPassword" 
+              placeholder="Create a password" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="signupPasswordError" class="error-message">Password must be at least 6 characters</div>
+          </div>
+          
+          <div>
+            <label for="signupConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password *
+            </label>
+            <input 
+              type="password" 
+              id="signupConfirmPassword" 
+              placeholder="Confirm your password" 
+              class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-sm sm:text-base"
+              required
+            >
+            <div id="signupConfirmPasswordError" class="error-message">Passwords do not match</div>
+          </div>
+        </div>
+
+        <div class="flex items-center mt-3 mb-4">
+          <input type="checkbox" id="terms" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+          <label for="terms" class="ml-2 block text-sm text-gray-700">
+            I agree to the <a href="terms.html" target="_blank" class="text-green-600 hover:text-green-500">Terms and Conditions</a>
+          </label>
+        </div>
+        
+        <button 
+          type="submit" 
+          id="signupButton"
+          class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm text-sm sm:text-base"
+        >
+          Create Account
+        </button>
+        
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">
+            Already have an account? 
+            <a href="#" id="showLoginFromSignup" class="text-green-600 hover:text-green-500 font-medium">Login</a>
+          </p>
+        </div>
+      </form>
+
+      <!-- Close Button -->
+      <button 
+        id="closeSignupModal" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- PAGE HEADER (Thinner) -->
+  <section class="bg-green-700 text-white py-8 sm:py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl sm:text-4xl font-bold fade-in">Our Services</h1>
-      <p class="mt-4 text-green-100 text-lg max-w-3xl mx-auto fade-in delay-1">
+      <h1 class="text-2xl sm:text-3xl font-bold fade-in">Our Services</h1>
+      <p class="mt-2 text-green-100 text-base max-w-3xl mx-auto fade-in delay-1">
         Discover our comprehensive range of investment and savings solutions designed for sustainable growth.
       </p>
     </div>
   </section>
 
   <!-- SERVICES CONTENT -->
-  <main class="py-12 sm:py-16">
+  <main class="py-8 sm:py-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       
       <!-- Weekly Savings Service -->
-      <section class="mb-16 fade-in">
+      <section class="mb-12 fade-in">
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="p-6 sm:p-8">
@@ -177,7 +618,7 @@
       </section>
 
       <!-- Agricultural Investments -->
-      <section class="mb-16 fade-in delay-1">
+      <section class="mb-12 fade-in delay-1">
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="p-6 sm:p-8">
@@ -241,7 +682,7 @@
       </section>
 
       <!-- Rental Properties -->
-      <section class="mb-16 fade-in delay-2">
+      <section class="mb-12 fade-in delay-2">
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="p-6 sm:p-8">
@@ -388,6 +829,7 @@
   </footer>
 
   <script>
+    // JavaScript for login functionality (same as home page)
     document.addEventListener('DOMContentLoaded', function() {
       // Fade-in animation
       const fadeElements = document.querySelectorAll('.fade-in');
@@ -403,30 +845,498 @@
       fadeInOnScroll();
       window.addEventListener('scroll', fadeInOnScroll);
 
-      // Mobile Menu Functionality
+      // Modal Elements
+      const loginModal = document.getElementById('loginModal');
+      const signupModal = document.getElementById('signupModal');
+      const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+      const loginBtn = document.getElementById('loginBtn');
+      const closeLoginModal = document.getElementById('closeLoginModal');
+      const closeSignupModal = document.getElementById('closeSignupModal');
+      const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const showSignupFromLogin = document.getElementById('showSignupFromLogin');
+      const showLoginFromSignup = document.getElementById('showLoginFromSignup');
+      const showForgotPassword = document.getElementById('showForgotPassword');
+      const backToLoginFromForgot = document.getElementById('backToLoginFromForgot');
+      const goToLoginAfterReset = document.getElementById('goToLoginAfterReset');
+      const resendCode = document.getElementById('resendCode');
+      const termsCheckbox = document.getElementById('terms');
+      const signupButton = document.getElementById('signupButton');
+      const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+
+      // Forgot Password Forms
+      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+      const verifyCodeForm = document.getElementById('verifyCodeForm');
+      const newPasswordForm = document.getElementById('newPasswordForm');
+
+      // Forgot Password Steps
+      const forgotPasswordStep1 = document.getElementById('forgotPasswordStep1');
+      const forgotPasswordStep2 = document.getElementById('forgotPasswordStep2');
+      const forgotPasswordStep3 = document.getElementById('forgotPasswordStep3');
+      const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
+
+      // Mobile Menu Elements
       const mobileMenuButton = document.getElementById('mobileMenuButton');
       const closeMobileMenu = document.getElementById('closeMobileMenu');
       const mobileMenu = document.getElementById('mobileMenu');
 
+      // Form fields
+      const fullNameInput = document.getElementById('signupFullName');
+      const emailInput = document.getElementById('signupEmail');
+      const mobileInput = document.getElementById('signupMobile');
+      const passwordInput = document.getElementById('signupPassword');
+      const confirmPasswordInput = document.getElementById('signupConfirmPassword');
+
+      // Store verification code
+      let verificationCode = '';
+
+      // Open Modal Functions
+      function openLoginModal() {
+        loginModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function openSignupModal() {
+        signupModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function openForgotPasswordModal() {
+        forgotPasswordModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        resetForgotPasswordSteps();
+      }
+
+      function closeModal() {
+        loginModal.style.display = 'none';
+        signupModal.style.display = 'none';
+        forgotPasswordModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+
+      // Reset forgot password steps to initial state
+      function resetForgotPasswordSteps() {
+        forgotPasswordStep1.classList.add('active');
+        forgotPasswordStep2.classList.remove('active');
+        forgotPasswordStep3.classList.remove('active');
+        forgotPasswordSuccess.classList.remove('active');
+        
+        // Clear forms
+        document.getElementById('forgotEmail').value = '';
+        document.getElementById('resetCode').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        
+        // Clear errors
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+      }
+
+      // Switch between forgot password steps
+      function showForgotPasswordStep(stepNumber) {
+        // Hide all steps
+        forgotPasswordStep1.classList.remove('active');
+        forgotPasswordStep2.classList.remove('active');
+        forgotPasswordStep3.classList.remove('active');
+        forgotPasswordSuccess.classList.remove('active');
+        
+        // Show the requested step
+        if (stepNumber === 1) forgotPasswordStep1.classList.add('active');
+        if (stepNumber === 2) forgotPasswordStep2.classList.add('active');
+        if (stepNumber === 3) forgotPasswordStep3.classList.add('active');
+        if (stepNumber === 4) forgotPasswordSuccess.classList.add('active');
+      }
+
+      // Generate random 6-digit code
+      function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+      }
+
+      // Mobile Menu Functions
       function openMobileMenu() {
-        mobileMenu.classList.remove('hidden');
-        mobileMenu.classList.add('block');
+        mobileMenu.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
 
       function closeMobileMenuFunc() {
-        mobileMenu.classList.remove('block');
-        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('active');
         document.body.style.overflow = 'auto';
       }
 
+      // Event Listeners for Modals
+      loginBtn.addEventListener('click', openLoginModal);
+      closeLoginModal.addEventListener('click', closeModal);
+      closeSignupModal.addEventListener('click', closeModal);
+      closeForgotPasswordModal.addEventListener('click', closeModal);
+      
+      // Mobile Menu Events
       mobileMenuButton.addEventListener('click', openMobileMenu);
       closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+      mobileLoginBtn.addEventListener('click', function() {
+        closeMobileMenuFunc();
+        openLoginModal();
+      });
 
       // Close mobile menu when clicking on links
       document.querySelectorAll('#mobileMenu a').forEach(link => {
         link.addEventListener('click', closeMobileMenuFunc);
       });
+      
+      // Switch between login and signup modals
+      showSignupFromLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openSignupModal, 300);
+      });
+      
+      showLoginFromSignup.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openLoginModal, 300);
+      });
+
+      // Forgot password functionality
+      showForgotPassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openForgotPasswordModal, 300);
+      });
+
+      backToLoginFromForgot.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openLoginModal, 300);
+      });
+
+      goToLoginAfterReset.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+        setTimeout(openLoginModal, 300);
+      });
+
+      resendCode.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real app, this would resend the code to the user's email
+        verificationCode = generateVerificationCode();
+        alert(`New verification code sent: ${verificationCode}`);
+      });
+
+      // Close modal when clicking outside
+      loginModal.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+          closeModal();
+        }
+      });
+      
+      signupModal.addEventListener('click', function(e) {
+        if (e.target === signupModal) {
+          closeModal();
+        }
+      });
+
+      forgotPasswordModal.addEventListener('click', function(e) {
+        if (e.target === forgotPasswordModal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && (
+          loginModal.style.display === 'flex' || 
+          signupModal.style.display === 'flex' || 
+          forgotPasswordModal.style.display === 'flex'
+        )) {
+          closeModal();
+        }
+      });
+
+      // Login Form Submission
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('loginEmailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate password
+        if (password === '') {
+          document.getElementById('loginPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, redirect to dashboard
+        if (isValid) {
+          // Save login info to localStorage
+          localStorage.setItem('userLoggedIn', 'true');
+          localStorage.setItem('userName', email.split('@')[0]);
+          localStorage.setItem('userEmail', email);
+          
+          // Close modal and redirect to dashboard
+          closeModal();
+          
+          // Show success message and redirect
+          setTimeout(function() {
+            window.location.href = 'dashboard.html';
+          }, 500);
+        }
+      });
+
+      // Forgot Password - Step 1: Email Submission
+      forgotPasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const email = document.getElementById('forgotEmail').value.trim();
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('forgotEmailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, generate and show verification code
+        if (isValid) {
+          // Generate verification code
+          verificationCode = generateVerificationCode();
+          
+          // In a real app, this would send the code to the user's email
+          // For demo purposes, we'll show it in an alert
+          alert(`Verification code sent to ${email}: ${verificationCode}`);
+          
+          // Move to next step
+          showForgotPasswordStep(2);
+        }
+      });
+
+      // Forgot Password - Step 2: Code Verification
+      verifyCodeForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const code = document.getElementById('resetCode').value.trim();
+        
+        let isValid = true;
+        
+        // Validate code
+        if (code === '') {
+          document.getElementById('resetCodeError').style.display = 'block';
+          isValid = false;
+        } else if (code !== verificationCode) {
+          document.getElementById('resetCodeError').textContent = 'Invalid verification code';
+          document.getElementById('resetCodeError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, move to next step
+        if (isValid) {
+          showForgotPasswordStep(3);
+        }
+      });
+
+      // Forgot Password - Step 3: New Password
+      newPasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+        
+        let isValid = true;
+        
+        // Validate new password
+        if (newPassword.length < 6) {
+          document.getElementById('newPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate confirm password
+        if (newPassword !== confirmNewPassword) {
+          document.getElementById('confirmNewPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // If form is valid, show success message
+        if (isValid) {
+          // In a real app, this would update the password in the database
+          // For demo purposes, we'll just show success
+          showForgotPasswordStep(4);
+        }
+      });
+
+      // Form validation function for signup
+      function validateForm() {
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const mobile = mobileInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const termsAccepted = termsCheckbox.checked;
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const mobileRegex = /^[0-9+\-\s()]{10,}$/;
+        
+        const isFullNameValid = fullName.length > 0;
+        const isEmailValid = emailRegex.test(email);
+        const isMobileValid = mobileRegex.test(mobile);
+        const isPasswordValid = password.length >= 6;
+        const isConfirmPasswordValid = password === confirmPassword && password.length > 0;
+        
+        // Enable/disable signup button based on validation
+        if (isFullNameValid && isEmailValid && isMobileValid && isPasswordValid && isConfirmPasswordValid && termsAccepted) {
+          signupButton.disabled = false;
+          signupButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+          signupButton.classList.add('bg-green-600', 'hover:bg-green-700', 'cursor-pointer');
+        } else {
+          signupButton.disabled = true;
+          signupButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+          signupButton.classList.remove('bg-green-600', 'hover:bg-green-700', 'cursor-pointer');
+        }
+      }
+
+      // Add event listeners for form validation
+      fullNameInput.addEventListener('input', validateForm);
+      emailInput.addEventListener('input', validateForm);
+      mobileInput.addEventListener('input', validateForm);
+      passwordInput.addEventListener('input', validateForm);
+      confirmPasswordInput.addEventListener('input', validateForm);
+      termsCheckbox.addEventListener('change', validateForm);
+
+      // Signup Form Submission
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Get form values
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const mobile = mobileInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const terms = termsCheckbox.checked;
+        
+        let isValid = true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const mobileRegex = /^[0-9+\-\s()]{10,}$/;
+        
+        // Validate full name
+        if (fullName === '') {
+          document.getElementById('signupNameError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate email
+        if (!emailRegex.test(email)) {
+          document.getElementById('signupEmailError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate mobile
+        if (!mobileRegex.test(mobile)) {
+          document.getElementById('signupMobileError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate password
+        if (password.length < 6) {
+          document.getElementById('signupPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate confirm password
+        if (password !== confirmPassword) {
+          document.getElementById('signupConfirmPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        // Validate terms
+        if (!terms) {
+          alert('Please agree to the Terms and Conditions');
+          isValid = false;
+        }
+        
+        // If form is valid, create account and redirect to dashboard
+        if (isValid) {
+          // Save user data to localStorage
+          localStorage.setItem('userLoggedIn', 'true');
+          localStorage.setItem('userName', fullName);
+          localStorage.setItem('userEmail', email);
+          localStorage.setItem('userMobile', mobile);
+          
+          // Create user accounts array if it doesn't exist
+          let userAccounts = JSON.parse(localStorage.getItem('userAccounts')) || [];
+          
+          // Check if email already exists
+          const existingUser = userAccounts.find(account => account.email === email);
+          if (existingUser) {
+            alert('An account with this email already exists. Please login instead.');
+            return;
+          }
+          
+          // Add new user to accounts
+          userAccounts.push({
+            fullName: fullName,
+            email: email,
+            mobile: mobile,
+            password: password, // Note: In a real app, this should be hashed
+            createdAt: new Date().toISOString()
+          });
+          
+          localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
+          
+          // Show success message
+          alert('Account created successfully! You will be redirected to the dashboard.');
+          
+          // Close modal and redirect to dashboard
+          closeModal();
+          
+          // Redirect to dashboard after a short delay
+          setTimeout(function() {
+            window.location.href = 'dashboard.html';
+          }, 1000);
+        }
+      });
+
+      // Initialize form validation on page load
+      validateForm();
     });
   </script>
 </body>
