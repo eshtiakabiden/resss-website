@@ -5,6 +5,7 @@
   <title>RESSS - Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body {
@@ -56,6 +57,27 @@
       border-color: #10b981;
       background-color: #f0fdf4;
     }
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-completed {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .status-pending {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .status-missed {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .transaction-row:hover {
+      background-color: #f9fafb;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
@@ -76,6 +98,7 @@
         <div class="flex items-center gap-4">
           <div class="text-right">
             <p class="text-sm font-medium">Welcome, <span id="dashboardUserName">Shareholder</span></p>
+            <p class="text-xs text-gray-500">Member ID: <span id="memberId">RESSS-001</span></p>
           </div>
           <button onclick="logout()" class="text-sm text-red-600 hover:text-red-800">Logout</button>
         </div>
@@ -96,7 +119,7 @@
                 🏠 Dashboard
               </button>
             </li>
-              <li>
+            <li>
               <button onclick="showSection('deposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
                 💰 Deposit
               </button>
@@ -116,6 +139,11 @@
                 📊 Deposit Summary
               </button>
             </li>
+            <li>
+              <button onclick="showSection('transactions')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                📋 Transactions
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -127,34 +155,85 @@
         <div id="dashboard" class="dashboard-section active bg-white rounded-lg shadow-sm p-6 fade-in">
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-              <h3 class="text-lg font-semibold text-green-800 mb-2">Total Investment</h3>
-              <p class="text-3xl font-bold text-green-900">0 BDT</p>
-              <p class="text-sm text-green-700 mt-2">Current investment balance</p>
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+              <h3 class="text-sm font-medium text-green-800 mb-2">Total Investment</h3>
+              <p class="text-2xl font-bold text-green-900" id="totalInvestment">0 BDT</p>
+              <p class="text-xs text-green-700 mt-1">Current investment balance</p>
             </div>
             
-            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <h3 class="text-lg font-semibold text-blue-800 mb-2">Total Deposits</h3>
-              <p class="text-3xl font-bold text-blue-900">0 BDT</p>
-              <p class="text-sm text-blue-700 mt-2">Total deposited amount</p>
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+              <h3 class="text-sm font-medium text-blue-800 mb-2">Total Deposits</h3>
+              <p class="text-2xl font-bold text-blue-900" id="totalDeposits">0 BDT</p>
+              <p class="text-xs text-blue-700 mt-1">Total deposited amount</p>
             </div>
             
-            <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
-              <h3 class="text-lg font-semibold text-purple-800 mb-2">Pending Amount</h3>
-              <p class="text-3xl font-bold text-purple-900">2400 BDT</p>
-              <p class="text-sm text-purple-700 mt-2">Remaining balance</p>
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+              <h3 class="text-sm font-medium text-purple-800 mb-2">Pending Amount</h3>
+              <p class="text-2xl font-bold text-purple-900" id="pendingAmount">2400 BDT</p>
+              <p class="text-xs text-purple-700 mt-1">Remaining balance</p>
+            </div>
+            
+            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
+              <h3 class="text-sm font-medium text-orange-800 mb-2">Completion Rate</h3>
+              <p class="text-2xl font-bold text-orange-900" id="completionRate">0%</p>
+              <p class="text-xs text-orange-700 mt-1">Deposit progress</p>
             </div>
           </div>
           
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h3>
-            <div class="text-center py-8">
-              <div class="text-4xl mb-4">📝</div>
-              <p class="text-gray-600 mb-4">No recent activity</p>
-              <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Make your first deposit
+          <!-- Charts and Progress -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Progress Chart -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Deposit Progress</h3>
+              <div class="mb-4">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                  <span>Deposit Completion</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+                <div class="bg-gray-200 rounded-full h-3">
+                  <div id="progressBar" class="bg-green-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Completed: <span id="completedWeeks">0</span> weeks</span>
+                <span class="text-gray-600">Remaining: <span id="remainingWeeks">12</span> weeks</span>
+              </div>
+            </div>
+            
+            <!-- Next Deposit Info -->
+            <div class="bg-gradient-to-r from-green-50 to-emerald-100 p-6 rounded-lg border border-green-200">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Next Deposit</h3>
+              <div class="flex items-center gap-4">
+                <div class="bg-green-100 p-3 rounded-full">
+                  <span class="text-green-600 text-xl">📅</span>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-900" id="nextDepositDate">Friday, 10 Jan 2025</p>
+                  <p class="text-sm text-gray-600">Amount: <span class="font-semibold">200 BDT</span></p>
+                  <p class="text-xs text-gray-500 mt-1">Deposit before 6:00 PM</p>
+                </div>
+              </div>
+              <button onclick="showSection('deposit')" class="w-full mt-4 bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                Make Deposit Now
               </button>
+            </div>
+          </div>
+          
+          <!-- Recent Activity -->
+          <div class="bg-white border border-gray-200 rounded-lg">
+            <div class="p-4 border-b border-gray-200">
+              <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+            </div>
+            <div id="recentActivity" class="p-4">
+              <div class="text-center py-8">
+                <div class="text-4xl mb-4">📝</div>
+                <p class="text-gray-600 mb-4">No recent activity</p>
+                <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Make your first deposit
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -165,7 +244,10 @@
           
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Basic Plan</h3>
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Basic Plan</h3>
+                <span class="status-badge status-completed">Active</span>
+              </div>
               <p class="text-3xl font-bold text-green-600 mb-4">200 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
                 <li class="flex items-center">
@@ -180,14 +262,21 @@
                   <span class="text-green-500 mr-2">✓</span>
                   <span>Weekly deposits</span>
                 </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>2% management fee</span>
+                </li>
               </ul>
               <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Select Plan
+                Active Plan
               </button>
             </div>
             
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Standard Plan</h3>
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Standard Plan</h3>
+                <span class="status-badge status-pending">Upgrade</span>
+              </div>
               <p class="text-3xl font-bold text-green-600 mb-4">500 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
                 <li class="flex items-center">
@@ -202,14 +291,21 @@
                   <span class="text-green-500 mr-2">✓</span>
                   <span>Weekly deposits</span>
                 </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Priority support</span>
+                </li>
               </ul>
-              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Select Plan
+              <button class="w-full bg-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+                Upgrade Plan
               </button>
             </div>
             
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Premium Plan</h3>
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Premium Plan</h3>
+                <span class="status-badge status-pending">Upgrade</span>
+              </div>
               <p class="text-3xl font-bold text-green-600 mb-4">1000 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
                 <li class="flex items-center">
@@ -224,10 +320,33 @@
                   <span class="text-green-500 mr-2">✓</span>
                   <span>Weekly deposits</span>
                 </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Exclusive opportunities</span>
+                </li>
               </ul>
-              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Select Plan
+              <button class="w-full bg-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+                Upgrade Plan
               </button>
+            </div>
+          </div>
+          
+          <!-- Investment Performance -->
+          <div class="mt-8 bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Investment Performance</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="text-center p-4 bg-white rounded-lg">
+                <p class="text-2xl font-bold text-green-600">0%</p>
+                <p class="text-sm text-gray-600">Current Return</p>
+              </div>
+              <div class="text-center p-4 bg-white rounded-lg">
+                <p class="text-2xl font-bold text-blue-600">12%</p>
+                <p class="text-sm text-gray-600">Projected Return</p>
+              </div>
+              <div class="text-center p-4 bg-white rounded-lg">
+                <p class="text-2xl font-bold text-purple-600">0 BDT</p>
+                <p class="text-sm text-gray-600">Estimated Profit</p>
+              </div>
             </div>
           </div>
         </div>
@@ -239,7 +358,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Deposit Information -->
             <div class="space-y-6">
-              <div class="bg-gray-50 p-6 rounded-lg">
+              <div class="bg-gradient-to-r from-green-50 to-emerald-100 p-6 rounded-lg border border-green-200">
                 <p class="text-lg font-semibold text-gray-900 mb-2">Deposit 200 BDT every Friday</p>
                 
                 <!-- Friday Dates Dropdown -->
@@ -250,7 +369,7 @@
                   </select>
                 </div>
 
-                <div class="flex items-center justify-between py-3 mt-4">
+                <div class="flex items-center justify-between py-3 mt-4 border-t border-green-200">
                   <span class="text-gray-600">Amount</span>
                   <span class="text-xl font-bold text-green-600">200 BDT</span>
                 </div>
@@ -266,7 +385,10 @@
                       <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
                         <span class="text-pink-600 font-bold">b</span>
                       </div>
-                      <span class="font-medium">bKash</span>
+                      <div>
+                        <span class="font-medium">bKash</span>
+                        <p class="text-xs text-gray-500">Personal</p>
+                      </div>
                     </div>
                   </div>
                   
@@ -275,7 +397,10 @@
                       <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                         <span class="text-purple-600 font-bold">R</span>
                       </div>
-                      <span class="font-medium">Rocket</span>
+                      <div>
+                        <span class="font-medium">Rocket</span>
+                        <p class="text-xs text-gray-500">DBBL</p>
+                      </div>
                     </div>
                   </div>
                   
@@ -284,7 +409,10 @@
                       <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                         <span class="text-green-600 font-bold">N</span>
                       </div>
-                      <span class="font-medium">Nagad</span>
+                      <div>
+                        <span class="font-medium">Nagad</span>
+                        <p class="text-xs text-gray-500">Personal</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -302,15 +430,18 @@
             </div>
 
             <!-- Deposit History -->
-            <div class="bg-gray-50 p-6 rounded-lg">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit History</h3>
-              
-              <div class="text-center py-8">
-                <div class="text-4xl mb-4">📝</div>
-                <p class="text-gray-600 mb-4">No deposits yet</p>
-                <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                  Make your first deposit
-                </button>
+            <div class="bg-white border border-gray-200 rounded-lg">
+              <div class="p-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Deposit History</h3>
+              </div>
+              <div id="depositHistory" class="p-4">
+                <div class="text-center py-8">
+                  <div class="text-4xl mb-4">📝</div>
+                  <p class="text-gray-600 mb-4">No deposits yet</p>
+                  <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                    Make your first deposit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -368,6 +499,16 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                   <input type="email" id="editEmail" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
                 </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                  <input type="date" id="editDOB" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                  <input type="text" id="editAddress" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                </div>
               </div>
               
               <div class="mt-6 flex gap-4">
@@ -385,8 +526,8 @@
             <div class="flex items-start">
               <span class="text-yellow-600 mr-2">⚠️</span>
               <div>
-                <span class="font-medium text-yellow-800">Cousat file</span>
-                <span class="text-yellow-700"> | No fix chains</span>
+                <span class="font-medium text-yellow-800">Important Notice</span>
+                <p class="text-yellow-700 text-sm mt-1">Please ensure all information is accurate and up-to-date. Inaccurate information may affect your investment activities.</p>
               </div>
             </div>
           </div>
@@ -396,23 +537,29 @@
         <div id="summary" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Deposit Summary</h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
               <h3 class="text-sm font-medium text-gray-600 mb-2">Total Weeks</h3>
               <p class="text-2xl font-bold text-gray-900">12</p>
               <p class="text-xs text-gray-500 mt-1">Available for deposit</p>
             </div>
             
-            <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
               <h3 class="text-sm font-medium text-gray-600 mb-2">Total Deposited</h3>
-              <p class="text-2xl font-bold text-gray-900">0 BDT</p>
+              <p class="text-2xl font-bold text-gray-900" id="summaryTotalDeposited">0 BDT</p>
               <p class="text-xs text-gray-500 mt-1">currently deposited</p>
             </div>
             
-            <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
               <h3 class="text-sm font-medium text-gray-600 mb-2">Pending Amount</h3>
-              <p class="text-2xl font-bold text-gray-900">2400 BDT</p>
+              <p class="text-2xl font-bold text-gray-900" id="summaryPendingAmount">2400 BDT</p>
               <p class="text-xs text-gray-500 mt-1">remaining balance</p>
+            </div>
+            
+            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Completion</h3>
+              <p class="text-2xl font-bold text-gray-900" id="summaryCompletion">0%</p>
+              <p class="text-xs text-gray-500 mt-1">deposit progress</p>
             </div>
           </div>
 
@@ -420,9 +567,20 @@
           <div class="mb-8">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Progress</h3>
             <div class="bg-gray-200 rounded-full h-4 mb-2">
-              <div class="bg-green-600 h-4 rounded-full" style="width: 0%"></div>
+              <div id="summaryProgressBar" class="bg-green-600 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
-            <p class="text-sm text-gray-600">0 of 12 weeks deposited</p>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span id="summaryCompletedWeeks">0 of 12 weeks deposited</span>
+              <span id="summaryProgressPercent">0%</span>
+            </div>
+          </div>
+
+          <!-- Weekly Breakdown -->
+          <div class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Weekly Breakdown</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              <!-- Weeks will be generated dynamically -->
+            </div>
           </div>
 
           <!-- Quick Stats -->
@@ -439,7 +597,7 @@
             
             <div class="bg-green-50 p-4 rounded-lg">
               <h4 class="text-sm font-medium text-gray-600 mb-1">Next Deposit</h4>
-              <p class="text-lg font-bold text-gray-900" id="nextDepositDate">10/10/2025</p>
+              <p class="text-lg font-bold text-gray-900" id="summaryNextDepositDate">10/10/2025</p>
             </div>
             
             <div class="bg-green-50 p-4 rounded-lg">
@@ -449,9 +607,57 @@
           </div>
 
           <!-- QT Status -->
-          <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+          <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <div class="flex justify-between items-center">
               <span class="font-medium text-blue-900">QT: Complete</span>
+              <span class="text-sm text-blue-700">All requirements met</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div id="transactions" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Transaction History</h2>
+          
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div class="mb-4 md:mb-0">
+              <h3 class="text-lg font-semibold text-gray-800">All Transactions</h3>
+              <p class="text-sm text-gray-600">View your deposit and investment history</p>
+            </div>
+            <div class="flex gap-2">
+              <button class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                Export CSV
+              </button>
+              <button class="bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                Filter
+              </button>
+            </div>
+          </div>
+          
+          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference</th>
+                  </tr>
+                </thead>
+                <tbody id="transactionsTable" class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td colspan="5" class="px-6 py-8 text-center">
+                      <div class="text-4xl mb-4">📝</div>
+                      <p class="text-gray-600 mb-4">No transactions yet</p>
+                      <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                        Make your first deposit
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -459,7 +665,7 @@
     </div>
   </main>
 
-<!-- Footer - Corrected Version (Single Footer) -->
+  <!-- Footer -->
   <footer class="bg-gray-800 text-gray-200 py-6 sm:py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="flex flex-col items-center gap-3 sm:gap-4">
@@ -487,6 +693,11 @@
         section.classList.remove('active');
       });
       document.getElementById(sectionId).classList.add('active');
+      
+      // Update data when switching to summary section
+      if (sectionId === 'summary') {
+        updateSummaryData();
+      }
     }
 
     // Generate all Fridays until December 2025
@@ -554,6 +765,9 @@
         
         // Hide payment methods again
         document.getElementById('paymentMethods').classList.add('hidden');
+        
+        // Update dashboard data
+        updateDashboardData();
       };
     }
 
@@ -598,6 +812,8 @@
       const nid = document.getElementById('editNID').value;
       const mobile = document.getElementById('editMobile').value;
       const email = document.getElementById('editEmail').value;
+      const dob = document.getElementById('editDOB').value;
+      const address = document.getElementById('editAddress').value;
       
       // Save to localStorage
       localStorage.setItem('userName', fullName);
@@ -606,6 +822,8 @@
       localStorage.setItem('motherName', motherName);
       localStorage.setItem('nid', nid);
       localStorage.setItem('mobile', mobile);
+      localStorage.setItem('dob', dob);
+      localStorage.setItem('address', address);
       
       // Update display
       document.getElementById('dashboardUserName').textContent = fullName;
@@ -627,6 +845,8 @@
       document.getElementById('editNID').value = localStorage.getItem('nid') || '';
       document.getElementById('editMobile').value = localStorage.getItem('mobile') || '';
       document.getElementById('editEmail').value = localStorage.getItem('userEmail') || '';
+      document.getElementById('editDOB').value = localStorage.getItem('dob') || '';
+      document.getElementById('editAddress').value = localStorage.getItem('address') || '';
       
       // Load profile image if exists
       const profileImage = localStorage.getItem('profileImage');
@@ -634,6 +854,89 @@
         document.getElementById('profileImage').src = profileImage;
         document.getElementById('profileImage').classList.remove('hidden');
         document.getElementById('profileInitial').classList.add('hidden');
+      }
+    }
+
+    // Update dashboard data
+    function updateDashboardData() {
+      // In a real app, this would fetch data from an API
+      // For demo purposes, we'll simulate some data
+      
+      const completedWeeks = Math.floor(Math.random() * 13);
+      const totalDeposits = completedWeeks * 200;
+      const pendingAmount = 2400 - totalDeposits;
+      const completionRate = Math.round((completedWeeks / 12) * 100);
+      
+      // Update dashboard stats
+      document.getElementById('totalInvestment').textContent = totalDeposits + ' BDT';
+      document.getElementById('totalDeposits').textContent = totalDeposits + ' BDT';
+      document.getElementById('pendingAmount').textContent = pendingAmount + ' BDT';
+      document.getElementById('completionRate').textContent = completionRate + '%';
+      
+      // Update progress bar
+      document.getElementById('progressBar').style.width = completionRate + '%';
+      document.getElementById('progressPercent').textContent = completionRate + '%';
+      
+      // Update completed/remaining weeks
+      document.getElementById('completedWeeks').textContent = completedWeeks;
+      document.getElementById('remainingWeeks').textContent = 12 - completedWeeks;
+      
+      // Update summary section if active
+      if (document.getElementById('summary').classList.contains('active')) {
+        updateSummaryData();
+      }
+    }
+
+    // Update summary data
+    function updateSummaryData() {
+      // Get the same data as dashboard for consistency
+      const completedWeeks = parseInt(document.getElementById('completedWeeks').textContent);
+      const totalDeposits = completedWeeks * 200;
+      const pendingAmount = 2400 - totalDeposits;
+      const completionRate = Math.round((completedWeeks / 12) * 100);
+      
+      // Update summary stats
+      document.getElementById('summaryTotalDeposited').textContent = totalDeposits + ' BDT';
+      document.getElementById('summaryPendingAmount').textContent = pendingAmount + ' BDT';
+      document.getElementById('summaryCompletion').textContent = completionRate + '%';
+      
+      // Update progress bar
+      document.getElementById('summaryProgressBar').style.width = completionRate + '%';
+      document.getElementById('summaryProgressPercent').textContent = completionRate + '%';
+      document.getElementById('summaryCompletedWeeks').textContent = completedWeeks + ' of 12 weeks deposited';
+      
+      // Generate weekly breakdown
+      generateWeeklyBreakdown(completedWeeks);
+    }
+
+    // Generate weekly breakdown
+    function generateWeeklyBreakdown(completedWeeks) {
+      const container = document.querySelector('#summary .grid.gap-2');
+      container.innerHTML = '';
+      
+      for (let i = 1; i <= 12; i++) {
+        const weekDiv = document.createElement('div');
+        weekDiv.className = 'bg-gray-100 p-3 rounded-lg text-center';
+        
+        const weekNumber = document.createElement('p');
+        weekNumber.className = 'text-sm font-medium text-gray-700';
+        weekNumber.textContent = 'Week ' + i;
+        
+        const status = document.createElement('p');
+        status.className = 'text-xs mt-1';
+        
+        if (i <= completedWeeks) {
+          status.textContent = 'Completed';
+          status.classList.add('text-green-600');
+          weekDiv.classList.add('bg-green-50', 'border', 'border-green-200');
+        } else {
+          status.textContent = 'Pending';
+          status.classList.add('text-gray-500');
+        }
+        
+        weekDiv.appendChild(weekNumber);
+        weekDiv.appendChild(status);
+        container.appendChild(weekDiv);
       }
     }
 
@@ -682,8 +985,18 @@
 
       // Set next deposit date
       if (fridays.length > 0) {
-        document.getElementById('nextDepositDate').textContent = fridays[0].toLocaleDateString();
+        const nextDepositDate = fridays[0].toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        document.getElementById('nextDepositDate').textContent = nextDepositDate;
+        document.getElementById('summaryNextDepositDate').textContent = nextDepositDate;
       }
+
+      // Initialize dashboard data
+      updateDashboardData();
     });
   </script>
 </body>
