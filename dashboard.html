@@ -52,6 +52,8 @@
       padding: 12px;
       cursor: pointer;
       transition: all 0.3s;
+      flex: 1;
+      min-width: 0;
     }
     .payment-option:hover, .payment-option.selected {
       border-color: #10b981;
@@ -77,6 +79,155 @@
     }
     .transaction-row:hover {
       background-color: #f9fafb;
+    }
+    .date-input-calendar {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.875rem;
+      background: white;
+      cursor: pointer;
+    }
+    .date-input-calendar:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    .calendar-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      z-index: 50;
+      margin-top: 4px;
+      display: none;
+    }
+    .calendar-dropdown.active {
+      display: block;
+    }
+    .compact-calendar {
+      width: 100%;
+      border-radius: 8px;
+      background: white;
+      padding: 12px;
+    }
+    .compact-calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      margin-bottom: 8px;
+    }
+    .compact-calendar-nav {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #6b7280;
+    }
+    .compact-calendar-nav:hover {
+      background: #f3f4f6;
+    }
+    .compact-calendar-month {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #374151;
+    }
+    .compact-calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      padding: 4px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .compact-calendar-weekday {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #6b7280;
+      padding: 4px 0;
+    }
+    .compact-calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      padding: 4px 0;
+    }
+    .compact-calendar-day {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 4px;
+      color: #374151;
+    }
+    .compact-calendar-day:hover {
+      background: #f3f4f6;
+    }
+    .compact-calendar-day.friday {
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 500;
+    }
+    .compact-calendar-day.selected {
+      background: #10b981;
+      color: white;
+    }
+    .compact-calendar-day.other-month {
+      color: #d1d5db;
+    }
+    .compact-calendar-day.disabled {
+      color: #d1d5db;
+      cursor: not-allowed;
+    }
+    .compact-calendar-day.disabled:hover {
+      background: transparent;
+    }
+    .date-input-wrapper {
+      position: relative;
+    }
+    .payment-methods-container {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+    .payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .payment-modal.active {
+      display: flex;
+    }
+    .payment-form {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .payment-success {
+      text-align: center;
+      padding: 20px;
+    }
+    .payment-success-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
     }
   </style>
 </head>
@@ -134,16 +285,6 @@
                 👤 Profile
               </button>
             </li>
-            <li>
-              <button onclick="showSection('summary')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-                📊 Deposit Summary
-              </button>
-            </li>
-            <li>
-              <button onclick="showSection('transactions')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-                📋 Transactions
-              </button>
-            </li>
           </ul>
         </nav>
       </div>
@@ -157,12 +298,6 @@
           
           <!-- Quick Stats -->
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
-              <h3 class="text-sm font-medium text-green-800 mb-2">Total Investment</h3>
-              <p class="text-2xl font-bold text-green-900" id="totalInvestment">0 BDT</p>
-              <p class="text-xs text-green-700 mt-1">Current investment balance</p>
-            </div>
-            
             <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
               <h3 class="text-sm font-medium text-blue-800 mb-2">Total Deposits</h3>
               <p class="text-2xl font-bold text-blue-900" id="totalDeposits">0 BDT</p>
@@ -170,15 +305,21 @@
             </div>
             
             <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
-              <h3 class="text-sm font-medium text-purple-800 mb-2">Pending Amount</h3>
+              <h3 class="text-sm font-medium text-purple-800 mb-2">Pending Deposit</h3>
               <p class="text-2xl font-bold text-purple-900" id="pendingAmount">2400 BDT</p>
               <p class="text-xs text-purple-700 mt-1">Remaining balance</p>
             </div>
             
+            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+              <h3 class="text-sm font-medium text-green-800 mb-2">Total Investment</h3>
+              <p class="text-2xl font-bold text-green-900" id="totalInvestment">0 BDT</p>
+              <p class="text-xs text-green-700 mt-1">Current investment balance</p>
+            </div>
+            
             <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
-              <h3 class="text-sm font-medium text-orange-800 mb-2">Completion Rate</h3>
-              <p class="text-2xl font-bold text-orange-900" id="completionRate">0%</p>
-              <p class="text-xs text-orange-700 mt-1">Deposit progress</p>
+              <h3 class="text-sm font-medium text-orange-800 mb-2">Deposit Progress</h3>
+              <p class="text-2xl font-bold text-orange-900" id="depositProgress">0%</p>
+              <p class="text-xs text-orange-700 mt-1">Deposit completion</p>
             </div>
           </div>
           
@@ -230,9 +371,6 @@
               <div class="text-center py-8">
                 <div class="text-4xl mb-4">📝</div>
                 <p class="text-gray-600 mb-4">No recent activity</p>
-                <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                  Make your first deposit
-                </button>
               </div>
             </div>
           </div>
@@ -240,13 +378,13 @@
 
         <!-- Investment Section -->
         <div id="investment" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Plans</h2>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Investment Projects</h2>
           
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
               <div class="flex justify-between items-start mb-4">
-                <h3 class="text-xl font-bold text-gray-900">Basic Plan</h3>
-                <span class="status-badge status-completed">Active</span>
+                <h3 class="text-xl font-bold text-gray-900">Invest in Land Lease</h3>
+                <span class="status-badge status-completed">Available</span>
               </div>
               <p class="text-3xl font-bold text-green-600 mb-4">200 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
@@ -267,15 +405,12 @@
                   <span>2% management fee</span>
                 </li>
               </ul>
-              <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Active Plan
-              </button>
             </div>
             
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
               <div class="flex justify-between items-start mb-4">
-                <h3 class="text-xl font-bold text-gray-900">Standard Plan</h3>
-                <span class="status-badge status-pending">Upgrade</span>
+                <h3 class="text-xl font-bold text-gray-900">Invest in Land Lease</h3>
+                <span class="status-badge status-pending">Available</span>
               </div>
               <p class="text-3xl font-bold text-green-600 mb-4">500 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
@@ -296,15 +431,12 @@
                   <span>Priority support</span>
                 </li>
               </ul>
-              <button class="w-full bg-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
-                Upgrade Plan
-              </button>
             </div>
             
             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
               <div class="flex justify-between items-start mb-4">
-                <h3 class="text-xl font-bold text-gray-900">Premium Plan</h3>
-                <span class="status-badge status-pending">Upgrade</span>
+                <h3 class="text-xl font-bold text-gray-900">Invest in Land Lease</h3>
+                <span class="status-badge status-pending">Available</span>
               </div>
               <p class="text-3xl font-bold text-green-600 mb-4">1000 BDT<span class="text-sm font-normal text-gray-600">/week</span></p>
               <ul class="space-y-2 mb-6">
@@ -325,9 +457,6 @@
                   <span>Exclusive opportunities</span>
                 </li>
               </ul>
-              <button class="w-full bg-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
-                Upgrade Plan
-              </button>
             </div>
           </div>
           
@@ -361,12 +490,22 @@
               <div class="bg-gradient-to-r from-green-50 to-emerald-100 p-6 rounded-lg border border-green-200">
                 <p class="text-lg font-semibold text-gray-900 mb-2">Deposit 200 BDT every Friday</p>
                 
-                <!-- Friday Dates Dropdown -->
+                <!-- Date Input with Calendar Dropdown -->
                 <div class="mt-4">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Select Deposit Date</label>
-                  <select id="depositDate" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all">
-                    <option value="">Select a Friday</option>
-                  </select>
+                  <div class="date-input-wrapper">
+                    <input type="text" 
+                           id="depositDateInput" 
+                           class="date-input-calendar" 
+                           placeholder="mm/dd/yyyy" 
+                           readonly
+                           onclick="toggleCalendar()">
+                    <div id="calendarDropdown" class="calendar-dropdown">
+                      <div class="compact-calendar" id="depositCalendar">
+                        <!-- Calendar will be generated here -->
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="flex items-center justify-between py-3 mt-4 border-t border-green-200">
@@ -376,10 +515,10 @@
               </div>
               
               <!-- Payment Methods -->
-              <div id="paymentMethods" class="space-y-4 hidden">
+              <div id="paymentMethods" class="space-y-4">
                 <h3 class="text-lg font-semibold text-gray-900">Select Payment Method</h3>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="payment-methods-container">
                   <div class="payment-option" onclick="selectPaymentMethod('bkash')">
                     <div class="flex items-center gap-3">
                       <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
@@ -419,28 +558,73 @@
                 
                 <div class="pt-4">
                   <button id="proceedPayment" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                    Proceed to Payment
+                    Deposit Now
                   </button>
                 </div>
               </div>
-              
-              <button onclick="processDeposit()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                Deposit Now
-              </button>
             </div>
 
-            <!-- Deposit History -->
-            <div class="bg-white border border-gray-200 rounded-lg">
-              <div class="p-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Deposit History</h3>
+            <!-- Deposit History and Summary -->
+            <div class="space-y-6">
+              <!-- Deposit History -->
+              <div class="bg-white border border-gray-200 rounded-lg">
+                <div class="p-4 border-b border-gray-200">
+                  <h3 class="text-lg font-semibold text-gray-900">Deposit History</h3>
+                </div>
+                <div id="depositHistory" class="p-4">
+                  <div class="text-center py-8">
+                    <div class="text-4xl mb-4">📝</div>
+                    <p class="text-gray-600 mb-4">No deposits yet</p>
+                  </div>
+                </div>
               </div>
-              <div id="depositHistory" class="p-4">
-                <div class="text-center py-8">
-                  <div class="text-4xl mb-4">📝</div>
-                  <p class="text-gray-600 mb-4">No deposits yet</p>
-                  <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                    Make your first deposit
-                  </button>
+              
+              <!-- Deposit Summary -->
+              <div class="bg-white border border-gray-200 rounded-lg">
+                <div class="p-4 border-b border-gray-200">
+                  <h3 class="text-lg font-semibold text-gray-900">Deposit Summary</h3>
+                </div>
+                <div class="p-4">
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                      <p class="text-sm text-gray-600">Total Weeks</p>
+                      <p class="text-lg font-bold text-gray-900">12</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                      <p class="text-sm text-gray-600">Completed Weeks</p>
+                      <p class="text-lg font-bold text-gray-900" id="summaryCompletedWeeks">0</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                      <p class="text-sm text-gray-600">Total Deposited</p>
+                      <p class="text-lg font-bold text-gray-900" id="summaryTotalDeposited">0 BDT</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                      <p class="text-sm text-gray-600">Pending Amount</p>
+                      <p class="text-lg font-bold text-gray-900" id="summaryPendingAmount">2400 BDT</p>
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                      <span>Deposit Progress</span>
+                      <span id="summaryProgressPercent">0%</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                      <div id="summaryProgressBar" class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Transactions -->
+              <div class="bg-white border border-gray-200 rounded-lg">
+                <div class="p-4 border-b border-gray-200">
+                  <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
+                </div>
+                <div class="p-4">
+                  <div class="text-center py-8">
+                    <div class="text-4xl mb-4">📝</div>
+                    <p class="text-gray-600 mb-4">No transactions yet</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -532,138 +716,50 @@
             </div>
           </div>
         </div>
-
-        <!-- Summary Section -->
-        <div id="summary" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Deposit Summary</h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
-              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Weeks</h3>
-              <p class="text-2xl font-bold text-gray-900">12</p>
-              <p class="text-xs text-gray-500 mt-1">Available for deposit</p>
-            </div>
-            
-            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
-              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Deposited</h3>
-              <p class="text-2xl font-bold text-gray-900" id="summaryTotalDeposited">0 BDT</p>
-              <p class="text-xs text-gray-500 mt-1">currently deposited</p>
-            </div>
-            
-            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
-              <h3 class="text-sm font-medium text-gray-600 mb-2">Pending Amount</h3>
-              <p class="text-2xl font-bold text-gray-900" id="summaryPendingAmount">2400 BDT</p>
-              <p class="text-xs text-gray-500 mt-1">remaining balance</p>
-            </div>
-            
-            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
-              <h3 class="text-sm font-medium text-gray-600 mb-2">Completion</h3>
-              <p class="text-2xl font-bold text-gray-900" id="summaryCompletion">0%</p>
-              <p class="text-xs text-gray-500 mt-1">deposit progress</p>
-            </div>
-          </div>
-
-          <!-- Deposit Progress -->
-          <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Progress</h3>
-            <div class="bg-gray-200 rounded-full h-4 mb-2">
-              <div id="summaryProgressBar" class="bg-green-600 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
-            <div class="flex justify-between text-sm text-gray-600">
-              <span id="summaryCompletedWeeks">0 of 12 weeks deposited</span>
-              <span id="summaryProgressPercent">0%</span>
-            </div>
-          </div>
-
-          <!-- Weekly Breakdown -->
-          <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Weekly Breakdown</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-              <!-- Weeks will be generated dynamically -->
-            </div>
-          </div>
-
-          <!-- Quick Stats -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Weekly Amount</h4>
-              <p class="text-lg font-bold text-gray-900">200 BDT</p>
-            </div>
-            
-            <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Deposit Day</h4>
-              <p class="text-lg font-bold text-gray-900">Every Friday</p>
-            </div>
-            
-            <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Next Deposit</h4>
-              <p class="text-lg font-bold text-gray-900" id="summaryNextDepositDate">10/10/2025</p>
-            </div>
-            
-            <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-gray-600 mb-1">Last Deposit</h4>
-              <p class="text-lg font-bold text-gray-900">No deposits yet</p>
-            </div>
-          </div>
-
-          <!-- QT Status -->
-          <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div class="flex justify-between items-center">
-              <span class="font-medium text-blue-900">QT: Complete</span>
-              <span class="text-sm text-blue-700">All requirements met</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Transactions Section -->
-        <div id="transactions" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Transaction History</h2>
-          
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-            <div class="mb-4 md:mb-0">
-              <h3 class="text-lg font-semibold text-gray-800">All Transactions</h3>
-              <p class="text-sm text-gray-600">View your deposit and investment history</p>
-            </div>
-            <div class="flex gap-2">
-              <button class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                Export CSV
-              </button>
-              <button class="bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
-                Filter
-              </button>
-            </div>
-          </div>
-          
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference</th>
-                  </tr>
-                </thead>
-                <tbody id="transactionsTable" class="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td colspan="5" class="px-6 py-8 text-center">
-                      <div class="text-4xl mb-4">📝</div>
-                      <p class="text-gray-600 mb-4">No transactions yet</p>
-                      <button onclick="showSection('deposit')" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                        Make your first deposit
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </main>
+
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="payment-modal">
+    <div class="payment-form">
+      <div id="paymentForm">
+        <h3 class="text-xl font-bold text-gray-900 mb-4" id="paymentMethodTitle">bKash Payment</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+            <input type="text" id="paymentPhone" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="01XXXXXXXXX">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Transaction ID</label>
+            <input type="text" id="paymentTrxId" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter transaction ID">
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Amount to pay:</span>
+              <span class="font-bold text-green-600">200 BDT</span>
+            </div>
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button onclick="processPayment()" class="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+              Confirm Payment
+            </button>
+            <button onclick="closePaymentModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="paymentSuccess" class="payment-success hidden">
+        <div class="payment-success-icon">✅</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+        <p class="text-gray-600 mb-4">Your deposit of 200 BDT has been processed successfully.</p>
+        <button onclick="closePaymentModal()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-200 py-6 sm:py-8">
@@ -694,45 +790,147 @@
       });
       document.getElementById(sectionId).classList.add('active');
       
-      // Update data when switching to summary section
-      if (sectionId === 'summary') {
-        updateSummaryData();
+      // Update data when switching to deposit section
+      if (sectionId === 'deposit') {
+        updateDepositData();
       }
     }
 
-    // Generate all Fridays until December 2025
-    function generateFridays() {
-      const fridays = [];
-      const startDate = new Date();
-      const endDate = new Date('2025-12-31');
+    // Calendar functionality
+    let currentDate = new Date();
+    let calendarVisible = false;
+    
+    function toggleCalendar() {
+      const calendarDropdown = document.getElementById('calendarDropdown');
+      calendarVisible = !calendarVisible;
       
-      const currentDate = new Date(startDate);
-      // Find next Friday
-      while (currentDate.getDay() !== 5) {
-        currentDate.setDate(currentDate.getDate() + 1);
+      if (calendarVisible) {
+        calendarDropdown.classList.add('active');
+        generateCompactCalendar();
+      } else {
+        calendarDropdown.classList.remove('active');
+      }
+    }
+    
+    function generateCompactCalendar() {
+      const calendarContainer = document.getElementById('depositCalendar');
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      
+      // Get first day of month and number of days
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const lastDay = new Date(currentYear, currentMonth + 1, 0);
+      const daysInMonth = lastDay.getDate();
+      
+      // Get last day of previous month
+      const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      
+      // Month names
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      
+      // Generate calendar HTML
+      let calendarHTML = `
+        <div class="compact-calendar-header">
+          <button class="compact-calendar-nav" onclick="changeMonth(-1, event)">‹</button>
+          <div class="compact-calendar-month">${monthNames[currentMonth]} ${currentYear}</div>
+          <button class="compact-calendar-nav" onclick="changeMonth(1, event)">›</button>
+        </div>
+        <div class="compact-calendar-weekdays">
+          <div class="compact-calendar-weekday">Su</div>
+          <div class="compact-calendar-weekday">Mo</div>
+          <div class="compact-calendar-weekday">Tu</div>
+          <div class="compact-calendar-weekday">We</div>
+          <div class="compact-calendar-weekday">Th</div>
+          <div class="compact-calendar-weekday">Fr</div>
+          <div class="compact-calendar-weekday">Sa</div>
+        </div>
+        <div class="compact-calendar-days">
+      `;
+      
+      // Add days from previous month
+      for (let i = firstDay.getDay(); i > 0; i--) {
+        const day = prevMonthLastDay - i + 1;
+        calendarHTML += `<div class="compact-calendar-day other-month">${day}</div>`;
       }
       
-      while (currentDate <= endDate) {
-        if (currentDate.getDay() === 5) {
-          fridays.push(new Date(currentDate));
-        }
-        currentDate.setDate(currentDate.getDate() + 7);
+      // Add days of the current month
+      const today = new Date();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(currentYear, currentMonth, day);
+        const isFriday = date.getDay() === 5;
+        const isToday = date.toDateString() === today.toDateString();
+        const isPast = date < today;
+        
+        let dayClass = 'compact-calendar-day';
+        if (isFriday) dayClass += ' friday';
+        if (isToday) dayClass += ' today';
+        if (isPast) dayClass += ' disabled';
+        
+        calendarHTML += `<div class="${dayClass}" data-date="${date.toISOString()}">${day}</div>`;
       }
       
-      return fridays;
+      // Add days from next month
+      const totalCells = 42; // 6 rows * 7 days
+      const daysSoFar = firstDay.getDay() + daysInMonth;
+      const nextMonthDays = totalCells - daysSoFar;
+      
+      for (let day = 1; day <= nextMonthDays; day++) {
+        calendarHTML += `<div class="compact-calendar-day other-month">${day}</div>`;
+      }
+      
+      calendarHTML += '</div>';
+      calendarContainer.innerHTML = calendarHTML;
+      
+      // Add click event listeners to Friday dates
+      document.querySelectorAll('.compact-calendar-day.friday:not(.disabled)').forEach(day => {
+        day.addEventListener('click', function() {
+          // Remove selected class from all days
+          document.querySelectorAll('.compact-calendar-day').forEach(d => {
+            d.classList.remove('selected');
+          });
+          
+          // Add selected class to clicked day
+          this.classList.add('selected');
+          
+          // Get the selected date
+          const selectedDate = new Date(this.getAttribute('data-date'));
+          const formattedDate = `${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}/${selectedDate.getDate().toString().padStart(2, '0')}/${selectedDate.getFullYear()}`;
+          
+          // Update the input field
+          document.getElementById('depositDateInput').value = formattedDate;
+          
+          // Store selected date
+          selectedDepositDate = this.getAttribute('data-date');
+          
+          // Hide calendar
+          document.getElementById('calendarDropdown').classList.remove('active');
+          calendarVisible = false;
+        });
+      });
+    }
+    
+    function changeMonth(direction, event) {
+      // Prevent the event from bubbling up and closing the calendar
+      event.stopPropagation();
+      
+      currentDate.setMonth(currentDate.getMonth() + direction);
+      generateCompactCalendar();
     }
 
-    // Process deposit
-    function processDeposit() {
-      const selectedDate = document.getElementById('depositDate').value;
-      if (!selectedDate) {
-        alert('Please select a deposit date first.');
-        return;
-      }
+    // Close calendar when clicking outside
+    document.addEventListener('click', function(event) {
+      const calendarDropdown = document.getElementById('calendarDropdown');
+      const dateInput = document.getElementById('depositDateInput');
+      const calendarContainer = document.getElementById('depositCalendar');
       
-      // Show payment methods
-      document.getElementById('paymentMethods').classList.remove('hidden');
-    }
+      // Check if click is outside both the input and calendar
+      if (!dateInput.contains(event.target) && !calendarContainer.contains(event.target)) {
+        calendarDropdown.classList.remove('active');
+        calendarVisible = false;
+      }
+    });
 
     // Select payment method
     function selectPaymentMethod(method) {
@@ -744,47 +942,121 @@
       // Add selected class to clicked option
       event.currentTarget.classList.add('selected');
       
-      // Enable proceed button
-      document.getElementById('proceedPayment').disabled = false;
+      // Store selected payment method
+      selectedPaymentMethod = method;
+    }
+
+    // Open payment modal
+    function openPaymentModal() {
+      if (!selectedDepositDate) {
+        alert('Please select a deposit date first.');
+        return;
+      }
       
-      // Set up proceed button action based on selected method
-      document.getElementById('proceedPayment').onclick = function() {
-        const selectedDate = document.getElementById('depositDate').value;
-        const dateObj = new Date(selectedDate);
-        const formattedDate = dateObj.toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        
-        alert(`Deposit of 200 BDT for ${formattedDate} would be processed via ${method}.\n\nIn a real application, this would redirect to ${method} payment gateway.`);
-        
-        // Remove the paid date from dropdown
-        removePaidDate(selectedDate);
-        
-        // Hide payment methods again
-        document.getElementById('paymentMethods').classList.add('hidden');
+      if (!selectedPaymentMethod) {
+        alert('Please select a payment method first.');
+        return;
+      }
+      
+      // Set payment method title
+      const methodTitles = {
+        'bkash': 'bKash Payment',
+        'rocket': 'Rocket Payment',
+        'nagad': 'Nagad Payment'
+      };
+      
+      document.getElementById('paymentMethodTitle').textContent = methodTitles[selectedPaymentMethod];
+      
+      // Reset form
+      document.getElementById('paymentPhone').value = '';
+      document.getElementById('paymentTrxId').value = '';
+      document.getElementById('paymentForm').classList.remove('hidden');
+      document.getElementById('paymentSuccess').classList.add('hidden');
+      
+      // Show modal
+      document.getElementById('paymentModal').classList.add('active');
+    }
+
+    // Process payment
+    function processPayment() {
+      const phone = document.getElementById('paymentPhone').value;
+      const trxId = document.getElementById('paymentTrxId').value;
+      
+      if (!phone || !trxId) {
+        alert('Please fill in all payment details.');
+        return;
+      }
+      
+      // Validate phone number format
+      const phoneRegex = /^01[3-9]\d{8}$/;
+      if (!phoneRegex.test(phone)) {
+        alert('Please enter a valid Bangladeshi phone number.');
+        return;
+      }
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        // Show success message
+        document.getElementById('paymentForm').classList.add('hidden');
+        document.getElementById('paymentSuccess').classList.remove('hidden');
         
         // Update dashboard data
         updateDashboardData();
-      };
+        updateDepositData();
+        
+        // Add to deposit history
+        addToDepositHistory();
+        
+        // Reset selections
+        document.getElementById('depositDateInput').value = '';
+        document.querySelectorAll('.compact-calendar-day').forEach(day => {
+          day.classList.remove('selected');
+        });
+        document.querySelectorAll('.payment-option').forEach(option => {
+          option.classList.remove('selected');
+        });
+        selectedDepositDate = null;
+        selectedPaymentMethod = null;
+      }, 1500);
     }
 
-    // Remove paid date from dropdown
-    function removePaidDate(dateValue) {
-      const select = document.getElementById('depositDate');
-      const options = select.getElementsByTagName('option');
+    // Close payment modal
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+    }
+
+    // Add to deposit history
+    function addToDepositHistory() {
+      const dateObj = new Date(selectedDepositDate);
+      const formattedDate = dateObj.toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
       
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].value === dateValue) {
-          select.removeChild(options[i]);
-          break;
-        }
+      const depositHistory = document.getElementById('depositHistory');
+      
+      // If it's the first deposit, replace the placeholder
+      if (depositHistory.querySelector('.text-center')) {
+        depositHistory.innerHTML = '';
       }
       
-      // Reset selection
-      select.value = "";
+      // Create new deposit entry
+      const depositEntry = document.createElement('div');
+      depositEntry.className = 'flex justify-between items-center py-3 border-b border-gray-100';
+      depositEntry.innerHTML = `
+        <div>
+          <p class="font-medium text-gray-900">Weekly Deposit</p>
+          <p class="text-sm text-gray-500">${formattedDate} • ${selectedPaymentMethod}</p>
+        </div>
+        <div class="text-right">
+          <p class="font-medium text-green-600">200 BDT</p>
+          <span class="status-badge status-completed">Completed</span>
+        </div>
+      `;
+      
+      depositHistory.prepend(depositEntry);
     }
 
     // Handle profile image upload
@@ -865,79 +1137,39 @@
       const completedWeeks = Math.floor(Math.random() * 13);
       const totalDeposits = completedWeeks * 200;
       const pendingAmount = 2400 - totalDeposits;
-      const completionRate = Math.round((completedWeeks / 12) * 100);
+      const depositProgress = Math.round((completedWeeks / 12) * 100);
       
       // Update dashboard stats
-      document.getElementById('totalInvestment').textContent = totalDeposits + ' BDT';
       document.getElementById('totalDeposits').textContent = totalDeposits + ' BDT';
       document.getElementById('pendingAmount').textContent = pendingAmount + ' BDT';
-      document.getElementById('completionRate').textContent = completionRate + '%';
+      document.getElementById('totalInvestment').textContent = totalDeposits + ' BDT';
+      document.getElementById('depositProgress').textContent = depositProgress + '%';
       
       // Update progress bar
-      document.getElementById('progressBar').style.width = completionRate + '%';
-      document.getElementById('progressPercent').textContent = completionRate + '%';
+      document.getElementById('progressBar').style.width = depositProgress + '%';
+      document.getElementById('progressPercent').textContent = depositProgress + '%';
       
       // Update completed/remaining weeks
       document.getElementById('completedWeeks').textContent = completedWeeks;
       document.getElementById('remainingWeeks').textContent = 12 - completedWeeks;
-      
-      // Update summary section if active
-      if (document.getElementById('summary').classList.contains('active')) {
-        updateSummaryData();
-      }
     }
 
-    // Update summary data
-    function updateSummaryData() {
+    // Update deposit section data
+    function updateDepositData() {
       // Get the same data as dashboard for consistency
       const completedWeeks = parseInt(document.getElementById('completedWeeks').textContent);
       const totalDeposits = completedWeeks * 200;
       const pendingAmount = 2400 - totalDeposits;
-      const completionRate = Math.round((completedWeeks / 12) * 100);
+      const depositProgress = Math.round((completedWeeks / 12) * 100);
       
-      // Update summary stats
+      // Update deposit summary stats
       document.getElementById('summaryTotalDeposited').textContent = totalDeposits + ' BDT';
       document.getElementById('summaryPendingAmount').textContent = pendingAmount + ' BDT';
-      document.getElementById('summaryCompletion').textContent = completionRate + '%';
+      document.getElementById('summaryCompletedWeeks').textContent = completedWeeks;
       
       // Update progress bar
-      document.getElementById('summaryProgressBar').style.width = completionRate + '%';
-      document.getElementById('summaryProgressPercent').textContent = completionRate + '%';
-      document.getElementById('summaryCompletedWeeks').textContent = completedWeeks + ' of 12 weeks deposited';
-      
-      // Generate weekly breakdown
-      generateWeeklyBreakdown(completedWeeks);
-    }
-
-    // Generate weekly breakdown
-    function generateWeeklyBreakdown(completedWeeks) {
-      const container = document.querySelector('#summary .grid.gap-2');
-      container.innerHTML = '';
-      
-      for (let i = 1; i <= 12; i++) {
-        const weekDiv = document.createElement('div');
-        weekDiv.className = 'bg-gray-100 p-3 rounded-lg text-center';
-        
-        const weekNumber = document.createElement('p');
-        weekNumber.className = 'text-sm font-medium text-gray-700';
-        weekNumber.textContent = 'Week ' + i;
-        
-        const status = document.createElement('p');
-        status.className = 'text-xs mt-1';
-        
-        if (i <= completedWeeks) {
-          status.textContent = 'Completed';
-          status.classList.add('text-green-600');
-          weekDiv.classList.add('bg-green-50', 'border', 'border-green-200');
-        } else {
-          status.textContent = 'Pending';
-          status.classList.add('text-gray-500');
-        }
-        
-        weekDiv.appendChild(weekNumber);
-        weekDiv.appendChild(status);
-        container.appendChild(weekDiv);
-      }
+      document.getElementById('summaryProgressBar').style.width = depositProgress + '%';
+      document.getElementById('summaryProgressPercent').textContent = depositProgress + '%';
     }
 
     // Logout function
@@ -947,6 +1179,10 @@
       localStorage.removeItem('userEmail');
       window.location.href = 'index.html';
     }
+
+    // Global variables
+    let selectedDepositDate = null;
+    let selectedPaymentMethod = null;
 
     // Initialize dashboard
     document.addEventListener('DOMContentLoaded', function() {
@@ -967,33 +1203,23 @@
       // Load profile data
       loadProfileData();
 
-      // Load Friday dates
-      const fridays = generateFridays();
-      const select = document.getElementById('depositDate');
-      
-      fridays.forEach(date => {
-        const option = document.createElement('option');
-        option.value = date.toISOString();
-        option.textContent = date.toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        select.appendChild(option);
-      });
+      // Set up deposit button
+      document.getElementById('proceedPayment').addEventListener('click', openPaymentModal);
 
       // Set next deposit date
-      if (fridays.length > 0) {
-        const nextDepositDate = fridays[0].toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        document.getElementById('nextDepositDate').textContent = nextDepositDate;
-        document.getElementById('summaryNextDepositDate').textContent = nextDepositDate;
+      const today = new Date();
+      let nextFriday = new Date(today);
+      while (nextFriday.getDay() !== 5) {
+        nextFriday.setDate(nextFriday.getDate() + 1);
       }
+      
+      const nextDepositDate = nextFriday.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      document.getElementById('nextDepositDate').textContent = nextDepositDate;
 
       // Initialize dashboard data
       updateDashboardData();
