@@ -342,9 +342,11 @@
             <li>
               <button onclick="toggleSubmenu('depositSubmenu')" class="w-full flex items-center justify-between text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
                 <span>💰 Deposit</span>
+                <span id="depositSubmenuArrow">▼</span>
               </button>
               <div id="depositSubmenu" class="submenu">
                 <div onclick="showSection('deposit')" class="submenu-item">Weekly Deposit</div>
+                <div onclick="showSection('membersDeposit')" class="submenu-item">Members Deposit</div>
               </div>
             </li>
             <li>
@@ -720,7 +722,6 @@
         <!-- Deposit Section -->
         <div id="deposit" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Deposit</h2>
-          
           
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Deposit Information -->
