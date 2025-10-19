@@ -229,6 +229,45 @@
       font-size: 48px;
       margin-bottom: 16px;
     }
+    .submenu {
+      display: none;
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .submenu.active {
+      display: block;
+    }
+    .deposit-history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .deposit-history-table th,
+    .deposit-history-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .deposit-history-table th {
+      background-color: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+    }
+    .deposit-history-table tr:hover {
+      background-color: #f9fafb;
+    }
+    .add-transaction-form {
+      background-color: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .add-transaction-form input,
+    .add-transaction-form select {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
@@ -271,18 +310,25 @@
               </button>
             </li>
             <li>
-              <button onclick="showSection('deposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+              <button onclick="toggleSubmenu('depositSubmenu')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
                 💰 Deposit
               </button>
+              <ul id="depositSubmenu" class="submenu">
+                <li>
+                  <button onclick="showSection('deposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                    Make Deposit
+                  </button>
+                </li>
+                <li>
+                  <button onclick="showSection('membersDeposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
+                    Members Deposit
+                  </button>
+                </li>
+              </ul>
             </li>
             <li>
               <button onclick="showSection('investment')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
                 💼 Investment
-              </button>
-            </li>
-            <li>
-              <button onclick="showSection('membersDeposit')" class="w-full flex items-center gap-3 text-gray-600 hover:text-green-600 font-medium p-2 hover:bg-gray-50 rounded-md text-left transition-colors">
-                👥 Members Deposit
               </button>
             </li>
             <li>
@@ -515,23 +561,23 @@
                         <div class="flex items-center">
                           <div class="flex-shrink-0 h-10 w-10">
                             <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                              <span class="text-blue-600 font-bold">A</span>
+                              <span class="text-blue-600 font-bold">E</span>
                             </div>
                           </div>
                           <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Abdul Karim</div>
-                            <div class="text-sm text-gray-500">RESSS-002</div>
+                            <div class="text-sm font-medium text-gray-900">Eshtiak Abedin</div>
+                            <div class="text-sm text-gray-500">RESSS-001</div>
                           </div>
                         </div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">2400 BDT</div>
+                        <div class="text-sm text-gray-900">41,400 BDT</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span class="status-badge status-completed">Completed</span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        15 Dec 2024
+                        15 Sept 2025
                       </td>
                     </tr>
                     <tr>
@@ -543,19 +589,19 @@
                             </div>
                           </div>
                           <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Sadia Rahman</div>
-                            <div class="text-sm text-gray-500">RESSS-003</div>
+                            <div class="text-sm font-medium text-gray-900">Sarwar Sabbir</div>
+                            <div class="text-sm text-gray-500">RESSS-002</div>
                           </div>
                         </div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">1800 BDT</div>
+                        <div class="text-sm text-gray-900">36.800 BDT</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span class="status-badge status-pending">In Progress</span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        08 Dec 2024
+                        29 Aug 2025
                       </td>
                     </tr>
                     <tr>
@@ -563,23 +609,47 @@
                         <div class="flex items-center">
                           <div class="flex-shrink-0 h-10 w-10">
                             <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
-                              <span class="text-purple-600 font-bold">R</span>
+                              <span class="text-purple-600 font-bold">S</span>
                             </div>
                           </div>
                           <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Rahim Ahmed</div>
-                            <div class="text-sm text-gray-500">RESSS-004</div>
+                            <div class="text-sm font-medium text-gray-900">Saleh Sozib</div>
+                            <div class="text-sm text-gray-500">RESSS-003</div>
                           </div>
                         </div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">1200 BDT</div>
+                        <div class="text-sm text-gray-900">24,600 BDT</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span class="status-badge status-pending">In Progress</span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        01 Dec 2024
+                        01 Jan 2025
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10">
+                            <div class="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                              <span class="text-orange-600 font-bold">S</span>
+                            </div>
+                          </div>
+                          <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">Sumit Haque</div>
+                            <div class="text-sm text-gray-500">RESSS-004</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">12,200 BDT</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="status-badge status-pending">In Progress</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        27 Dec 2024
                       </td>
                     </tr>
                   </tbody>
@@ -592,11 +662,11 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div class="bg-blue-50 p-4 rounded-lg">
               <h4 class="text-sm font-medium text-blue-800 mb-1">Total Members</h4>
-              <p class="text-2xl font-bold text-blue-900">4</p>
+              <p class="text-2xl font-bold text-blue-900">5</p>
             </div>
             <div class="bg-green-50 p-4 rounded-lg">
               <h4 class="text-sm font-medium text-green-800 mb-1">Active Members</h4>
-              <p class="text-2xl font-bold text-green-900">4</p>
+              <p class="text-2xl font-bold text-green-900">5</p>
             </div>
             <div class="bg-purple-50 p-4 rounded-lg">
               <h4 class="text-sm font-medium text-purple-800 mb-1">Our Total Deposit</h4>
@@ -614,15 +684,31 @@
               <div class="flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-800">Transaction History</h3>
                 <div class="flex gap-2">
-                  <button class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                  <button onclick="exportToCSV()" class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors">
                     Export CSV
                   </button>
-                  <button class="bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                  <button onclick="toggleFilter()" class="bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
                     Filter
+                  </button>
+                  <button onclick="toggleAddTransaction()" class="bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                    Add Transaction
                   </button>
                 </div>
               </div>
             </div>
+            
+            <!-- Add Transaction Form -->
+            <div id="addTransactionForm" class="add-transaction-form hidden">
+              <h4 class="text-lg font-semibold mb-3">Add New Transaction</h4>
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                <input type="date" id="newTransactionDate" class="p-2 border rounded">
+                <input type="text" id="newTransactionDescription" placeholder="Description" class="p-2 border rounded">
+                <input type="number" id="newTransactionDebit" placeholder="Debit Amount" class="p-2 border rounded">
+                <input type="number" id="newTransactionCredit" placeholder="Credit Amount" class="p-2 border rounded">
+                <button onclick="addNewTransaction()" class="bg-green-600 text-white p-2 rounded hover:bg-green-700">Add</button>
+              </div>
+            </div>
+            
             <div class="p-4">
               <div class="overflow-x-auto">
                 <table class="w-full">
@@ -635,13 +721,13 @@
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
                     </tr>
                   </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tbody id="transactionHistory" class="bg-white divide-y divide-gray-200">
                     <tr>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         15 Dec 2024
                       </td>
                       <td class="px-6 py-4 text-sm text-gray-900">
-                        Weekly Deposit - Abdul Karim
+                        Weekly Deposit - Ishtiaq Abedin
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         -
@@ -658,7 +744,7 @@
                         08 Dec 2024
                       </td>
                       <td class="px-6 py-4 text-sm text-gray-900">
-                        Weekly Deposit - Sadia Rahman
+                        Weekly Deposit - Sarwar Sabbir
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         -
@@ -678,7 +764,7 @@
                         Land Lease Investment
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium">
-                        -12,000 BDT
+                        -10,000 BDT
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         -
@@ -692,16 +778,16 @@
                         24 Nov 2024
                       </td>
                       <td class="px-6 py-4 text-sm text-gray-900">
-                        Management Fee
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium">
-                        -240 BDT
+                        Weekly Deposit - Sumit Haque
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         -
                       </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
+                        +200 BDT
+                      </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        54,400 BDT
+                        52,400 BDT
                       </td>
                     </tr>
                   </tbody>
@@ -709,192 +795,134 @@
               </div>
             </div>
           </div>
-
-          <!-- Financial Summary -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Income Summary</h3>
-              <div class="space-y-3">
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Total Deposits</span>
-                  <span class="font-medium text-green-600">+42,800 BDT</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Investment Returns</span>
-                  <span class="font-medium text-green-600">+1,200 BDT</span>
-                </div>
-                <div class="flex justify-between pt-3 border-t border-gray-200">
-                  <span class="text-gray-800 font-medium">Total Income</span>
-                  <span class="font-bold text-green-600">+44,000 BDT</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Expense Summary</h3>
-              <div class="space-y-3">
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Investments</span>
-                  <span class="font-medium text-red-600">-12,000 BDT</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Management Fees</span>
-                  <span class="font-medium text-red-600">-240 BDT</span>
-                </div>
-                <div class="flex justify-between pt-3 border-t border-gray-200">
-                  <span class="text-gray-800 font-medium">Total Expenses</span>
-                  <span class="font-bold text-red-600">-12,240 BDT</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Deposit Section -->
         <div id="deposit" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Weekly Deposit</h2>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Make a Deposit</h2>
           
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Deposit Information -->
-            <div class="space-y-6">
-              <div class="bg-gradient-to-r from-green-50 to-emerald-100 p-6 rounded-lg border border-green-200">
-                <p class="text-lg font-semibold text-gray-900 mb-2">Deposit 200 BDT every Friday</p>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Deposit Form -->
+            <div class="lg:col-span-2">
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Weekly Deposit</h3>
                 
-                <!-- Date Input with Calendar Dropdown -->
-                <div class="mt-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Select Deposit Date</label>
+                <!-- Deposit Amount -->
+                <div class="mb-6">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Deposit Amount</label>
+                  <div class="flex items-center gap-4">
+                    <div class="relative flex-1">
+                      <input type="number" id="depositAmount" value="200" class="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" readonly>
+                    </div>
+                    <span class="text-lg font-medium text-gray-700">BDT</span>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-2">Weekly deposit amount is fixed at 200 BDT</p>
+                </div>
+                
+                <!-- Deposit Date -->
+                <div class="mb-6">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Deposit Date</label>
                   <div class="date-input-wrapper">
-                    <input type="text" 
-                           id="depositDateInput" 
-                           class="date-input-calendar" 
-                           placeholder="mm/dd/yyyy" 
-                           readonly
-                           onclick="toggleCalendar()">
+                    <input type="text" id="depositDate" class="date-input-calendar" placeholder="Select a Friday" readonly>
                     <div id="calendarDropdown" class="calendar-dropdown">
-                      <div class="compact-calendar" id="depositCalendar">
-                        <!-- Calendar will be generated here -->
+                      <div class="compact-calendar">
+                        <div class="compact-calendar-header">
+                          <button class="compact-calendar-nav" id="prevMonth">‹</button>
+                          <span class="compact-calendar-month" id="currentMonthYear">January 2025</span>
+                          <button class="compact-calendar-nav" id="nextMonth">›</button>
+                        </div>
+                        <div class="compact-calendar-weekdays">
+                          <div class="compact-calendar-weekday">Sun</div>
+                          <div class="compact-calendar-weekday">Mon</div>
+                          <div class="compact-calendar-weekday">Tue</div>
+                          <div class="compact-calendar-weekday">Wed</div>
+                          <div class="compact-calendar-weekday">Thu</div>
+                          <div class="compact-calendar-weekday">Fri</div>
+                          <div class="compact-calendar-weekday">Sat</div>
+                        </div>
+                        <div class="compact-calendar-days" id="calendarDays"></div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="flex items-center justify-between py-3 mt-4 border-t border-green-200">
-                  <span class="text-gray-600">Amount</span>
-                  <span class="text-xl font-bold text-green-600">200 BDT</span>
-                </div>
-              </div>
-              
-              <!-- Payment Methods -->
-              <div id="paymentMethods" class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-900">Select Payment Method</h3>
-                
-                <div class="payment-methods-container">
-                  <div class="payment-option" onclick="selectPaymentMethod('bkash')">
-                    <div class="flex items-center gap-3">
-                      <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
-                        <span class="text-pink-600 font-bold">b</span>
-                      </div>
-                      <div>
-                        <span class="font-medium">bKash</span>
-                        <p class="text-xs text-gray-500">Personal</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="payment-option" onclick="selectPaymentMethod('rocket')">
-                    <div class="flex items-center gap-3">
-                      <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <span class="text-purple-600 font-bold">R</span>
-                      </div>
-                      <div>
-                        <span class="font-medium">Rocket</span>
-                        <p class="text-xs text-gray-500">DBBL</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="payment-option" onclick="selectPaymentMethod('nagad')">
-                    <div class="flex items-center gap-3">
-                      <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <span class="text-green-600 font-bold">N</span>
-                      </div>
-                      <div>
-                        <span class="font-medium">Nagad</span>
-                        <p class="text-xs text-gray-500">Personal</p>
-                      </div>
-                    </div>
-                  </div>
+                  <p class="text-sm text-gray-500 mt-2">Only Fridays are available for weekly deposits</p>
                 </div>
                 
-                <div class="pt-4">
-                  <button id="proceedPayment" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                    Deposit Now
-                  </button>
+                <!-- Payment Method -->
+                <div class="mb-6">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
+                  <div class="payment-methods-container">
+                    <div class="payment-option" data-method="bkash">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                          <span class="text-pink-600 font-bold">b</span>
+                        </div>
+                        <div>
+                          <p class="font-medium">bKash</p>
+                          <p class="text-xs text-gray-500">Personal</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="payment-option" data-method="nagad">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                          <span class="text-green-600 font-bold">N</span>
+                        </div>
+                        <div>
+                          <p class="font-medium">Nagad</p>
+                          <p class="text-xs text-gray-500">Personal</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="payment-option" data-method="rocket">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                          <span class="text-purple-600 font-bold">R</span>
+                        </div>
+                        <div>
+                          <p class="font-medium">Rocket</p>
+                          <p class="text-xs text-gray-500">DBBL</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                <!-- Transaction ID -->
+                <div class="mb-6">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Transaction ID</label>
+                  <input type="text" id="transactionId" class="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter transaction ID">
+                </div>
+                
+                <!-- Submit Button -->
+                <button id="submitDeposit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Confirm Deposit
+                </button>
               </div>
             </div>
-
-            <!-- Deposit History and Summary -->
-            <div class="space-y-6">
-              <!-- Deposit History -->
-              <div class="bg-white border border-gray-200 rounded-lg">
-                <div class="p-4 border-b border-gray-200">
-                  <h3 class="text-lg font-semibold text-gray-900">Deposit History</h3>
+            
+            <!-- Deposit History -->
+            <div>
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Deposit History</h3>
+                
+                <div class="overflow-x-auto">
+                  <table class="deposit-history-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Method</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="depositHistoryTable">
+                      <!-- Deposit history will be populated here -->
+                    </tbody>
+                  </table>
                 </div>
-                <div id="depositHistory" class="p-4">
-                  <div class="text-center py-8">
-                    <div class="text-4xl mb-4">📝</div>
-                    <p class="text-gray-600 mb-4">No deposits yet</p>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Deposit Summary -->
-              <div class="bg-white border border-gray-200 rounded-lg">
-                <div class="p-4 border-b border-gray-200">
-                  <h3 class="text-lg font-semibold text-gray-900">Deposit Summary</h3>
-                </div>
-                <div class="p-4">
-                  <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                      <p class="text-sm text-gray-600">Total Weeks</p>
-                      <p class="text-lg font-bold text-gray-900">52</p>
-                    </div>
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                      <p class="text-sm text-gray-600">Completed Weeks</p>
-                      <p class="text-lg font-bold text-gray-900" id="summaryCompletedWeeks">0</p>
-                    </div>
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                      <p class="text-sm text-gray-600">Total Deposited</p>
-                      <p class="text-lg font-bold text-gray-900" id="summaryTotalDeposited">41,400 BDT</p>
-                    </div>
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                      <p class="text-sm text-gray-600">Pending Amount</p>
-                      <p class="text-lg font-bold text-gray-900" id="summaryPendingAmount">200 BDT</p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex justify-between text-sm text-gray-600 mb-1">
-                      <span>Deposit Progress</span>
-                      <span id="summaryProgressPercent">0%</span>
-                    </div>
-                    <div class="bg-gray-200 rounded-full h-2">
-                      <div id="summaryProgressBar" class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Transactions -->
-              <div class="bg-white border border-gray-200 rounded-lg">
-                <div class="p-4 border-b border-gray-200">
-                  <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
-                </div>
-                <div class="p-4">
-                  <div class="text-center py-8">
-                    <div class="text-4xl mb-4">📝</div>
-                    <p class="text-gray-600 mb-4">No transactions yet</p>
-                  </div>
+                
+                <div class="mt-4 text-center">
+                  <p class="text-sm text-gray-500">No deposit history available</p>
                 </div>
               </div>
             </div>
@@ -903,85 +931,84 @@
 
         <!-- Profile Section -->
         <div id="profile" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Settings</h2>
           
-          <div class="flex flex-col md:flex-row gap-8 mb-8">
-            <!-- Profile Picture -->
-            <div class="flex flex-col items-center">
-              <div class="profile-pic-container mb-4">
-                <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                  <img id="profileImage" src="" alt="Profile Picture" class="w-full h-full object-cover hidden">
-                  <span class="text-4xl text-gray-500" id="profileInitial">U</span>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Profile Information -->
+            <div class="lg:col-span-2">
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Personal Information</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" value="Shareholder" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" value="shareholder@resss.com" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" value="+8801XXXXXXXXX" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Member ID</label>
+                    <input type="text" value="RESSS-001" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" readonly>
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <textarea rows="3" class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">Dhaka, Bangladesh</textarea>
+                  </div>
                 </div>
-                <div class="profile-pic-overlay" onclick="document.getElementById('profileImageInput').click()">
-                  <span>+</span>
+                
+                <div class="mt-6">
+                  <button class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                    Save Changes
+                  </button>
                 </div>
               </div>
-              <input type="file" id="profileImageInput" accept="image/*" class="hidden" onchange="handleProfileImageUpload(event)">
-              <p class="text-sm text-gray-500">Click the + to upload a photo</p>
             </div>
             
-            <!-- Profile Form -->
-            <div class="flex-1">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
-                  <input type="text" id="editFullName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+            <!-- Account Settings -->
+            <div>
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Account Settings</h3>
+                
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Account Status</label>
+                    <div class="flex items-center gap-2">
+                      <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span class="text-sm font-medium text-gray-900">Active</span>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Member Since</label>
+                    <p class="text-sm text-gray-900">January 2023</p>
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Weekly Deposit</label>
+                    <p class="text-sm text-gray-900">200 BDT</p>
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Deposits</label>
+                    <p class="text-sm text-gray-900">41,400 BDT</p>
+                  </div>
                 </div>
                 
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Father's name</label>
-                  <input type="text" id="editFatherName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                  <h4 class="text-sm font-medium text-gray-700 mb-3">Security</h4>
+                  <button class="w-full text-left py-2 px-3 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors">
+                    Change Password
+                  </button>
+                  <button class="w-full text-left py-2 px-3 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors">
+                    Two-Factor Authentication
+                  </button>
                 </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Mother's name</label>
-                  <input type="text" id="editMotherName" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">NID Number</label>
-                  <input type="text" id="editNID" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-                  <input type="text" id="editMobile" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                  <input type="email" id="editEmail" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
-                  <input type="date" id="editDOB" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                  <input type="text" id="editAddress" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" value="">
-                </div>
-              </div>
-              
-              <div class="mt-6 flex gap-4">
-                <button onclick="saveProfile()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                  Save Changes
-                </button>
-                <button onclick="cancelEdit()" class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-            <div class="flex items-start">
-              <span class="text-yellow-600 mr-2">⚠️</span>
-              <div>
-                <span class="font-medium text-yellow-800">Important Notice</span>
-                <p class="text-yellow-700 text-sm mt-1">Please ensure all information is accurate and up-to-date. Inaccurate information may affect your investment activities.</p>
               </div>
             </div>
           </div>
@@ -990,304 +1017,390 @@
     </div>
   </main>
 
-  <!-- Payment Modal -->
+  <!-- Payment Success Modal -->
   <div id="paymentModal" class="payment-modal">
     <div class="payment-form">
-      <div id="paymentForm">
-        <h3 class="text-xl font-bold text-gray-900 mb-4" id="paymentMethodTitle">bKash Payment</h3>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <input type="text" id="paymentPhone" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="01XXXXXXXXX">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Transaction ID</label>
-            <input type="text" id="paymentTrxId" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter transaction ID">
-          </div>
-          <div class="bg-gray-50 p-3 rounded-lg">
-            <div class="flex justify-between">
-              <span class="text-gray-600">Amount to pay:</span>
-              <span class="font-bold text-green-600">200 BDT</span>
-            </div>
-          </div>
-          <div class="flex gap-3 pt-2">
-            <button onclick="processPayment()" class="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-              Confirm Payment
-            </button>
-            <button onclick="closePaymentModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-      <div id="paymentSuccess" class="payment-success hidden">
+      <div class="payment-success">
         <div class="payment-success-icon">✅</div>
         <h3 class="text-xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
-        <p class="text-gray-600 mb-4">Your deposit of 200 BDT has been processed successfully.</p>
-        <button onclick="closePaymentModal()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-          Continue
+        <p class="text-gray-600 mb-6">Your weekly deposit has been processed successfully.</p>
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Amount:</span>
+            <span class="font-medium">200 BDT</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Date:</span>
+            <span class="font-medium" id="successDate">Friday, 10 Jan 2025</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Method:</span>
+            <span class="font-medium" id="successMethod">bKash</span>
+          </div>
+        </div>
+        <button onclick="closePaymentModal()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+          Done
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-200 py-6 sm:py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="flex flex-col items-center gap-3 sm:gap-4">
-        <div class="flex items-center gap-2 sm:gap-3">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">R</div>
-          <h6 class="text-white font-bold text-base sm:text-lg">RESSS</h6>
-        </div>
-        <div class="text-xs sm:text-sm text-gray-400">
-          <p class="mt-1 sm:mt-2">Since 2013 | Investing in Seasonal Opportunities</p>
-          <p>© 2025 RESSS. All rights reserved.</p>
-        </div>
-        <div class="flex gap-4 mt-2 text-xs text-gray-400">
-          <a href="terms.html" class="hover:text-green-400 transition-colors">Terms & Conditions</a>
-          <a href="privacy.html" class="hover:text-green-400 transition-colors">Privacy Policy</a>
-          <a href="contact.html" class="hover:text-green-400 transition-colors">Contact</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    // Section navigation
+    // Dashboard state
+    const dashboardState = {
+      depositHistory: [],
+      transactionHistory: [
+        {
+          date: '15 Dec 2024',
+          description: 'Weekly Deposit - Ishtiaq Abedin',
+          debit: '-',
+          credit: '+200 BDT',
+          balance: '42,800 BDT'
+        },
+        {
+          date: '08 Dec 2024',
+          description: 'Weekly Deposit - Sarwar Sabbir',
+          debit: '-',
+          credit: '+200 BDT',
+          balance: '42,600 BDT'
+        },
+        {
+          date: '01 Dec 2024',
+          description: 'Land Lease Investment',
+          debit: '-10,000 BDT',
+          credit: '-',
+          balance: '42,400 BDT'
+        },
+        {
+          date: '24 Nov 2024',
+          description: 'Weekly Deposit - Sumit Haque',
+          debit: '-',
+          credit: '+200 BDT',
+          balance: '52,400 BDT'
+        }
+      ],
+      selectedPaymentMethod: null,
+      selectedDate: null
+    };
+
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeDashboard();
+      setupCalendar();
+      setupPaymentOptions();
+      setupDepositSubmit();
+      updateProgressBar();
+    });
+
+    // Initialize dashboard
+    function initializeDashboard() {
+      // Set initial active section
+      showSection('dashboard');
+      
+      // Set next deposit date (next Friday)
+      const nextFriday = getNextFriday();
+      document.getElementById('nextDepositDate').textContent = formatDate(nextFriday);
+      
+      // Update progress bar
+      updateProgressBar();
+    }
+
+    // Show section and hide others
     function showSection(sectionId) {
+      // Hide all sections
       document.querySelectorAll('.dashboard-section').forEach(section => {
         section.classList.remove('active');
       });
+      
+      // Show selected section
       document.getElementById(sectionId).classList.add('active');
       
-      // Update data when switching to deposit section
-      if (sectionId === 'deposit') {
-        updateDepositData();
-      }
+      // Add fade-in effect
+      document.getElementById(sectionId).classList.add('fade-in');
+      setTimeout(() => {
+        document.getElementById(sectionId).classList.remove('fade-in');
+      }, 800);
     }
 
-    // Calendar functionality
-    let currentDate = new Date();
-    let calendarVisible = false;
-    
-    function toggleCalendar() {
-      const calendarDropdown = document.getElementById('calendarDropdown');
-      calendarVisible = !calendarVisible;
-      
-      if (calendarVisible) {
-        calendarDropdown.classList.add('active');
-        generateCompactCalendar();
-      } else {
-        calendarDropdown.classList.remove('active');
-      }
+    // Toggle submenu visibility
+    function toggleSubmenu(submenuId) {
+      const submenu = document.getElementById(submenuId);
+      submenu.classList.toggle('active');
     }
-    
-    function generateCompactCalendar() {
-      const calendarContainer = document.getElementById('depositCalendar');
-      const currentMonth = currentDate.getMonth();
-      const currentYear = currentDate.getFullYear();
+
+    // Setup calendar for deposit date selection
+    function setupCalendar() {
+      const dateInput = document.getElementById('depositDate');
+      const calendarDropdown = document.getElementById('calendarDropdown');
+      const prevMonthBtn = document.getElementById('prevMonth');
+      const nextMonthBtn = document.getElementById('nextMonth');
+      const currentMonthYear = document.getElementById('currentMonthYear');
+      const calendarDays = document.getElementById('calendarDays');
       
-      // Get first day of month and number of days
-      const firstDay = new Date(currentYear, currentMonth, 1);
-      const lastDay = new Date(currentYear, currentMonth + 1, 0);
-      const daysInMonth = lastDay.getDate();
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth();
+      let currentYear = currentDate.getFullYear();
       
-      // Get last day of previous month
-      const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      // Toggle calendar dropdown
+      dateInput.addEventListener('click', function() {
+        calendarDropdown.classList.toggle('active');
+        renderCalendar(currentMonth, currentYear);
+      });
       
-      // Month names
-      const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
+      // Close calendar when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!dateInput.contains(event.target) && !calendarDropdown.contains(event.target)) {
+          calendarDropdown.classList.remove('active');
+        }
+      });
       
-      // Generate calendar HTML
-      let calendarHTML = `
-        <div class="compact-calendar-header">
-          <button class="compact-calendar-nav" onclick="changeMonth(-1, event)">‹</button>
-          <div class="compact-calendar-month">${monthNames[currentMonth]} ${currentYear}</div>
-          <button class="compact-calendar-nav" onclick="changeMonth(1, event)">›</button>
-        </div>
-        <div class="compact-calendar-weekdays">
-          <div class="compact-calendar-weekday">Su</div>
-          <div class="compact-calendar-weekday">Mo</div>
-          <div class="compact-calendar-weekday">Tu</div>
-          <div class="compact-calendar-weekday">We</div>
-          <div class="compact-calendar-weekday">Th</div>
-          <div class="compact-calendar-weekday">Fr</div>
-          <div class="compact-calendar-weekday">Sa</div>
-        </div>
-        <div class="compact-calendar-days">
-      `;
+      // Navigate to previous month
+      prevMonthBtn.addEventListener('click', function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
+      });
       
-      // Add days from previous month
-      for (let i = firstDay.getDay(); i > 0; i--) {
-        const day = prevMonthLastDay - i + 1;
-        calendarHTML += `<div class="compact-calendar-day other-month">${day}</div>`;
-      }
+      // Navigate to next month
+      nextMonthBtn.addEventListener('click', function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        renderCalendar(currentMonth, currentYear);
+      });
       
-      // Add days of the current month
-      const today = new Date();
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(currentYear, currentMonth, day);
-        const isFriday = date.getDay() === 5;
-        const isToday = date.toDateString() === today.toDateString();
-        const isPast = date < today;
+      // Render calendar for specific month and year
+      function renderCalendar(month, year) {
+        currentMonthYear.textContent = `${getMonthName(month)} ${year}`;
+        calendarDays.innerHTML = '';
         
-        let dayClass = 'compact-calendar-day';
-        if (isFriday) dayClass += ' friday';
-        if (isToday) dayClass += ' today';
-        if (isPast) dayClass += ' disabled';
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDay = firstDay.getDay();
         
-        calendarHTML += `<div class="${dayClass}" data-date="${date.toISOString()}">${day}</div>`;
+        // Add empty cells for days before the first day of the month
+        for (let i = 0; i < startingDay; i++) {
+          const emptyDay = document.createElement('div');
+          emptyDay.classList.add('compact-calendar-day', 'other-month');
+          calendarDays.appendChild(emptyDay);
+        }
+        
+        // Add days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayElement = document.createElement('div');
+          dayElement.classList.add('compact-calendar-day');
+          dayElement.textContent = day;
+          
+          const date = new Date(year, month, day);
+          const dayOfWeek = date.getDay();
+          
+          // Check if it's Friday (dayOfWeek = 5)
+          if (dayOfWeek === 5) {
+            dayElement.classList.add('friday');
+            
+            // Check if it's the selected date
+            if (dashboardState.selectedDate && 
+                date.getDate() === dashboardState.selectedDate.getDate() &&
+                date.getMonth() === dashboardState.selectedDate.getMonth() &&
+                date.getFullYear() === dashboardState.selectedDate.getFullYear()) {
+              dayElement.classList.add('selected');
+            }
+            
+            dayElement.addEventListener('click', function() {
+              selectDate(date);
+            });
+          } else {
+            // Disable non-Friday days
+            dayElement.classList.add('disabled');
+          }
+          
+          calendarDays.appendChild(dayElement);
+        }
       }
       
-      // Add days from next month
-      const totalCells = 42; // 6 rows * 7 days
-      const daysSoFar = firstDay.getDay() + daysInMonth;
-      const nextMonthDays = totalCells - daysSoFar;
-      
-      for (let day = 1; day <= nextMonthDays; day++) {
-        calendarHTML += `<div class="compact-calendar-day other-month">${day}</div>`;
+      // Select a date
+      function selectDate(date) {
+        dashboardState.selectedDate = date;
+        dateInput.value = formatDate(date);
+        calendarDropdown.classList.remove('active');
+        renderCalendar(currentMonth, currentYear); // Re-render to update selected state
       }
       
-      calendarHTML += '</div>';
-      calendarContainer.innerHTML = calendarHTML;
+      // Initial render
+      renderCalendar(currentMonth, currentYear);
+    }
+
+    // Setup payment options
+    function setupPaymentOptions() {
+      const paymentOptions = document.querySelectorAll('.payment-option');
       
-      // Add click event listeners to Friday dates
-      document.querySelectorAll('.compact-calendar-day.friday:not(.disabled)').forEach(day => {
-        day.addEventListener('click', function() {
-          // Remove selected class from all days
-          document.querySelectorAll('.compact-calendar-day').forEach(d => {
-            d.classList.remove('selected');
+      paymentOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove selected class from all options
+          paymentOptions.forEach(opt => {
+            opt.classList.remove('selected');
           });
           
-          // Add selected class to clicked day
+          // Add selected class to clicked option
           this.classList.add('selected');
           
-          // Get the selected date
-          const selectedDate = new Date(this.getAttribute('data-date'));
-          const formattedDate = `${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}/${selectedDate.getDate().toString().padStart(2, '0')}/${selectedDate.getFullYear()}`;
-          
-          // Update the input field
-          document.getElementById('depositDateInput').value = formattedDate;
-          
-          // Store selected date
-          selectedDepositDate = this.getAttribute('data-date');
-          
-          // Hide calendar
-          document.getElementById('calendarDropdown').classList.remove('active');
-          calendarVisible = false;
+          // Store selected payment method
+          dashboardState.selectedPaymentMethod = this.getAttribute('data-method');
         });
       });
     }
-    
-    function changeMonth(direction, event) {
-      // Prevent the event from bubbling up and closing the calendar
-      event.stopPropagation();
+
+    // Setup deposit submission
+    function setupDepositSubmit() {
+      const submitButton = document.getElementById('submitDeposit');
       
-      currentDate.setMonth(currentDate.getMonth() + direction);
-      generateCompactCalendar();
+      submitButton.addEventListener('click', function() {
+        // Validate inputs
+        if (!dashboardState.selectedDate) {
+          alert('Please select a deposit date');
+          return;
+        }
+        
+        if (!dashboardState.selectedPaymentMethod) {
+          alert('Please select a payment method');
+          return;
+        }
+        
+        const transactionId = document.getElementById('transactionId').value.trim();
+        if (!transactionId) {
+          alert('Please enter a transaction ID');
+          return;
+        }
+        
+        // Process deposit
+        processDeposit();
+      });
     }
 
-    // Close calendar when clicking outside
-    document.addEventListener('click', function(event) {
-      const calendarDropdown = document.getElementById('calendarDropdown');
-      const dateInput = document.getElementById('depositDateInput');
-      const calendarContainer = document.getElementById('depositCalendar');
+    // Process deposit
+    function processDeposit() {
+      const amount = document.getElementById('depositAmount').value;
+      const date = dashboardState.selectedDate;
+      const method = dashboardState.selectedPaymentMethod;
+      const transactionId = document.getElementById('transactionId').value;
       
-      // Check if click is outside both the input and calendar
-      if (!dateInput.contains(event.target) && !calendarContainer.contains(event.target)) {
-        calendarDropdown.classList.remove('active');
-        calendarVisible = false;
-      }
-    });
+      // Add to deposit history
+      const deposit = {
+        id: Date.now(),
+        date: formatDate(date),
+        time: new Date().toLocaleTimeString(),
+        method: method,
+        amount: amount,
+        transactionId: transactionId,
+        status: 'Completed'
+      };
+      
+      dashboardState.depositHistory.push(deposit);
+      
+      // Update deposit history table
+      updateDepositHistoryTable();
+      
+      // Update dashboard stats
+      updateDashboardStats();
+      
+      // Show success modal
+      document.getElementById('successDate').textContent = formatDate(date);
+      document.getElementById('successMethod').textContent = getPaymentMethodName(method);
+      document.getElementById('paymentModal').classList.add('active');
+      
+      // Reset form
+      resetDepositForm();
+    }
 
-    // Select payment method
-    function selectPaymentMethod(method) {
-      // Remove selected class from all options
+    // Update deposit history table
+    function updateDepositHistoryTable() {
+      const tableBody = document.getElementById('depositHistoryTable');
+      tableBody.innerHTML = '';
+      
+      if (dashboardState.depositHistory.length === 0) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.innerHTML = `
+          <td colspan="4" class="text-center py-4 text-gray-500">
+            No deposit history available
+          </td>
+        `;
+        tableBody.appendChild(emptyRow);
+        return;
+      }
+      
+      // Sort by date (newest first)
+      const sortedHistory = [...dashboardState.depositHistory].sort((a, b) => b.id - a.id);
+      
+      sortedHistory.forEach(deposit => {
+        const row = document.createElement('tr');
+        row.classList.add('transaction-row');
+        row.innerHTML = `
+          <td class="py-2">
+            <div class="font-medium">${deposit.date}</div>
+            <div class="text-xs text-gray-500">${deposit.time}</div>
+          </td>
+          <td class="py-2">
+            <div class="flex items-center">
+              <div class="w-6 h-6 rounded-full ${getPaymentMethodColor(deposit.method)} flex items-center justify-center mr-2">
+                <span class="text-xs font-bold ${getPaymentMethodTextColor(deposit.method)}">${getPaymentMethodInitial(deposit.method)}</span>
+              </div>
+              ${getPaymentMethodName(deposit.method)}
+            </div>
+          </td>
+          <td class="py-2 font-medium">${deposit.amount} BDT</td>
+          <td class="py-2">
+            <span class="status-badge status-completed">${deposit.status}</span>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Update dashboard stats
+    function updateDashboardStats() {
+      const totalDepositElement = document.getElementById('TotalDeposit');
+      const currentTotal = parseInt(totalDepositElement.textContent.replace(/\D/g, ''));
+      const newTotal = currentTotal + 200;
+      totalDepositElement.textContent = `${newTotal.toLocaleString()} BDT`;
+      
+      // Update progress
+      updateProgressBar();
+    }
+
+    // Update progress bar
+    function updateProgressBar() {
+      const totalDepositElement = document.getElementById('TotalDeposit');
+      const totalDeposit = parseInt(totalDepositElement.textContent.replace(/\D/g, ''));
+      const targetDeposit = 2400; // 12 weeks * 200 BDT
+      
+      const progressPercent = Math.min(100, Math.round((totalDeposit / targetDeposit) * 100));
+      const completedWeeks = Math.floor(totalDeposit / 200);
+      const remainingWeeks = 12 - completedWeeks;
+      
+      document.getElementById('progressPercent').textContent = `${progressPercent}%`;
+      document.getElementById('progressBar').style.width = `${progressPercent}%`;
+      document.getElementById('completedWeeks').textContent = completedWeeks;
+      document.getElementById('remainingWeeks').textContent = remainingWeeks;
+    }
+
+    // Reset deposit form
+    function resetDepositForm() {
+      document.getElementById('depositDate').value = '';
+      document.getElementById('transactionId').value = '';
+      
+      // Clear selected payment method
       document.querySelectorAll('.payment-option').forEach(option => {
         option.classList.remove('selected');
       });
       
-      // Add selected class to clicked option
-      event.currentTarget.classList.add('selected');
-      
-      // Store selected payment method
-      selectedPaymentMethod = method;
-    }
-
-    // Open payment modal
-    function openPaymentModal() {
-      if (!selectedDepositDate) {
-        alert('Please select a deposit date first.');
-        return;
-      }
-      
-      if (!selectedPaymentMethod) {
-        alert('Please select a payment method first.');
-        return;
-      }
-      
-      // Set payment method title
-      const methodTitles = {
-        'bkash': 'bKash Payment',
-        'rocket': 'Rocket Payment',
-        'nagad': 'Nagad Payment'
-      };
-      
-      document.getElementById('paymentMethodTitle').textContent = methodTitles[selectedPaymentMethod];
-      
-      // Reset form
-      document.getElementById('paymentPhone').value = '';
-      document.getElementById('paymentTrxId').value = '';
-      document.getElementById('paymentForm').classList.remove('hidden');
-      document.getElementById('paymentSuccess').classList.add('hidden');
-      
-      // Show modal
-      document.getElementById('paymentModal').classList.add('active');
-    }
-
-    // Process payment
-    function processPayment() {
-      const phone = document.getElementById('paymentPhone').value;
-      const trxId = document.getElementById('paymentTrxId').value;
-      
-      if (!phone || !trxId) {
-        alert('Please fill in all payment details.');
-        return;
-      }
-      
-      // Validate phone number format
-      const phoneRegex = /^01[3-9]\d{8}$/;
-      if (!phoneRegex.test(phone)) {
-        alert('Please enter a valid Bangladeshi phone number.');
-        return;
-      }
-      
-      // Simulate payment processing
-      setTimeout(() => {
-        // Show success message
-        document.getElementById('paymentForm').classList.add('hidden');
-        document.getElementById('paymentSuccess').classList.remove('hidden');
-        
-        // Update dashboard data
-        updateDashboardData();
-        updateDepositData();
-        
-        // Add to deposit history
-        addToDepositHistory();
-        
-        // Reset selections
-        document.getElementById('depositDateInput').value = '';
-        document.querySelectorAll('.compact-calendar-day').forEach(day => {
-          day.classList.remove('selected');
-        });
-        document.querySelectorAll('.payment-option').forEach(option => {
-          option.classList.remove('selected');
-        });
-        selectedDepositDate = null;
-        selectedPaymentMethod = null;
-      }, 1500);
+      dashboardState.selectedPaymentMethod = null;
+      dashboardState.selectedDate = null;
     }
 
     // Close payment modal
@@ -1295,207 +1408,159 @@
       document.getElementById('paymentModal').classList.remove('active');
     }
 
-    // Add to deposit history
-    function addToDepositHistory() {
-      const dateObj = new Date(selectedDepositDate);
-      const formattedDate = dateObj.toLocaleDateString('en-US', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-      
-      const depositHistory = document.getElementById('depositHistory');
-      
-      // If it's the first deposit, replace the placeholder
-      if (depositHistory.querySelector('.text-center')) {
-        depositHistory.innerHTML = '';
-      }
-      
-      // Create new deposit entry
-      const depositEntry = document.createElement('div');
-      depositEntry.className = 'flex justify-between items-center py-3 border-b border-gray-100';
-      depositEntry.innerHTML = `
-        <div>
-          <p class="font-medium text-gray-900">Weekly Deposit</p>
-          <p class="text-sm text-gray-500">${formattedDate} • ${selectedPaymentMethod}</p>
-        </div>
-        <div class="text-right">
-          <p class="font-medium text-green-600">200 BDT</p>
-          <span class="status-badge status-completed">Completed</span>
-        </div>
-      `;
-      
-      depositHistory.prepend(depositEntry);
+    // Export to CSV
+    function exportToCSV() {
+      alert('CSV export functionality would be implemented here');
     }
 
-    // Handle profile image upload
-    function handleProfileImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('profileImage').src = e.target.result;
-          document.getElementById('profileImage').classList.remove('hidden');
-          document.getElementById('profileInitial').classList.add('hidden');
-          
-          // Save to localStorage
-          localStorage.setItem('profileImage', e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
+    // Toggle filter
+    function toggleFilter() {
+      alert('Filter functionality would be implemented here');
     }
 
-    // Save profile changes
-    function saveProfile() {
-      const fullName = document.getElementById('editFullName').value;
-      const fatherName = document.getElementById('editFatherName').value;
-      const motherName = document.getElementById('editMotherName').value;
-      const nid = document.getElementById('editNID').value;
-      const mobile = document.getElementById('editMobile').value;
-      const email = document.getElementById('editEmail').value;
-      const dob = document.getElementById('editDOB').value;
-      const address = document.getElementById('editAddress').value;
-      
-      // Save to localStorage
-      localStorage.setItem('userName', fullName);
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('fatherName', fatherName);
-      localStorage.setItem('motherName', motherName);
-      localStorage.setItem('nid', nid);
-      localStorage.setItem('mobile', mobile);
-      localStorage.setItem('dob', dob);
-      localStorage.setItem('address', address);
-      
-      // Update display
-      document.getElementById('dashboardUserName').textContent = fullName;
-      
-      alert('Profile updated successfully!');
+    // Toggle add transaction form
+    function toggleAddTransaction() {
+      const form = document.getElementById('addTransactionForm');
+      form.classList.toggle('hidden');
     }
 
-    // Cancel edit
-    function cancelEdit() {
-      // Reload original values
-      loadProfileData();
-    }
-
-    // Load profile data
-    function loadProfileData() {
-      document.getElementById('editFullName').value = localStorage.getItem('userName') || '';
-      document.getElementById('editFatherName').value = localStorage.getItem('fatherName') || '';
-      document.getElementById('editMotherName').value = localStorage.getItem('motherName') || '';
-      document.getElementById('editNID').value = localStorage.getItem('nid') || '';
-      document.getElementById('editMobile').value = localStorage.getItem('mobile') || '';
-      document.getElementById('editEmail').value = localStorage.getItem('userEmail') || '';
-      document.getElementById('editDOB').value = localStorage.getItem('dob') || '';
-      document.getElementById('editAddress').value = localStorage.getItem('address') || '';
+    // Add new transaction
+    function addNewTransaction() {
+      const date = document.getElementById('newTransactionDate').value;
+      const description = document.getElementById('newTransactionDescription').value;
+      const debit = document.getElementById('newTransactionDebit').value;
+      const credit = document.getElementById('newTransactionCredit').value;
       
-      // Load profile image if exists
-      const profileImage = localStorage.getItem('profileImage');
-      if (profileImage) {
-        document.getElementById('profileImage').src = profileImage;
-        document.getElementById('profileImage').classList.remove('hidden');
-        document.getElementById('profileInitial').classList.add('hidden');
-      }
-    }
-
-    // Update dashboard data
-    function updateDashboardData() {
-      // In a real app, this would fetch data from an API
-      // For demo purposes, we'll simulate some data
-      
-      const completedWeeks = Math.floor(Math.random() * 13);
-      const yourTotalDeposit = completedWeeks * 200;
-      const availableBalance = 2400 - yourTotalDeposit;
-      const totalReturns = Math.floor(yourTotalDeposit * 0.12); // 12% return
-      const ourTotalDeposit = 42800 + yourTotalDeposit; // Community total + user's deposit
-      
-      // Update dashboard stats
-      document.getElementById('yourTotalDeposit').textContent = yourTotalDeposit + ' BDT';
-      document.getElementById('availableBalance').textContent = availableBalance + ' BDT';
-      document.getElementById('totalReturns').textContent = totalReturns + ' BDT';
-      document.getElementById('ourTotalDeposit').textContent = ourTotalDeposit + ' BDT';
-      
-      // Update progress bar
-      const depositProgress = Math.round((completedWeeks / 12) * 100);
-      document.getElementById('progressBar').style.width = depositProgress + '%';
-      document.getElementById('progressPercent').textContent = depositProgress + '%';
-      
-      // Update completed/remaining weeks
-      document.getElementById('completedWeeks').textContent = completedWeeks;
-      document.getElementById('remainingWeeks').textContent = 12 - completedWeeks;
-    }
-
-    // Update deposit section data
-    function updateDepositData() {
-      // Get the same data as dashboard for consistency
-      const completedWeeks = parseInt(document.getElementById('completedWeeks').textContent);
-      const totalDeposits = completedWeeks * 200;
-      const pendingAmount = 2400 - totalDeposits;
-      const depositProgress = Math.round((completedWeeks / 12) * 100);
-      
-      // Update deposit summary stats
-      document.getElementById('summaryTotalDeposited').textContent = totalDeposits + ' BDT';
-      document.getElementById('summaryPendingAmount').textContent = pendingAmount + ' BDT';
-      document.getElementById('summaryCompletedWeeks').textContent = completedWeeks;
-      
-      // Update progress bar
-      document.getElementById('summaryProgressBar').style.width = depositProgress + '%';
-      document.getElementById('summaryProgressPercent').textContent = depositProgress + '%';
-    }
-
-    // Logout function
-    function logout() {
-      localStorage.removeItem('userLoggedIn');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('userEmail');
-      window.location.href = 'index.html';
-    }
-
-    // Global variables
-    let selectedDepositDate = null;
-    let selectedPaymentMethod = null;
-
-    // Initialize dashboard
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if user is logged in
-      if (localStorage.getItem('userLoggedIn') !== 'true') {
-        window.location.href = 'index.html';
+      if (!date || !description) {
+        alert('Please fill in all required fields');
         return;
       }
-
-      // Load user data
-      const userName = localStorage.getItem('userName') || 'Shareholder';
-      const userEmail = localStorage.getItem('userEmail') || '-';
       
-      document.getElementById('dashboardUserName').textContent = userName;
-      document.getElementById('editFullName').value = userName;
-      document.getElementById('editEmail').value = userEmail;
-
-      // Load profile data
-      loadProfileData();
-
-      // Set up deposit button
-      document.getElementById('proceedPayment').addEventListener('click', openPaymentModal);
-
-      // Set next deposit date
-      const today = new Date();
-      let nextFriday = new Date(today);
-      while (nextFriday.getDay() !== 5) {
-        nextFriday.setDate(nextFriday.getDate() + 1);
-      }
-      
-      const nextDepositDate = nextFriday.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      // Format date
+      const formattedDate = new Date(date).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
       });
-      document.getElementById('nextDepositDate').textContent = nextDepositDate;
+      
+      // Add to transaction history
+      const transaction = {
+        date: formattedDate,
+        description: description,
+        debit: debit ? `-${debit} BDT` : '-',
+        credit: credit ? `+${credit} BDT` : '-',
+        balance: '0 BDT' // This would be calculated in a real implementation
+      };
+      
+      dashboardState.transactionHistory.unshift(transaction);
+      
+      // Update transaction history table
+      updateTransactionHistoryTable();
+      
+      // Reset form
+      document.getElementById('newTransactionDate').value = '';
+      document.getElementById('newTransactionDescription').value = '';
+      document.getElementById('newTransactionDebit').value = '';
+      document.getElementById('newTransactionCredit').value = '';
+      
+      // Hide form
+      document.getElementById('addTransactionForm').classList.add('hidden');
+    }
 
-      // Initialize dashboard data
-      updateDashboardData();
-    });
+    // Update transaction history table
+    function updateTransactionHistoryTable() {
+      const tableBody = document.getElementById('transactionHistory');
+      tableBody.innerHTML = '';
+      
+      dashboardState.transactionHistory.forEach(transaction => {
+        const row = document.createElement('tr');
+        row.classList.add('transaction-row');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${transaction.date}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900">
+            ${transaction.description}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm ${transaction.debit !== '-' ? 'text-red-600 font-medium' : 'text-gray-900'}">
+            ${transaction.debit}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm ${transaction.credit !== '-' ? 'text-green-600 font-medium' : 'text-gray-900'}">
+            ${transaction.credit}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${transaction.balance}
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Utility functions
+    function getNextFriday() {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+      const daysUntilFriday = dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + 7 - dayOfWeek;
+      const nextFriday = new Date(today);
+      nextFriday.setDate(today.getDate() + daysUntilFriday);
+      return nextFriday;
+    }
+
+    function formatDate(date) {
+      const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    function getMonthName(month) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      return months[month];
+    }
+
+    function getPaymentMethodName(method) {
+      const methods = {
+        'bkash': 'bKash',
+        'nagad': 'Nagad',
+        'rocket': 'Rocket'
+      };
+      return methods[method] || method;
+    }
+
+    function getPaymentMethodInitial(method) {
+      const initials = {
+        'bkash': 'b',
+        'nagad': 'N',
+        'rocket': 'R'
+      };
+      return initials[method] || method.charAt(0).toUpperCase();
+    }
+
+    function getPaymentMethodColor(method) {
+      const colors = {
+        'bkash': 'bg-pink-100',
+        'nagad': 'bg-green-100',
+        'rocket': 'bg-purple-100'
+      };
+      return colors[method] || 'bg-gray-100';
+    }
+
+    function getPaymentMethodTextColor(method) {
+      const colors = {
+        'bkash': 'text-pink-600',
+        'nagad': 'text-green-600',
+        'rocket': 'text-purple-600'
+      };
+      return colors[method] || 'text-gray-600';
+    }
+
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        alert('You have been logged out');
+        // In a real application, this would redirect to login page
+      }
+    }
   </script>
 </body>
 </html>
