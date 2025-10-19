@@ -190,6 +190,11 @@
     .compact-calendar-day.disabled:hover {
       background: transparent;
     }
+    .compact-calendar-day.deposited {
+      background-color: #10b981;
+      color: white;
+      cursor: not-allowed;
+    }
     .date-input-wrapper {
       position: relative;
     }
@@ -281,6 +286,17 @@
       width: 90%;
       max-width: 500px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .cash-details {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background-color: #f9fafb;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    .cash-details.active {
+      display: block;
     }
   </style>
 </head>
@@ -431,7 +447,22 @@
               <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
             </div>
             <div id="recentActivity" class="p-4">
-              <div class="text-center py-8">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Debit</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Credit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentActivityTable" class="bg-white divide-y divide-gray-200">
+                    <!-- Recent activity will be populated here -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="noRecentActivity" class="text-center py-8">
                 <div class="text-4xl mb-4">📝</div>
                 <p class="text-gray-600 mb-4">No recent activity</p>
               </div>
@@ -539,145 +570,6 @@
                 <p class="text-2xl font-bold text-purple-600">0 BDT</p>
                 <p class="text-sm text-gray-600">Estimated Profit</p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Members Deposit Section -->
-        <div id="membersDeposit" class="dashboard-section bg-white rounded-lg shadow-sm p-6 fade-in">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Members Deposit</h2>
-          
-          <div class="bg-white border border-gray-200 rounded-lg">
-            <div class="p-4 border-b border-gray-200">
-              <h3 class="text-lg font-semibold text-gray-800">All Members Deposit Status</h3>
-            </div>
-            <div class="p-4">
-              <div class="overflow-x-auto">
-                <table class="w-full">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Member</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Deposit</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Deposit</th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10">
-                            <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                              <span class="text-blue-600 font-bold">E</span>
-                            </div>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Eshtiak Abedin</div>
-                            <div class="text-sm text-gray-500">RESSS-001</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">41,400 BDT</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="status-badge status-completed">Completed</span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        19 Dec 2025
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10">
-                            <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                              <span class="text-green-600 font-bold">S</span>
-                            </div>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Sarwar Sabbir</div>
-                            <div class="text-sm text-gray-500">RESSS-002</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">36,800 BDT</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="status-badge status-pending">In Progress</span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        29 Aug 2025
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10">
-                            <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
-                              <span class="text-purple-600 font-bold">S</span>
-                            </div>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Saleh Sozib</div>
-                            <div class="text-sm text-gray-500">RESSS-003</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">24,600 BDT</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="status-badge status-pending">In Progress</span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        01 Jan 2025
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10">
-                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                              <span class="text-yellow-600 font-bold">S</span>
-                            </div>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Sumit Haque</div>
-                            <div class="text-sm text-gray-500">RESSS-004</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">12,200 BDT</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="status-badge status-pending">In Progress</span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        27 Dec 2024
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Summary Stats -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            <div class="bg-blue-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-blue-800 mb-1">Total Members</h4>
-              <p class="text-2xl font-bold text-blue-900">4</p>
-            </div>
-            <div class="bg-green-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-green-800 mb-1">Active Members</h4>
-              <p class="text-2xl font-bold text-green-900">4</p>
-            </div>
-            <div class="bg-purple-50 p-4 rounded-lg">
-              <h4 class="text-sm font-medium text-purple-800 mb-1">Our Total Deposit</h4>
-              <p class="text-2xl font-bold text-purple-900">115,000 BDT</p>
             </div>
           </div>
         </div>
@@ -794,15 +686,15 @@
               <div class="space-y-3">
                 <div class="flex justify-between">
                   <span class="text-gray-600">Total Deposits</span>
-                  <span class="font-medium text-green-600">+42,800 BDT</span>
+                  <span class="font-medium text-green-600" id="incomeDeposits">+42,800 BDT</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-600">Investment Returns</span>
-                  <span class="font-medium text-green-600">+1,200 BDT</span>
+                  <span class="font-medium text-green-600" id="incomeReturns">+1,200 BDT</span>
                 </div>
                 <div class="flex justify-between pt-3 border-t border-gray-200">
                   <span class="text-gray-800 font-medium">Total Income</span>
-                  <span class="font-bold text-green-600">+44,000 BDT</span>
+                  <span class="font-bold text-green-600" id="totalIncome">+44,000 BDT</span>
                 </div>
               </div>
             </div>
@@ -812,15 +704,15 @@
               <div class="space-y-3">
                 <div class="flex justify-between">
                   <span class="text-gray-600">Investments</span>
-                  <span class="font-medium text-red-600">-12,000 BDT</span>
+                  <span class="font-medium text-red-600" id="expenseInvestments">-12,000 BDT</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-600">Management Fees</span>
-                  <span class="font-medium text-red-600">-240 BDT</span>
+                  <span class="font-medium text-red-600" id="expenseFees">-240 BDT</span>
                 </div>
                 <div class="flex justify-between pt-3 border-t border-gray-200">
                   <span class="text-gray-800 font-medium">Total Expenses</span>
-                  <span class="font-bold text-red-600">-12,240 BDT</span>
+                  <span class="font-bold text-red-600" id="totalExpenses">-12,240 BDT</span>
                 </div>
               </div>
             </div>
@@ -901,6 +793,33 @@
                       </div>
                     </div>
                   </div>
+                  
+                  <div class="payment-option" onclick="selectPaymentMethod('cash')">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <span class="text-yellow-600 font-bold">$</span>
+                      </div>
+                      <div>
+                        <span class="font-medium">Cash</span>
+                        <p class="text-xs text-gray-500">In Person</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Cash Payment Details -->
+                <div id="cashDetails" class="cash-details">
+                  <h4 class="font-medium text-gray-800 mb-2">Cash Payment Details</h4>
+                  <div class="space-y-3">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Received By</label>
+                      <input type="text" id="cashReceivedBy" class="w-full p-2 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter name of person receiving cash">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Receipt Number</label>
+                      <input type="text" id="cashReceiptNumber" class="w-full p-2 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter receipt number">
+                    </div>
+                  </div>
                 </div>
                 
                 <div class="pt-4">
@@ -925,7 +844,7 @@
                         <tr>
                           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-                          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Week</th>
                           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         </tr>
@@ -950,7 +869,7 @@
                 <div class="p-4">
                   <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="bg-gray-50 p-3 rounded-lg">
-                      <p class="text-sm text-gray-600">Total Weeks</p>
+                      <p class="text-sm text-gray-600">Total Weeks (<span id="summaryYear"></span>)</p>
                       <p class="text-lg font-bold text-gray-900">52</p>
                     </div>
                     <div class="bg-gray-50 p-3 rounded-lg">
@@ -959,11 +878,11 @@
                     </div>
                     <div class="bg-gray-50 p-3 rounded-lg">
                       <p class="text-sm text-gray-600">Total Deposited</p>
-                      <p class="text-lg font-bold text-gray-900" id="summaryTotalDeposited">41,400 BDT</p>
+                      <p class="text-lg font-bold text-gray-900" id="summaryTotalDeposited">0 BDT</p>
                     </div>
                     <div class="bg-gray-50 p-3 rounded-lg">
                       <p class="text-sm text-gray-600">Pending Amount</p>
-                      <p class="text-lg font-bold text-gray-900" id="summaryPendingAmount">200 BDT</p>
+                      <p class="text-lg font-bold text-gray-900" id="summaryPendingAmount">0 BDT</p>
                     </div>
                   </div>
                   <div class="mt-4">
@@ -975,6 +894,127 @@
                       <div id="summaryProgressBar" class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Members Deposit Section (Moved to bottom of Deposit page) -->
+          <div class="mt-8">
+            <div class="bg-white border border-gray-200 rounded-lg">
+              <div class="p-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800">Members Deposit Status</h3>
+              </div>
+              <div class="p-4">
+                <div class="overflow-x-auto">
+                  <table class="w-full">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Member</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Deposit</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Deposit</th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                              <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                <span class="text-blue-600 font-bold">E</span>
+                              </div>
+                            </div>
+                            <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">Eshtiak Abedin</div>
+                              <div class="text-sm text-gray-500">RESSS-001</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">41,400 BDT</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <span class="status-badge status-completed">Completed</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          19 Dec 2025
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                              <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                                <span class="text-green-600 font-bold">S</span>
+                              </div>
+                            </div>
+                            <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">Sarwar Sabbir</div>
+                              <div class="text-sm text-gray-500">RESSS-002</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">36,800 BDT</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <span class="status-badge status-pending">In Progress</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          29 Aug 2025
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                              <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                <span class="text-purple-600 font-bold">S</span>
+                              </div>
+                            </div>
+                            <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">Saleh Sozib</div>
+                              <div class="text-sm text-gray-500">RESSS-003</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">24,600 BDT</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <span class="status-badge status-pending">In Progress</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          01 Jan 2025
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                              <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                                <span class="text-yellow-600 font-bold">S</span>
+                              </div>
+                            </div>
+                            <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">Sumit Haque</div>
+                              <div class="text-sm text-gray-500">RESSS-004</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">12,200 BDT</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <span class="status-badge status-pending">In Progress</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          27 Dec 2024
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -1076,13 +1116,25 @@
       <div id="paymentForm">
         <h3 class="text-xl font-bold text-gray-900 mb-4" id="paymentMethodTitle">bKash Payment</h3>
         <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <input type="text" id="paymentPhone" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="01XXXXXXXXX">
+          <div id="digitalPaymentFields">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              <input type="text" id="paymentPhone" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="01XXXXXXXXX">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Transaction ID</label>
+              <input type="text" id="paymentTrxId" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter transaction ID">
+            </div>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Transaction ID</label>
-            <input type="text" id="paymentTrxId" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter transaction ID">
+          <div id="cashPaymentFields" class="hidden">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Received By</label>
+              <input type="text" id="modalCashReceivedBy" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter name of person receiving cash">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Receipt Number</label>
+              <input type="text" id="modalCashReceiptNumber" class="w-full p-3 rounded-md border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" placeholder="Enter receipt number">
+            </div>
           </div>
           <div class="bg-gray-50 p-3 rounded-lg">
             <div class="flex justify-between">
@@ -1179,6 +1231,11 @@
       if (sectionId === 'deposit') {
         updateDepositData();
       }
+      
+      // Update recent activity when switching to dashboard
+      if (sectionId === 'dashboard') {
+        updateRecentActivity();
+      }
     }
 
     // Toggle submenu
@@ -1253,9 +1310,11 @@
         const day = prevMonthLastDay - i + 1;
         const date = new Date(currentYear, currentMonth - 1, day);
         const isFriday = date.getDay() === 5;
+        const isDeposited = isDateDeposited(date);
         
         let dayClass = 'compact-calendar-day other-month';
         if (isFriday) dayClass += ' friday';
+        if (isDeposited) dayClass += ' deposited';
         
         calendarHTML += `<div class="${dayClass}" data-date="${date.toISOString()}">${day}</div>`;
       }
@@ -1266,10 +1325,12 @@
         const date = new Date(currentYear, currentMonth, day);
         const isFriday = date.getDay() === 5;
         const isToday = date.toDateString() === today.toDateString();
+        const isDeposited = isDateDeposited(date);
         
         let dayClass = 'compact-calendar-day';
         if (isFriday) dayClass += ' friday';
         if (isToday) dayClass += ' today';
+        if (isDeposited) dayClass += ' deposited';
         
         calendarHTML += `<div class="${dayClass}" data-date="${date.toISOString()}">${day}</div>`;
       }
@@ -1282,9 +1343,11 @@
       for (let day = 1; day <= nextMonthDays; day++) {
         const date = new Date(currentYear, currentMonth + 1, day);
         const isFriday = date.getDay() === 5;
+        const isDeposited = isDateDeposited(date);
         
         let dayClass = 'compact-calendar-day other-month';
         if (isFriday) dayClass += ' friday';
+        if (isDeposited) dayClass += ' deposited';
         
         calendarHTML += `<div class="${dayClass}" data-date="${date.toISOString()}">${day}</div>`;
       }
@@ -1293,7 +1356,7 @@
       calendarContainer.innerHTML = calendarHTML;
       
       // Add click event listeners to Friday dates only
-      document.querySelectorAll('.compact-calendar-day.friday').forEach(day => {
+      document.querySelectorAll('.compact-calendar-day.friday:not(.deposited)').forEach(day => {
         day.addEventListener('click', function() {
           // Remove selected class from all days
           document.querySelectorAll('.compact-calendar-day').forEach(d => {
@@ -1319,8 +1382,8 @@
         });
       });
       
-      // Disable non-Friday dates
-      document.querySelectorAll('.compact-calendar-day:not(.friday)').forEach(day => {
+      // Disable non-Friday dates and deposited dates
+      document.querySelectorAll('.compact-calendar-day:not(.friday), .compact-calendar-day.deposited').forEach(day => {
         day.classList.add('disabled');
       });
     }
@@ -1331,6 +1394,17 @@
       
       currentDate.setMonth(currentDate.getMonth() + direction);
       generateCompactCalendar();
+    }
+    
+    // Check if a date has been deposited
+    function isDateDeposited(date) {
+      const depositHistory = getDepositHistory();
+      const dateString = date.toISOString().split('T')[0];
+      
+      return depositHistory.some(deposit => {
+        const depositDate = new Date(deposit.date).toISOString().split('T')[0];
+        return depositDate === dateString;
+      });
     }
 
     // Close calendar when clicking outside
@@ -1358,6 +1432,14 @@
       
       // Store selected payment method
       selectedPaymentMethod = method;
+      
+      // Show/hide cash details
+      const cashDetails = document.getElementById('cashDetails');
+      if (method === 'cash') {
+        cashDetails.classList.add('active');
+      } else {
+        cashDetails.classList.remove('active');
+      }
     }
 
     // Open payment modal
@@ -1376,10 +1458,35 @@
       const methodTitles = {
         'bkash': 'bKash Payment',
         'rocket': 'Rocket Payment',
-        'nagad': 'Nagad Payment'
+        'nagad': 'Nagad Payment',
+        'cash': 'Cash Payment'
       };
       
       document.getElementById('paymentMethodTitle').textContent = methodTitles[selectedPaymentMethod];
+      
+      // Show/hide appropriate fields
+      const digitalFields = document.getElementById('digitalPaymentFields');
+      const cashFields = document.getElementById('cashPaymentFields');
+      
+      if (selectedPaymentMethod === 'cash') {
+        digitalFields.classList.add('hidden');
+        cashFields.classList.remove('hidden');
+        
+        // Pre-fill cash details if available
+        const receivedBy = document.getElementById('cashReceivedBy').value;
+        const receiptNumber = document.getElementById('cashReceiptNumber').value;
+        
+        if (receivedBy) {
+          document.getElementById('modalCashReceivedBy').value = receivedBy;
+        }
+        
+        if (receiptNumber) {
+          document.getElementById('modalCashReceiptNumber').value = receiptNumber;
+        }
+      } else {
+        digitalFields.classList.remove('hidden');
+        cashFields.classList.add('hidden');
+      }
       
       // Reset form
       document.getElementById('paymentPhone').value = '';
@@ -1393,20 +1500,36 @@
 
     // Process payment
     function processPayment() {
-      const phone = document.getElementById('paymentPhone').value;
-      const trxId = document.getElementById('paymentTrxId').value;
+      let isValid = true;
       
-      if (!phone || !trxId) {
-        alert('Please fill in all payment details.');
-        return;
+      if (selectedPaymentMethod === 'cash') {
+        const receivedBy = document.getElementById('modalCashReceivedBy').value;
+        const receiptNumber = document.getElementById('modalCashReceiptNumber').value;
+        
+        if (!receivedBy || !receiptNumber) {
+          alert('Please fill in all cash payment details.');
+          isValid = false;
+        }
+      } else {
+        const phone = document.getElementById('paymentPhone').value;
+        const trxId = document.getElementById('paymentTrxId').value;
+        
+        if (!phone || !trxId) {
+          alert('Please fill in all payment details.');
+          isValid = false;
+        }
+        
+        // Validate phone number format
+        if (isValid) {
+          const phoneRegex = /^01[3-9]\d{8}$/;
+          if (!phoneRegex.test(phone)) {
+            alert('Please enter a valid Bangladeshi phone number.');
+            isValid = false;
+          }
+        }
       }
       
-      // Validate phone number format
-      const phoneRegex = /^01[3-9]\d{8}$/;
-      if (!phoneRegex.test(phone)) {
-        alert('Please enter a valid Bangladeshi phone number.');
-        return;
-      }
+      if (!isValid) return;
       
       // Simulate payment processing
       setTimeout(() => {
@@ -1431,12 +1554,26 @@
         });
         selectedDepositDate = null;
         selectedPaymentMethod = null;
+        
+        // Update calendar to show deposited dates
+        generateCompactCalendar();
       }, 1500);
     }
 
     // Close payment modal
     function closePaymentModal() {
       document.getElementById('paymentModal').classList.remove('active');
+    }
+
+    // Get deposit history from localStorage
+    function getDepositHistory() {
+      const history = localStorage.getItem('depositHistory');
+      return history ? JSON.parse(history) : [];
+    }
+
+    // Save deposit history to localStorage
+    function saveDepositHistory(history) {
+      localStorage.setItem('depositHistory', JSON.stringify(history));
     }
 
     // Add to deposit history
@@ -1453,35 +1590,77 @@
         minute: '2-digit'
       });
       
+      // Get week of the year
+      const weekNumber = getWeekNumber(dateObj);
+      
+      // Create deposit record
+      const depositRecord = {
+        date: selectedDepositDate,
+        time: formattedTime,
+        week: weekNumber,
+        amount: 200,
+        method: selectedPaymentMethod,
+        status: 'Completed'
+      };
+      
+      // Get existing history and add new record
+      const depositHistory = getDepositHistory();
+      depositHistory.push(depositRecord);
+      saveDepositHistory(depositHistory);
+      
+      // Update UI
+      updateDepositHistoryTable();
+    }
+
+    // Get week number of the year
+    function getWeekNumber(date) {
+      const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+      const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+      return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+    }
+
+    // Update deposit history table
+    function updateDepositHistoryTable() {
+      const depositHistory = getDepositHistory();
       const depositHistoryTable = document.getElementById('depositHistoryTable');
       const noDepositHistory = document.getElementById('noDepositHistory');
       
-      // Hide the "no deposits" message if it's the first deposit
-      if (noDepositHistory) {
-        noDepositHistory.style.display = 'none';
+      // Clear existing rows
+      depositHistoryTable.innerHTML = '';
+      
+      if (depositHistory.length === 0) {
+        noDepositHistory.style.display = 'block';
+        return;
       }
       
-      // Create new deposit entry
-      const depositEntry = document.createElement('tr');
-      depositEntry.className = 'transaction-row';
-      depositEntry.innerHTML = `
-        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${formattedDate}</td>
-        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${formattedTime}</td>
-        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-          <div class="flex items-center">
-            <div class="w-6 h-6 rounded-full ${selectedPaymentMethod === 'bkash' ? 'bg-pink-100' : selectedPaymentMethod === 'rocket' ? 'bg-purple-100' : 'bg-green-100'} flex items-center justify-center mr-2">
-              <span class="${selectedPaymentMethod === 'bkash' ? 'text-pink-600' : selectedPaymentMethod === 'rocket' ? 'text-purple-600' : 'text-green-600'} text-xs font-bold">${selectedPaymentMethod === 'bkash' ? 'b' : selectedPaymentMethod === 'rocket' ? 'R' : 'N'}</span>
-            </div>
-            ${selectedPaymentMethod === 'bkash' ? 'bKash' : selectedPaymentMethod === 'rocket' ? 'Rocket' : 'Nagad'}
-          </div>
-        </td>
-        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-green-600">200 BDT</td>
-        <td class="px-4 py-3 whitespace-nowrap">
-          <span class="status-badge status-completed">Completed</span>
-        </td>
-      `;
+      noDepositHistory.style.display = 'none';
       
-      depositHistoryTable.prepend(depositEntry);
+      // Sort by date (newest first)
+      depositHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Add rows to table
+      depositHistory.forEach(deposit => {
+        const dateObj = new Date(deposit.date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+        
+        const row = document.createElement('tr');
+        row.className = 'transaction-row';
+        row.innerHTML = `
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${formattedDate}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${deposit.time}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Week ${deposit.week}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-green-600">${deposit.amount} BDT</td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <span class="status-badge status-completed">${deposit.status}</span>
+          </td>
+        `;
+        
+        depositHistoryTable.appendChild(row);
+      });
     }
 
     // Handle profile image upload
@@ -1583,13 +1762,20 @@
 
     // Update deposit section data
     function updateDepositData() {
-      // Get the same data as dashboard for consistency
-      const completedWeeks = parseInt(document.getElementById('completedWeeks').textContent);
+      const depositHistory = getDepositHistory();
+      const currentYear = new Date().getFullYear();
+      const currentYearDeposits = depositHistory.filter(deposit => {
+        const depositYear = new Date(deposit.date).getFullYear();
+        return depositYear === currentYear;
+      });
+      
+      const completedWeeks = currentYearDeposits.length;
       const totalDeposits = completedWeeks * 200;
-      const pendingAmount = 2400 - totalDeposits;
-      const depositProgress = Math.round((completedWeeks / 12) * 100);
+      const pendingAmount = (52 - completedWeeks) * 200;
+      const depositProgress = Math.round((completedWeeks / 52) * 100);
       
       // Update deposit summary stats
+      document.getElementById('summaryYear').textContent = currentYear;
       document.getElementById('summaryTotalDeposited').textContent = totalDeposits + ' BDT';
       document.getElementById('summaryPendingAmount').textContent = pendingAmount + ' BDT';
       document.getElementById('summaryCompletedWeeks').textContent = completedWeeks;
@@ -1597,6 +1783,56 @@
       // Update progress bar
       document.getElementById('summaryProgressBar').style.width = depositProgress + '%';
       document.getElementById('summaryProgressPercent').textContent = depositProgress + '%';
+      
+      // Update deposit history table
+      updateDepositHistoryTable();
+    }
+
+    // Update recent activity
+    function updateRecentActivity() {
+      const transactionHistory = document.getElementById('transactionHistory');
+      const recentActivityTable = document.getElementById('recentActivityTable');
+      const noRecentActivity = document.getElementById('noRecentActivity');
+      
+      // Clear existing rows
+      recentActivityTable.innerHTML = '';
+      
+      // Get all transaction rows
+      const transactions = Array.from(transactionHistory.querySelectorAll('tr'));
+      
+      if (transactions.length === 0) {
+        noRecentActivity.style.display = 'block';
+        return;
+      }
+      
+      noRecentActivity.style.display = 'none';
+      
+      // Get the 5 most recent transactions
+      const recentTransactions = transactions.slice(0, 5);
+      
+      // Add rows to recent activity table
+      recentTransactions.forEach(transaction => {
+        const cells = transaction.querySelectorAll('td');
+        const date = cells[0].textContent;
+        const description = cells[1].textContent;
+        const debit = cells[2].textContent;
+        const credit = cells[3].textContent;
+        
+        const row = document.createElement('tr');
+        row.className = 'transaction-row';
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${date}</td>
+          <td class="px-6 py-4 text-sm text-gray-900">${description}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm ${debit !== '-' ? 'text-red-600 font-medium' : 'text-gray-900'}">
+            ${debit}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm ${credit !== '-' ? 'text-green-600 font-medium' : 'text-gray-900'}">
+            ${credit}
+          </td>
+        `;
+        
+        recentActivityTable.appendChild(row);
+      });
     }
 
     // Transaction History Functions
@@ -1648,7 +1884,14 @@
         </td>
       `;
       
-      transactionHistory.appendChild(transactionRow);
+      transactionHistory.prepend(transactionRow);
+      
+      // Update financial summaries
+      updateFinancialSummaries();
+      
+      // Update recent activity
+      updateRecentActivity();
+      
       closeTransactionModal();
     }
     
@@ -1659,6 +1902,49 @@
       const creditAmount = credit ? parseFloat(credit) : 0;
       
       return (currentBalance - debitAmount + creditAmount).toLocaleString();
+    }
+    
+    // Update financial summaries
+    function updateFinancialSummaries() {
+      const transactionHistory = document.getElementById('transactionHistory');
+      const transactions = Array.from(transactionHistory.querySelectorAll('tr'));
+      
+      let totalDeposits = 0;
+      let totalReturns = 0;
+      let totalInvestments = 0;
+      let totalFees = 0;
+      
+      transactions.forEach(transaction => {
+        const cells = transaction.querySelectorAll('td');
+        const description = cells[1].textContent;
+        const debit = cells[2].textContent;
+        const credit = cells[3].textContent;
+        
+        // Extract amounts
+        const debitAmount = debit !== '-' ? parseFloat(debit.replace(/[^\d.]/g, '')) : 0;
+        const creditAmount = credit !== '-' ? parseFloat(credit.replace(/[^\d.]/g, '')) : 0;
+        
+        // Categorize transactions
+        if (description.includes('Deposit')) {
+          totalDeposits += creditAmount;
+        } else if (description.includes('Return') || description.includes('Profit')) {
+          totalReturns += creditAmount;
+        } else if (description.includes('Investment')) {
+          totalInvestments += debitAmount;
+        } else if (description.includes('Fee')) {
+          totalFees += debitAmount;
+        }
+      });
+      
+      // Update income summary
+      document.getElementById('incomeDeposits').textContent = `+${totalDeposits.toLocaleString()} BDT`;
+      document.getElementById('incomeReturns').textContent = `+${totalReturns.toLocaleString()} BDT`;
+      document.getElementById('totalIncome').textContent = `+${(totalDeposits + totalReturns).toLocaleString()} BDT`;
+      
+      // Update expense summary
+      document.getElementById('expenseInvestments').textContent = `-${totalInvestments.toLocaleString()} BDT`;
+      document.getElementById('expenseFees').textContent = `-${totalFees.toLocaleString()} BDT`;
+      document.getElementById('totalExpenses').textContent = `-${(totalInvestments + totalFees).toLocaleString()} BDT`;
     }
     
     function exportToCSV() {
@@ -1717,6 +2003,9 @@
 
       // Initialize dashboard data
       updateDashboardData();
+      updateDepositData();
+      updateRecentActivity();
+      updateFinancialSummaries();
     });
   </script>
 </body>
